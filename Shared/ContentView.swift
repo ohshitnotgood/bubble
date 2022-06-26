@@ -17,30 +17,16 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            Group {
-                VStack {
-                    Text("Click on the ")
-                    +
-                    
-                    Text(Image(systemName: "square.and.pencil")).bold()
-                    +
-                    
-                    Text(" icon to add items from the menu or the ")
-                    +
-                    
-                    Text(Image(systemName: "gearshape")).bold()
-                    +
-                    
-                    Text(" icon to go add items to the menu.")
-                }.padding(30)
-                    .foregroundColor(.gray)
-                    .multilineTextAlignment(.center)
+            VStack {
+                BlankView($showItemsView)
+                    .onTapGesture(perform: {
+                        showItemsView = true
+                    })
                 
             }.navigationTitle("Orders")
                 .sheet(isPresented: $showItemsView, content: { ItemsView() })
                 .sheet(isPresented: $showSettingsView, content: { SettingsView() })
                 .toolbar {
-                    
                     // MARK: Delete button
                     ToolbarItem(placement: .bottomBar, content: {
                         Button(action: {
@@ -70,6 +56,42 @@ struct ContentView: View {
                 }
         }
     }
+}
+
+fileprivate struct BlankView: View {
+    private var showItemsView: Binding<Bool>
+    
+    init(_ showItemsView: Binding<Bool>) {
+        self.showItemsView = showItemsView
+    }
+    
+    var body: some View {
+        VStack {
+            Spacer()
+            
+            Text("Click on the ")
+            +
+            
+            Text(Image(systemName: "square.and.pencil")).bold()
+            +
+            
+            Text(" icon to add items from the menu or the ")
+            +
+            
+            Text(Image(systemName: "gearshape")).bold()
+            +
+            
+            Text(" icon to go add items to the menu.")
+            
+            Spacer()
+            
+        }.padding(30)
+            .contentShape(Rectangle())
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .foregroundColor(.gray)
+            .multilineTextAlignment(.center)
+    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
