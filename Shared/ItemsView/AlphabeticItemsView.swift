@@ -11,11 +11,8 @@ struct AlphabeticItemsView: View {
     @State private var searchText: String = ""
     
     var body: some View {
-        NavigationView {
-            List {
-                
-            }.navigationTitle("Alphabetic")
-                .searchable(text: $searchText)
+        List {
+            Text("Hello World")
         }
     }
 }
