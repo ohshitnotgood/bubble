@@ -17,7 +17,24 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            List {
+            Group {
+                VStack {
+                    Text("Click on the ")
+                    +
+                    
+                    Text(Image(systemName: "square.and.pencil")).bold()
+                    +
+                    
+                    Text(" icon to add items from the menu or the ")
+                    +
+                    
+                    Text(Image(systemName: "gearshape")).bold()
+                    +
+                    
+                    Text(" icon to go add items to the menu.")
+                }.padding(30)
+                    .foregroundColor(.gray)
+                    .multilineTextAlignment(.center)
                 
             }.navigationTitle("Orders")
                 .sheet(isPresented: $showItemsView, content: { ItemsView() })
