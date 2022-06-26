@@ -10,6 +10,11 @@
 		58E2ECCA28683BED0035CB7D /* BubbleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2ECBA28683BE90035CB7D /* BubbleApp.swift */; };
 		58E2ECCC28683BED0035CB7D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2ECBB28683BE90035CB7D /* ContentView.swift */; };
 		58E2ECCE28683BED0035CB7D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58E2ECBC28683BED0035CB7D /* Assets.xcassets */; };
+		58E2ECDB286847B40035CB7D /* ItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2ECDA286847B40035CB7D /* ItemsView.swift */; };
+		58E2ECDD286847C40035CB7D /* AlphabeticItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2ECDC286847C40035CB7D /* AlphabeticItemsView.swift */; };
+		58E2ECDF286847D80035CB7D /* CategoryItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2ECDE286847D80035CB7D /* CategoryItemsView.swift */; };
+		58E2ECE1286847E10035CB7D /* IngredientsItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2ECE0286847E10035CB7D /* IngredientsItemsView.swift */; };
+		58E2ECE3286847E80035CB7D /* CustomItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2ECE2286847E80035CB7D /* CustomItemsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -17,6 +22,11 @@
 		58E2ECBB28683BE90035CB7D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		58E2ECBC28683BED0035CB7D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		58E2ECC128683BED0035CB7D /* Bubble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bubble.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		58E2ECDA286847B40035CB7D /* ItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsView.swift; sourceTree = "<group>"; };
+		58E2ECDC286847C40035CB7D /* AlphabeticItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlphabeticItemsView.swift; sourceTree = "<group>"; };
+		58E2ECDE286847D80035CB7D /* CategoryItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryItemsView.swift; sourceTree = "<group>"; };
+		58E2ECE0286847E10035CB7D /* IngredientsItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsItemsView.swift; sourceTree = "<group>"; };
+		58E2ECE2286847E80035CB7D /* CustomItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomItemsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +51,7 @@
 		58E2ECB928683BE90035CB7D /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				58E2ECD9286847A20035CB7D /* ItemsView */,
 				58E2ECBA28683BE90035CB7D /* BubbleApp.swift */,
 				58E2ECBB28683BE90035CB7D /* ContentView.swift */,
 				58E2ECBC28683BED0035CB7D /* Assets.xcassets */,
@@ -54,6 +65,18 @@
 				58E2ECC128683BED0035CB7D /* Bubble.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		58E2ECD9286847A20035CB7D /* ItemsView */ = {
+			isa = PBXGroup;
+			children = (
+				58E2ECDA286847B40035CB7D /* ItemsView.swift */,
+				58E2ECDC286847C40035CB7D /* AlphabeticItemsView.swift */,
+				58E2ECDE286847D80035CB7D /* CategoryItemsView.swift */,
+				58E2ECE0286847E10035CB7D /* IngredientsItemsView.swift */,
+				58E2ECE2286847E80035CB7D /* CustomItemsView.swift */,
+			);
+			path = ItemsView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -126,6 +149,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				58E2ECCC28683BED0035CB7D /* ContentView.swift in Sources */,
+				58E2ECDF286847D80035CB7D /* CategoryItemsView.swift in Sources */,
+				58E2ECDB286847B40035CB7D /* ItemsView.swift in Sources */,
+				58E2ECE3286847E80035CB7D /* CustomItemsView.swift in Sources */,
+				58E2ECDD286847C40035CB7D /* AlphabeticItemsView.swift in Sources */,
+				58E2ECE1286847E10035CB7D /* IngredientsItemsView.swift in Sources */,
 				58E2ECCA28683BED0035CB7D /* BubbleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
