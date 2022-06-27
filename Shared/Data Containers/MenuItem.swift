@@ -12,8 +12,6 @@ struct MenuItem: Hashable {
     var regularIngredients: [String]
     var warnings: [MenuItemWarnings]
     var extraIngredients: [String]
-    
-    
 }
 
 let menuItems = [
@@ -57,4 +55,10 @@ enum MenuItemWarnings: String {
     case highCarbs  = "high carbs"
     case lactose    = "lactose"
     case peanuts    = "peanuts"
+}
+
+enum MenuItemCategory: String {
+    case mainCourse = "mainCourse"
+    case appetizer  = "appetizer"
+    case beverage   = "beverage"
 }
