@@ -44,6 +44,12 @@ let menuItems = [
         regularIngredients: ["Flour Dough", "Tomato Sauce", "Chicken", "Pepparoni"],
         warnings: [.meat, .dairy, .lactose, .gluten],
         extraIngredients: ["Parmesan Cheese", "Sausages"]
+    ),
+    MenuItem(
+        itemName: "Pasta",
+        regularIngredients: ["Flour Dough", "Eggs", "Tomato Sauce", "Chicken", "Pepparoni"],
+        warnings: [.meat, .dairy, .lactose, .gluten],
+        extraIngredients: ["Parmesan Cheese", "Sausages"]
     )
 ]
 
