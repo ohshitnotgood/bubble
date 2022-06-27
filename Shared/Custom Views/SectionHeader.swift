@@ -16,8 +16,6 @@ struct SectionHeader: View {
     
     var body: some View {
         VStack (spacing: 0) {
-            Divider()
-            
             Text(title)
                 .bold()
                 .foregroundColor(.gray)
