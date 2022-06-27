@@ -18,8 +18,8 @@ struct CategoryItemsView: View {
     
     init() {
         for each_item in sortedMenu {
-            if !categories.contains(each_item.category.rawValue) {
-                categories.append(each_item.category.rawValue)
+            if !categories.contains(each_item.category) {
+                categories.append(each_item.category)
             }
         }
     }
@@ -28,7 +28,7 @@ struct CategoryItemsView: View {
         List {
             ForEach(categories, id: \.self) { category in
                 Section(content: {
-                    ForEach(sortedMenu.filter { $0.category.rawValue == category }, id: \.self) { menuItem in
+                    ForEach(sortedMenu.filter { $0.category == category }, id: \.self) { menuItem in
                         ListItem(menuItem)
                             .id(menuItem)
                     }

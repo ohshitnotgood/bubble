@@ -37,11 +37,11 @@ struct ListItem: View {
         
         for (idx, each_warning) in itemWarnings.enumerated() {
             if idx == itemWarnings.endIndex - 1 {
-                self.itemWarnings = self.itemWarnings + "and " + each_warning.rawValue
+                self.itemWarnings = self.itemWarnings + "and " + each_warning
             } else if idx == itemWarnings.endIndex - 2 {
-                self.itemWarnings = self.itemWarnings + each_warning.rawValue + " "
+                self.itemWarnings = self.itemWarnings + each_warning + " "
             } else {
-                self.itemWarnings = self.itemWarnings + each_warning.rawValue + ", "
+                self.itemWarnings = self.itemWarnings + each_warning + ", "
             }
         }
     }

@@ -10,9 +10,29 @@ import Foundation
 struct MenuItem: Hashable {
     var itemName: String
     var regularIngredients: [String]
-    var warnings: [MenuItemWarnings]
+    var warnings: [String]
     var extraIngredients: [String]
-    var category: MenuItemCategory
+    var category: String
+    
+    init(itemName: String, regularIngredients: [String], warnings: [MenuItemWarnings], extraIngredients: [String], category: MenuItemCategory) {
+        self.itemName = itemName
+        self.regularIngredients = regularIngredients
+        self.warnings = []
+        self.extraIngredients = extraIngredients
+        self.category = category.rawValue
+        
+        warnings.forEach({ each_warning in
+            self.warnings.append(each_warning.rawValue)
+        })
+    }
+}
+
+struct CodableMenuItem: Codable {
+    var itemName: String
+    var regularIngredients: [String]
+    var warnings: [String]
+    var extraIngredients: [String]
+    var category: String
 }
 
 var menuItems = [
