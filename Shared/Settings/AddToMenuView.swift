@@ -15,6 +15,8 @@ struct AddToMenuView: View {
     @State private var warnings: [MenuItemWarnings] = []
     @State private var category: MenuItemCategory = .appetizer
     
+    @State private var selection = 0
+    
     @EnvironmentObject var menuItemStore: MenuItemStore
     
     var body: some View {
@@ -68,6 +70,30 @@ struct AddToMenuView: View {
                 Text("Warnings")
             })
             
+            Section(content: {
+                Picker("Category", selection: $selection) {
+                    Text(MenuItemCategory.appetizer.rawValue)
+                        .tag(0)
+                        .foregroundColor(.sensiBlack)
+                    
+                    Text(MenuItemCategory.mainCourse.rawValue)
+                        .tag(1)
+                        .foregroundColor(.sensiBlack)
+                    
+                    Text(MenuItemCategory.beverage.rawValue)
+                        .tag(2)
+                        .foregroundColor(.sensiBlack)
+                    
+                }
+                
+                #warning("Add view to add new category")
+                Button("Add New Category") {
+                    
+                }
+            }, header: {
+                Text("Category")
+            })
+            
         }.navigationTitle("Add Item to Menu")
             .navigationBarTitleDisplayMode(.inline)
             .onDisappear {
@@ -84,5 +110,6 @@ struct AddToMenuView: View {
 struct AddToMenuView_Previews: PreviewProvider {
     static var previews: some View {
         AddToMenuView()
+            .environmentObject(MenuItemStore())
     }
 }
