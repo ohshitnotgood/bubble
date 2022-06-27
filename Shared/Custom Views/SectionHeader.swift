@@ -23,7 +23,7 @@ struct SectionHeader: View {
                 .padding(3)
                 .padding(.leading)
                 .background(
-                    VisualEffectView(.systemThinMaterial)
+                    VisualEffectView(.systemUltraThinMaterial)
                 )
             
             Divider()

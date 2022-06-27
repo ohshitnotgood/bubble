@@ -12,29 +12,27 @@ struct ListItem: View {
     private var itemRegularIngredients = ""
     private var itemWarnings: String = ""
     
+    private var menuItem: MenuItem
+    
     
     init(_ menuItem: MenuItem) {
+        self.menuItem = menuItem
+        
+        
         // MARK: Name
         // Fitting itemName into name
         itemName = menuItem.itemName
         
-        
         // MARK: Regular Ingredients
         // Fitting list of regularIngredients into a string
-        let itemRegularIngredients = menuItem.regularIngredients
-        
-        for (idx, each_ingredient) in itemRegularIngredients.enumerated() {
-            if idx == itemRegularIngredients.endIndex - 1 {
-                self.itemRegularIngredients = self.itemRegularIngredients + "and " + each_ingredient
-            } else if idx == itemRegularIngredients.endIndex - 2 {
-                self.itemRegularIngredients = self.itemRegularIngredients + each_ingredient + " "
-            } else {
-                self.itemRegularIngredients = self.itemRegularIngredients + each_ingredient + ", "
-            }
-        }
+        makeIngredientsList(menuItem)
         
         // MARK: Warnings
         // Converting list of itemWarnings into a string
+        makeWarningList(menuItem)
+    }
+    
+    mutating func makeWarningList(_ menuItem: MenuItem) {
         let itemWarnings = menuItem.warnings
         
         for (idx, each_warning) in itemWarnings.enumerated() {
@@ -46,22 +44,33 @@ struct ListItem: View {
                 self.itemWarnings = self.itemWarnings + each_warning.rawValue + ", "
             }
         }
-        
     }
     
+    mutating func makeIngredientsList(_ menuItem: MenuItem) {
+        let itemRegularIngredients = menuItem.regularIngredients
+        
+        for (idx, each_ingredient) in itemRegularIngredients.enumerated() {
+            if idx == itemRegularIngredients.endIndex - 1 {
+                self.itemRegularIngredients = self.itemRegularIngredients + "and " + each_ingredient
+            } else if idx == itemRegularIngredients.endIndex - 2 {
+                self.itemRegularIngredients = self.itemRegularIngredients + each_ingredient + " "
+            } else {
+                self.itemRegularIngredients = self.itemRegularIngredients + each_ingredient + ", "
+            }
+        }
+    }
+    
+    
+    // MARK: Main Body
     var body: some View {
-        VStack (spacing: 0) {
+        NavigationLink(destination: MenuCustomizerView(self.menuItem), label: {
             HStack {
-                Image(systemName: "menucard")
-                    .font(.title3)
-                    .padding(.trailing, 10)
-                
                 VStack(alignment: .leading) {
                     Text(itemName)
-                        .font(.headline)
+                        .fontWeight(.medium)
                     
                     Text(itemRegularIngredients)
-                        .font(.subheadline.weight(.medium))
+                        .font(.footnote.weight(.medium))
                         .foregroundColor(.gray)
                         .lineLimit(1)
                     
@@ -73,20 +82,24 @@ struct ListItem: View {
                         +
                         
                         Text(self.itemWarnings)
-                    }.font(.subheadline)
+                        
+                    }.font(.footnote)
                         .foregroundColor(.gray)
                     
                     
-                }.padding(.vertical, 10)
-                
+                }
                 Spacer()
                 Image(systemName: "chevron.right")
                     .font(.subheadline.weight(.bold))
                     .foregroundColor(.gray)
-            }.padding(.horizontal)
-            
-            Divider()
-        }
+            }.padding(.vertical, 5)
+        }).buttonStyle(.plain)
+    }
+}
+
+struct ListItem_Previews: PreviewProvider {
+    static var previews: some View {
+        ListItem(menuItems[0])
     }
 }
 

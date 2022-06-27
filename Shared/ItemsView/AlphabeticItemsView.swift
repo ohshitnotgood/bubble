@@ -20,6 +20,10 @@ struct AlphabeticItemsView: View {
     }
     
     init() {
+        makeAlphabetsList()
+    }
+    
+    mutating func makeAlphabetsList() {
         for each_item in sortedMenu {
             if let firstChar = each_item.itemName.first {
                 if !alphabets.contains(String(firstChar)) {
@@ -31,29 +35,20 @@ struct AlphabeticItemsView: View {
     
     // MARK: Body
     var body: some View {
-        ScrollView {
-            VStack (spacing: 0) {
-                Divider()
-                
-                SearchField(text: $searchText)
-                    .background(
-                        VisualEffectView(.systemThinMaterial)
-                    )
-                
-                LazyVStack (spacing: 0, pinnedViews: .sectionHeaders) {
-                    ForEach(alphabets, id: \.self) { alphabet in
-                        Section(header: SectionHeader(alphabet), content: {
-                            ForEach(sortedMenu.filter { $0.itemName.hasPrefix(alphabet)}, id: \.self) { menuItem in
-                                ListItem(menuItem)
-                                    .id(menuItem)
-                            }
-                        }).id(alphabet)
+        List {
+            ForEach(alphabets, id: \.self) { alphabet in
+                Section(header: Text(alphabet), content: {
+                    ForEach(sortedMenu.filter { $0.itemName.hasPrefix(alphabet)}, id: \.self) { menuItem in
+                        ListItem(menuItem)
+                            .id(menuItem)
                     }
-                }
+                }).id(alphabet)
             }
         }.interactiveDismissDisabled()
+            .listStyle(.grouped)
     }
 }
+
 
 struct AlphabeticItemsView_Previews: PreviewProvider {
     static var previews: some View {

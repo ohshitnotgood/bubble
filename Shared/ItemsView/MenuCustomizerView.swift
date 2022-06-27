@@ -8,15 +8,84 @@
 import SwiftUI
 
 struct MenuCustomizerView: View {
+    @Environment(\.dismiss) private var dismiss
+    @State private var editorText = ""
+    @State private var isToggleOn = false
+    
+    @State private var regularIngredients : [String]
+    @State private var extraIngredients   : [String]
+    @State private var itemName           : String
+    
+    @State private var servingSize        = "1"
+    
+    init(_ menuItem: MenuItem) {
+        self._regularIngredients = State(initialValue: menuItem.regularIngredients)
+        self._extraIngredients = State(initialValue: menuItem.extraIngredients)
+        self._itemName = State(initialValue: menuItem.itemName)
+    }
+    
     var body: some View {
         List {
+            Section {
+                HStack {
+                    Text("Serving for")
+                    
+                    Spacer()
+                    
+                    TextField("", text: $servingSize)
+                        .textFieldStyle(.roundedBorder)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: true, vertical: true)
+                        .keyboardType(.numberPad)
+                }
+            }
             
-        }
+            Section(content: {
+                ForEach(regularIngredients, id: \.self) { each_ingredient in
+                    Toggle(each_ingredient, isOn: $isToggleOn)
+                        .toggleStyle(.switch)
+                }
+                
+                
+            }, header: {
+                Text("Regular Ingredients")
+            })
+            
+            Section(content: {
+                ForEach(extraIngredients, id: \.self) { each_ingredient in
+                    Toggle(each_ingredient, isOn: $isToggleOn)
+                        .toggleStyle(.switch)
+                }
+                
+                
+            }, header: {
+                Text("Extra Ingredients")
+            }, footer: {
+                Text("The parmesan costs extra.")
+            })
+            
+            Section (content: {
+                TextEditor(text: $editorText)
+                    .frame(minHeight: 100)
+            }, header: {
+                Text("Notes")
+            }, footer: {
+                Text("This item should take around 15 minutes to prepare.")
+            })
+        }.navigationTitle(itemName)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .destructiveAction, content: {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                })
+            }
     }
 }
 
 struct MenuCustomizerView_Previews: PreviewProvider {
     static var previews: some View {
-        MenuCustomizerView()
+        MenuCustomizerView(menuItems[3])
     }
 }

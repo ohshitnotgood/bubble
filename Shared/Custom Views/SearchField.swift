@@ -25,6 +25,6 @@ struct SearchField: View {
         }.padding(5)
             .background(Color(uiColor: .systemGray4))
             .cornerRadius(10)
-            .padding(10)
+            .padding(.horizontal, 10)
     }
 }

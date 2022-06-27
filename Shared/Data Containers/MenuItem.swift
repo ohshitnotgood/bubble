@@ -15,7 +15,7 @@ struct MenuItem: Hashable {
     var category: MenuItemCategory
 }
 
-let menuItems = [
+var menuItems = [
     MenuItem(
         itemName: "Grilled Cheese Sandwich",
         regularIngredients: ["Cheese", "White Bread"],

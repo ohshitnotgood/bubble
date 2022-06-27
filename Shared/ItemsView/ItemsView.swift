@@ -16,34 +16,7 @@ struct ItemsView: View {
     
     var body: some View {
         NavigationView {
-            VStack (spacing: 0) {
-                VStack {
-                    HStack (alignment: .center) {
-                        Button("Cancel") {
-                            
-                        }.padding(.horizontal)
-                            .opacity(0)
-                        
-                        Spacer()
-                        
-                        Text("Menu")
-                            .font(.headline).bold()
-                        
-                        Spacer()
-                        
-                        Button("Cancel") {
-                            dismiss()
-                        }.padding(.horizontal)
-                    }
-                    
-                    ViewPicker(selection: $selection, true)
-                    
-                }.padding(.top)
-                    .background(
-                        VisualEffectView(.systemThinMaterial)
-                            .edgesIgnoringSafeArea(.top)
-                    )
-                
+            Group {
                 if selection == 0 {
                     withAnimation {
                         AlphabeticItemsView()
@@ -61,8 +34,20 @@ struct ItemsView: View {
                         CustomItemsView()
                     }
                 }
-            }.navigationBarHidden(true)
-                .navigationBarBackButtonHidden(true)
+            }.toolbar {
+                ToolbarItem(placement: .bottomBar) {
+                    ViewPicker(selection: $selection, true)
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                }
+                
+            }.searchable(text: $searchText)
+                .navigationBarTitle("Menu")
+                .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
@@ -92,8 +77,6 @@ fileprivate struct ViewPicker: View {
                     .tag(4)
             }
         }).pickerStyle(SegmentedPickerStyle())
-            .padding(.horizontal)
-            .padding(.vertical, 10)
     }
 }
 
