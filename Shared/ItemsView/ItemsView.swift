@@ -16,16 +16,27 @@ struct ItemsView: View {
     
     var body: some View {
         NavigationView {
-            Group {
-                if selection == 0 {
-                    AlphabeticItemsView()
-                } else if selection == 1 {
-                    CategoryItemsView()
-                } else if selection == 2 {
-                    IngredientsItemsView()
-                } else if selection == 3 {
-                    CustomItemsView()
-                }
+            TabView {
+                AlphabeticItemsView()
+                    .tabItem {
+                        Label("Alphabetic", systemImage: "textformat.abc")
+                    }
+                
+                CategoryItemsView()
+                    .tabItem {
+                        Label("Categoric", systemImage: "dot.viewfinder")
+                    }
+                
+                IngredientsItemsView()
+                    .tabItem {
+                        Label("Ingredients", systemImage: "alt")
+                    }
+                
+                CustomItemsView()
+                    .tabItem {
+                        Label("Custom", systemImage: "circle.dotted")
+                    }
+                
             }.navigationTitle("Menu")
                 .navigationBarTitleDisplayMode(.inline)
                 .searchable(text: $searchText)
@@ -36,10 +47,10 @@ struct ItemsView: View {
                         }
                     })
                     
-                    ToolbarItem(placement: .bottomBar, content: {
-                        ViewPicker(selection: $selection, showCustomPickerSegment)
-                    })
-                    
+//                    ToolbarItem(placement: .bottomBar, content: {
+//                        ViewPicker(selection: $selection, showCustomPickerSegment)
+//                    })
+//
                 }
         }
     }
