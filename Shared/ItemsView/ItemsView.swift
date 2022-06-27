@@ -15,48 +15,56 @@ struct ItemsView: View {
     private var showCustomPickerSegment = true
     
     var body: some View {
-        NavigationView {
-            TabView {
-                AlphabeticItemsView()
-                    .tabItem {
-                        Label("Alphabetic", systemImage: "textformat.abc")
-                    }
-                
-                CategoryItemsView()
-                    .tabItem {
-                        Label("Categoric", systemImage: "dot.viewfinder")
-                    }
-                
-                IngredientsItemsView()
-                    .tabItem {
-                        Label("Ingredients", systemImage: "alt")
-                    }
-                
-                CustomItemsView()
-                    .tabItem {
-                        Label("Custom", systemImage: "circle.dotted")
-                    }
-                
-            }.navigationTitle("Menu")
-                .navigationBarTitleDisplayMode(.inline)
-                .searchable(text: $searchText)
-                .toolbar {
-                    ToolbarItem(placement: .destructiveAction, content: {
-                        Button("Cancel") {
-                            dismiss()
-                        }
-                    })
+        VStack (spacing: 0) {
+            VStack {
+                HStack (alignment: .center) {
+                    Button("Cancel") {
+                        
+                    }.padding(.horizontal)
+                        .opacity(0)
                     
-//                    ToolbarItem(placement: .bottomBar, content: {
-//                        ViewPicker(selection: $selection, showCustomPickerSegment)
-//                    })
-//
+                    Spacer()
+                    
+                    Text("Menu")
+                        .font(.headline).bold()
+                    
+                    Spacer()
+                    
+                    Button("Cancel") {
+                        dismiss()
+                    }.padding(.horizontal)
                 }
+                
+                ViewPicker(selection: $selection, true)
+                
+            }.padding(.top)
+                .background(
+                    VisualEffectView(.systemThinMaterial)
+                        .edgesIgnoringSafeArea(.top)
+                )
+            
+            if selection == 0 {
+                withAnimation {
+                    AlphabeticItemsView()
+                }
+            } else if selection == 1 {
+                withAnimation {
+                    CategoryItemsView()
+                }
+            } else if selection == 2 {
+                withAnimation {
+                    IngredientsItemsView()
+                }
+            } else if selection == 3 {
+                withAnimation {
+                    CustomItemsView()
+                }
+            }
         }
     }
 }
 
-struct ViewPicker: View {
+fileprivate struct ViewPicker: View {
     private var showCustomPickerSegment: Bool
     private var selection: Binding<Int>
     
@@ -81,6 +89,8 @@ struct ViewPicker: View {
                     .tag(4)
             }
         }).pickerStyle(SegmentedPickerStyle())
+            .padding(.horizontal)
+            .padding(.vertical, 10)
     }
 }
 
@@ -88,4 +98,23 @@ struct ItemsView_Previews: PreviewProvider {
     static var previews: some View {
         ItemsView()
     }
+}
+
+struct VisualEffectView: UIViewRepresentable {
+    var material: UIBlurEffect.Style
+    
+    init(_ material: UIBlurEffect.Style) {
+        self.material = material
+    }
+    
+    func makeUIView(context: Context) -> UIVisualEffectView {
+        return UIVisualEffectView(effect: UIBlurEffect(style: material))
+    }
+    
+    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
+    }
+    
+    typealias UIViewType = UIVisualEffectView
+    
+    
 }
