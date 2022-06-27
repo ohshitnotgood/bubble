@@ -10,7 +10,7 @@ import SwiftUI
 
 #warning("Requires testing")
 class MenuItemStore: ObservableObject {
-    @Published var menuItems: [MenuItem] = []
+    @Published var items: [MenuItem] = []
     
     private func fileURL() throws -> URL {
         try FileManager.default.url(for: .documentDirectory,
@@ -26,14 +26,14 @@ class MenuItemStore: ObservableObject {
             guard let file = try? FileHandle(forReadingFrom: fileURL) else {
                 return
             }
-            menuItems = try JSONDecoder().decode([MenuItem].self, from: file.availableData)
+            items = try JSONDecoder().decode([MenuItem].self, from: file.availableData)
         }
     }
     
     func save() async throws {
         do {
             let outfile = try fileURL()
-            let data = try JSONEncoder().encode(menuItems)
+            let data = try JSONEncoder().encode(items)
             try data.write(to: outfile, options: .completeFileProtection)
         }
     }

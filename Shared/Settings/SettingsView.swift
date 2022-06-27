@@ -9,17 +9,20 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var menuItemStore: MenuItemStore
     
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: AddToMenuView()) {
+                NavigationLink(destination: MenuEditorView().environmentObject(menuItemStore)) {
                     Label("Edit Items on Menu...", systemImage: "filemenu.and.selection")
                 }.buttonStyle(.plain)
                 
                 NavigationLink(destination: AddToMenuView()) {
                     Label("Order History", systemImage: "clock.arrow.circlepath")
                 }.buttonStyle(.plain)
+                
+                
             }.navigationTitle("Settings")
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction, content: {
@@ -35,5 +38,6 @@ struct SettingsView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
+            .environmentObject(MenuItemStore())
     }
 }

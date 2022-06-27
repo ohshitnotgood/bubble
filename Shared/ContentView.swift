@@ -16,6 +16,8 @@ struct ContentView: View {
     
     @State private var data: [MenuItem] = []
     
+    @EnvironmentObject var menuItemStore: MenuItemStore
+    
     
     var body: some View {
         NavigationView {
@@ -27,7 +29,7 @@ struct ContentView: View {
                 
             }.navigationTitle("Orders")
                 .sheet(isPresented: $showItemsView, content: { ItemsView() })
-                .sheet(isPresented: $showSettingsView, content: { SettingsView() })
+                .sheet(isPresented: $showSettingsView, content: { SettingsView().environmentObject(menuItemStore) })
                 .toolbar {
                     // MARK: Delete button
                     ToolbarItem(placement: .bottomBar, content: {
@@ -99,5 +101,6 @@ fileprivate struct BlankView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(MenuItemStore())
     }
 }

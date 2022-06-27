@@ -10,8 +10,12 @@ import SwiftUI
 struct AddToMenuView: View {
     
     @State private var itemName: String = ""
-    @State private var regIng: [String] = []
-    @State private var extraIng: [String] = []
+    @State private var regular: [String] = []
+    @State private var extra: [String] = []
+    @State private var warnings: [MenuItemWarnings] = []
+    @State private var category: MenuItemCategory = .appetizer
+    
+    @EnvironmentObject var menuItemStore: MenuItemStore
     
     var body: some View {
         List {
@@ -21,19 +25,8 @@ struct AddToMenuView: View {
                 
             })
             
-            #warning("Make draggable")
             Section(content: {
-                ForEach(menuItems[0].regularIngredients, id: \.self) { each_ingredient in
-                    Text(each_ingredient)
-                }
-            }, header: {
-                Text("Ingredients")
-            }, footer: {
-                Text("Drag items and drop them in to the lists below.")
-            })
-            
-            Section(content: {
-                ForEach(regIng, id: \.self) { each_ingredrient in
+                ForEach(regular, id: \.self) { each_ingredrient in
                     
                 }
                 
@@ -76,6 +69,15 @@ struct AddToMenuView: View {
             })
             
         }.navigationTitle("Add Item to Menu")
+            .navigationBarTitleDisplayMode(.inline)
+            .onDisappear {
+                Task {
+                    menuItemStore.items.append(
+                        MenuItem(itemName: itemName, regularIngredients: regular, warnings: warnings, extraIngredients: extra, category: category)
+                    )
+                    try await menuItemStore.save()
+                }
+            }
     }
 }
 
