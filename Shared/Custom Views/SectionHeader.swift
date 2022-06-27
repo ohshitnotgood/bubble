@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct SectionHeader: View {
-    @State var alphabet: String
+    @State var title: String
     
-    init(_ alphabet: String) {
-        self.alphabet = alphabet
+    init(_ title: String) {
+        self.title = title
     }
     
     var body: some View {
         VStack (spacing: 0) {
             Divider()
             
-            Text(alphabet)
+            Text(title)
                 .bold()
                 .foregroundColor(.gray)
                 .frame(maxWidth: .infinity, alignment: .leading)
