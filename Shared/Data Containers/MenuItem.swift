@@ -7,7 +7,10 @@
 
 import Foundation
 
-struct MenuItem: Hashable {
+
+
+/// `Codable` struct that represents an item on the menu.
+struct MenuItem: Hashable, Codable {
     var itemName: String
     var regularIngredients: [String]
     var warnings: [String]
@@ -21,20 +24,17 @@ struct MenuItem: Hashable {
         self.extraIngredients = extraIngredients
         self.category = category.rawValue
         
+        regularIngredients.forEach { ingredient in
+            self.regularIngredients.append(ingredient)
+        }
+        
         warnings.forEach({ each_warning in
             self.warnings.append(each_warning.rawValue)
         })
     }
 }
 
-struct CodableMenuItem: Codable {
-    var itemName: String
-    var regularIngredients: [String]
-    var warnings: [String]
-    var extraIngredients: [String]
-    var category: String
-}
-
+/// A list of ``MenuItem`` containing dummy data.
 var menuItems = [
     MenuItem(
         itemName: "Grilled Cheese Sandwich",
@@ -101,4 +101,22 @@ enum MenuItemCategory: String {
     case mainCourse = "Main Course"
     case appetizer  = "Appetizer"
     case beverage   = "Beverage"
+}
+
+struct MenuItemIngredient: Hashable, Codable {
+    var customerDidOrder = false
+    var name: String
+    
+    func getObservableObject() -> ObservableIngredient {
+        return ObservableIngredient(self.name)
+    }
+}
+
+class ObservableIngredient: ObservableObject {
+    @Published var name: String
+    @Published var customerDidOrder = false
+    
+    init(_ name: String) {
+        self.name = name
+    }
 }

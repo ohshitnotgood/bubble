@@ -8,11 +8,26 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         NavigationView {
             List {
+                NavigationLink(destination: AddToMenuView()) {
+                    Label("Edit Items on Menu...", systemImage: "filemenu.and.selection")
+                }.buttonStyle(.plain)
                 
+                NavigationLink(destination: AddToMenuView()) {
+                    Label("Order History", systemImage: "clock.arrow.circlepath")
+                }.buttonStyle(.plain)
             }.navigationTitle("Settings")
+                .toolbar {
+                    ToolbarItem(placement: .confirmationAction, content: {
+                        Button("Done") {
+                            dismiss()
+                        }
+                    })
+                }
         }
     }
 }
