@@ -17,13 +17,14 @@ struct MenuEditorView: View {
     
     // Data is shown from this array
     @State private var list: [MenuItem] = []
+    @State private var dataDidFinishLoading = false
     
     // Observes for new item to be added
     @ObservedObject private var menuListUpdater = MenuListUpdater()
     
     var body: some View {
         Group {
-            if menuListUpdater.menuListDidFinishUpdating {
+            if dataDidFinishLoading {
                 List {
                     ForEach(list, id: \.self) { menuItem in
                         Text(menuItem.itemName)
@@ -49,6 +50,7 @@ struct MenuEditorView: View {
             }.onAppear {
                 Task { do {
                     try await menuItemStore.load()
+                    dataDidFinishLoading = true
                     menuListUpdater.menuListDidFinishUpdating = true
                 }}
             }.onReceive(menuListUpdater.$menuListDidFinishUpdating, perform: { _ in
