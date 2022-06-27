@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		588289D128694AD1003D9BF8 /* MenuCustomizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588289D028694AD1003D9BF8 /* MenuCustomizerView.swift */; };
 		58B1222E2868778400FB49F6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B1222D2868778400FB49F6 /* SettingsView.swift */; };
 		58D492D72868A24400135B5F /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D492D62868A24400135B5F /* MenuItem.swift */; };
 		58E2ECCA28683BED0035CB7D /* BubbleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2ECBA28683BE90035CB7D /* BubbleApp.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		588289D028694AD1003D9BF8 /* MenuCustomizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCustomizerView.swift; sourceTree = "<group>"; };
 		58B1222D2868778400FB49F6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		58D492D62868A24400135B5F /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		58E2ECBA28683BE90035CB7D /* BubbleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleApp.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				58E2ECDE286847D80035CB7D /* CategoryItemsView.swift */,
 				58E2ECE0286847E10035CB7D /* IngredientsItemsView.swift */,
 				58E2ECE2286847E80035CB7D /* CustomItemsView.swift */,
+				588289D028694AD1003D9BF8 /* MenuCustomizerView.swift */,
 			);
 			path = ItemsView;
 			sourceTree = "<group>";
@@ -172,6 +175,7 @@
 			files = (
 				58E2ECCC28683BED0035CB7D /* ContentView.swift in Sources */,
 				58B1222E2868778400FB49F6 /* SettingsView.swift in Sources */,
+				588289D128694AD1003D9BF8 /* MenuCustomizerView.swift in Sources */,
 				58E2ECDF286847D80035CB7D /* CategoryItemsView.swift in Sources */,
 				58E2ECDB286847B40035CB7D /* ItemsView.swift in Sources */,
 				58E2ECE3286847E80035CB7D /* CustomItemsView.swift in Sources */,
