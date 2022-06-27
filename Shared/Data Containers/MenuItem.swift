@@ -12,6 +12,7 @@ struct MenuItem: Hashable {
     var regularIngredients: [String]
     var warnings: [MenuItemWarnings]
     var extraIngredients: [String]
+    var category: MenuItemCategory
 }
 
 let menuItems = [
@@ -19,37 +20,50 @@ let menuItems = [
         itemName: "Grilled Cheese Sandwich",
         regularIngredients: ["Cheese", "White Bread"],
         warnings: [.dairy, .lactose, .gluten],
-        extraIngredients: ["Brown Bread"]
+        extraIngredients: ["Brown Bread"],
+        category: .appetizer
     ),
     MenuItem(
         itemName: "Spaghetti",
         regularIngredients: ["Spaghetti", "Tomato Sauce", "Chicken", "Mozzarella Cheese"],
         warnings: [.meat, .dairy, .lactose],
-        extraIngredients: ["Parmesan Cheese"]
+        extraIngredients: ["Parmesan Cheese"],
+        category: .mainCourse
     ),
     MenuItem(
         itemName: "Bruschetta",
         regularIngredients: ["Tomato Sauce", "Chicken", "Mozzarella Cheese", "Parmesan Cheese"],
         warnings: [.meat, .dairy, .lactose, .gluten],
-        extraIngredients: ["Parmesan Cheese"]
+        extraIngredients: ["Parmesan Cheese"],
+        category: .mainCourse
     ),
     MenuItem(
         itemName: "Lasagna",
         regularIngredients: ["Flour", "Tomato Sauce", "Chicken", "Mozzarella Cheese"],
         warnings: [.meat, .dairy, .lactose, .highCarbs, .gluten],
-        extraIngredients: ["Parmesan Cheese"]
+        extraIngredients: ["Parmesan Cheese"],
+        category: .mainCourse
     ),
     MenuItem(
         itemName: "Pizza",
         regularIngredients: ["Flour Dough", "Tomato Sauce", "Chicken", "Pepparoni"],
         warnings: [.meat, .dairy, .lactose, .gluten],
-        extraIngredients: ["Parmesan Cheese", "Sausages"]
+        extraIngredients: ["Parmesan Cheese", "Sausages"],
+        category: .mainCourse
     ),
     MenuItem(
         itemName: "Pasta",
         regularIngredients: ["Flour Dough", "Eggs", "Tomato Sauce", "Chicken", "Pepparoni"],
         warnings: [.meat, .dairy, .lactose, .gluten],
-        extraIngredients: ["Parmesan Cheese", "Sausages"]
+        extraIngredients: ["Parmesan Cheese", "Sausages"],
+        category: .mainCourse
+    ),
+    MenuItem(
+        itemName: "Garlic Bread",
+        regularIngredients: ["Bread", "Mozzerella Cheese", "Garlic", "Tomato Sauce"],
+        warnings: [.lactose, .dairy, .gluten],
+        extraIngredients: [],
+        category: .appetizer
     )
 ]
 
@@ -64,7 +78,7 @@ enum MenuItemWarnings: String {
 }
 
 enum MenuItemCategory: String {
-    case mainCourse = "mainCourse"
-    case appetizer  = "appetizer"
-    case beverage   = "beverage"
+    case mainCourse = "Main Course"
+    case appetizer  = "Appetizer"
+    case beverage   = "Beverage"
 }
