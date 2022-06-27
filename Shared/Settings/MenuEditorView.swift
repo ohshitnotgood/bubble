@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+/**
+ `MenuEditorView` displays a list of current items on the menu and provides options to add or edit an item on the menu.
+ 
+ `[MenuEditorView] -> [AddToMenuView]` to add new items on the menu.
+ */
 struct MenuEditorView: View {
     @EnvironmentObject var menuItemStore: MenuItemStore
     

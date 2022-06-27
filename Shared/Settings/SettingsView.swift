@@ -7,6 +7,15 @@
 
 import SwiftUI
 
+/**
+ `SettingsView` allows user to add
+ 
+ `[SettingsView] -> [MenuEditorView] -> [AddToMenuView]` to add and edit items in to the menu.
+ 
+ 
+ `[SettingsView] -> [OrderHistoryView]` to view order history
+ `[SettingsView] -> [CategoriesEditorView]` to add or edit categories.
+ */
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var menuItemStore: MenuItemStore
@@ -18,6 +27,7 @@ struct SettingsView: View {
                     Label("Edit Items on Menu...", systemImage: "filemenu.and.selection")
                 }.buttonStyle(.plain)
                 
+                #warning("Fix destination")
                 NavigationLink(destination: AddToMenuView()) {
                     Label("Order History", systemImage: "clock.arrow.circlepath")
                 }.buttonStyle(.plain)
