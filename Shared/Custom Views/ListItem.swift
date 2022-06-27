@@ -64,34 +64,27 @@ struct ListItem: View {
     // MARK: Main Body
     var body: some View {
         NavigationLink(destination: MenuCustomizerView(self.menuItem), label: {
-            HStack {
-                VStack(alignment: .leading) {
-                    Text(itemName)
-                        .fontWeight(.medium)
-                    
-                    Text(itemRegularIngredients)
-                        .font(.footnote.weight(.medium))
-                        .foregroundColor(.gray)
-                        .lineLimit(1)
-                    
-                    Group {
-                        Text(Image(systemName: "exclamationmark.circle"))
-                        +
-                        
-                        Text(" Contains ")
-                        +
-                        
-                        Text(self.itemWarnings)
-                        
-                    }.font(.footnote)
-                        .foregroundColor(.gray)
-                    
-                    
-                }
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.subheadline.weight(.bold))
+            VStack(alignment: .leading) {
+                Text(itemName)
+                    .fontWeight(.medium)
+                
+                Text(itemRegularIngredients)
+                    .font(.footnote.weight(.medium))
                     .foregroundColor(.gray)
+                    .lineLimit(1)
+                
+                Group {
+                    Text(Image(systemName: "exclamationmark.circle"))
+                    +
+                    
+                    Text(" Contains ")
+                    +
+                    
+                    Text(self.itemWarnings)
+                    
+                }.font(.footnote)
+                    .foregroundColor(.gray)
+                
             }.padding(.vertical, 5)
         }).buttonStyle(.plain)
     }
