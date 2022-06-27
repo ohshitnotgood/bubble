@@ -11,8 +11,10 @@ struct ContentView: View {
     @State private var selectionMode    : Int    = 0
     @State private var searchText       : String = ""
     
-    @State private var showItemsView    : Bool = false
-    @State private var showSettingsView : Bool = false
+    @State private var showItemsView    : Bool   = false
+    @State private var showSettingsView : Bool   = false
+    
+    @State private var data: [MenuItem] = []
     
     
     var body: some View {
