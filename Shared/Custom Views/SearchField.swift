@@ -23,7 +23,7 @@ struct SearchField: View {
                 .foregroundColor(.gray)
             
         }.padding(5)
-            .background(Color(uiColor: .systemGray5))
+            .background(Color(uiColor: .systemGray4))
             .cornerRadius(10)
             .padding(10)
     }
