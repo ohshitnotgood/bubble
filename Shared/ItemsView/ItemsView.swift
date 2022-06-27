@@ -15,51 +15,54 @@ struct ItemsView: View {
     private var showCustomPickerSegment = true
     
     var body: some View {
-        VStack (spacing: 0) {
-            VStack {
-                HStack (alignment: .center) {
-                    Button("Cancel") {
+        NavigationView {
+            VStack (spacing: 0) {
+                VStack {
+                    HStack (alignment: .center) {
+                        Button("Cancel") {
+                            
+                        }.padding(.horizontal)
+                            .opacity(0)
                         
-                    }.padding(.horizontal)
-                        .opacity(0)
+                        Spacer()
+                        
+                        Text("Menu")
+                            .font(.headline).bold()
+                        
+                        Spacer()
+                        
+                        Button("Cancel") {
+                            dismiss()
+                        }.padding(.horizontal)
+                    }
                     
-                    Spacer()
+                    ViewPicker(selection: $selection, true)
                     
-                    Text("Menu")
-                        .font(.headline).bold()
-                    
-                    Spacer()
-                    
-                    Button("Cancel") {
-                        dismiss()
-                    }.padding(.horizontal)
-                }
+                }.padding(.top)
+                    .background(
+                        VisualEffectView(.systemThinMaterial)
+                            .edgesIgnoringSafeArea(.top)
+                    )
                 
-                ViewPicker(selection: $selection, true)
-                
-            }.padding(.top)
-                .background(
-                    VisualEffectView(.systemThinMaterial)
-                        .edgesIgnoringSafeArea(.top)
-                )
-            
-            if selection == 0 {
-                withAnimation {
-                    AlphabeticItemsView()
+                if selection == 0 {
+                    withAnimation {
+                        AlphabeticItemsView()
+                    }
+                } else if selection == 1 {
+                    withAnimation {
+                        CategoryItemsView()
+                    }
+                } else if selection == 2 {
+                    withAnimation {
+                        IngredientsItemsView()
+                    }
+                } else if selection == 3 {
+                    withAnimation {
+                        CustomItemsView()
+                    }
                 }
-            } else if selection == 1 {
-                withAnimation {
-                    CategoryItemsView()
-                }
-            } else if selection == 2 {
-                withAnimation {
-                    IngredientsItemsView()
-                }
-            } else if selection == 3 {
-                withAnimation {
-                    CustomItemsView()
-                }
-            }
+            }.navigationBarHidden(true)
+                .navigationBarBackButtonHidden(true)
         }
     }
 }
