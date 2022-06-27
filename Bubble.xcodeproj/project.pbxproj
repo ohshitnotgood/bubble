@@ -17,6 +17,8 @@
 		58C988232869E4BF0042502E /* IngredientsPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C988222869E4BF0042502E /* IngredientsPickerView.swift */; };
 		58C988252869E8DB0042502E /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C988242869E8DB0042502E /* Color.swift */; };
 		58C988272869EBD40042502E /* MenuEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C988262869EBD40042502E /* MenuEditorView.swift */; };
+		58C9882A286A08790042502E /* AddCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C98829286A08790042502E /* AddCategoryView.swift */; };
+		58C9882D286A16DB0042502E /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 58C9882C286A16DB0042502E /* Introspect */; };
 		58D492D72868A24400135B5F /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D492D62868A24400135B5F /* MenuItem.swift */; };
 		58E2ECCA28683BED0035CB7D /* BubbleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2ECBA28683BE90035CB7D /* BubbleApp.swift */; };
 		58E2ECCC28683BED0035CB7D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2ECBB28683BE90035CB7D /* ContentView.swift */; };
@@ -39,6 +41,7 @@
 		58C988222869E4BF0042502E /* IngredientsPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsPickerView.swift; sourceTree = "<group>"; };
 		58C988242869E8DB0042502E /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		58C988262869EBD40042502E /* MenuEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuEditorView.swift; sourceTree = "<group>"; };
+		58C98829286A08790042502E /* AddCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryView.swift; sourceTree = "<group>"; };
 		58D492D62868A24400135B5F /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		58E2ECBA28683BE90035CB7D /* BubbleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleApp.swift; sourceTree = "<group>"; };
 		58E2ECBB28683BE90035CB7D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -56,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58C9882D286A16DB0042502E /* Introspect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,8 +69,8 @@
 		58B1222C2868772D00FB49F6 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				58C98828286A08670042502E /* Add to Menu */,
 				58B1222D2868778400FB49F6 /* SettingsView.swift */,
-				58C9881D2869D1970042502E /* AddToMenuView.swift */,
 				58C988222869E4BF0042502E /* IngredientsPickerView.swift */,
 				58C988262869EBD40042502E /* MenuEditorView.swift */,
 			);
@@ -82,6 +86,15 @@
 				58C988242869E8DB0042502E /* Color.swift */,
 			);
 			path = "Custom Views";
+			sourceTree = "<group>";
+		};
+		58C98828286A08670042502E /* Add to Menu */ = {
+			isa = PBXGroup;
+			children = (
+				58C9881D2869D1970042502E /* AddToMenuView.swift */,
+				58C98829286A08790042502E /* AddCategoryView.swift */,
+			);
+			path = "Add to Menu";
 			sourceTree = "<group>";
 		};
 		58D492D52868A22800135B5F /* Data Containers */ = {
@@ -152,6 +165,9 @@
 			dependencies = (
 			);
 			name = "Bubble (iOS)";
+			packageProductDependencies = (
+				58C9882C286A16DB0042502E /* Introspect */,
+			);
 			productName = "Bubble (iOS)";
 			productReference = 58E2ECC128683BED0035CB7D /* Bubble.app */;
 			productType = "com.apple.product-type.application";
@@ -180,6 +196,9 @@
 				Base,
 			);
 			mainGroup = 58E2ECB428683BE90035CB7D;
+			packageReferences = (
+				58C9882B286A16DB0042502E /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+			);
 			productRefGroup = 58E2ECC228683BED0035CB7D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -210,6 +229,7 @@
 				588289D128694AD1003D9BF8 /* MenuCustomizerView.swift in Sources */,
 				58E2ECDF286847D80035CB7D /* CategoryItemsView.swift in Sources */,
 				58C988252869E8DB0042502E /* Color.swift in Sources */,
+				58C9882A286A08790042502E /* AddCategoryView.swift in Sources */,
 				58C9881C2869CC100042502E /* MenuItemStore.swift in Sources */,
 				58BE48AF28695F5D0013775B /* SearchField.swift in Sources */,
 				58E2ECDB286847B40035CB7D /* ItemsView.swift in Sources */,
@@ -425,6 +445,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		58C9882B286A16DB0042502E /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		58C9882C286A16DB0042502E /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 58C9882B286A16DB0042502E /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 58E2ECB528683BE90035CB7D /* Project object */;
 }

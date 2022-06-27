@@ -23,14 +23,32 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: MenuEditorView().environmentObject(menuItemStore)) {
-                    Label("Edit Items on Menu...", systemImage: "filemenu.and.selection")
-                }.buttonStyle(.plain)
                 
-                #warning("Fix destination")
-                NavigationLink(destination: AddToMenuView()) {
-                    Label("Order History", systemImage: "clock.arrow.circlepath")
-                }.buttonStyle(.plain)
+                Section {
+                    #warning("Fix destination")
+                    NavigationLink(destination: AddToMenuView().environmentObject(menuItemStore)) {
+                        Label("Order History", systemImage: "clock.arrow.circlepath")
+                    }.buttonStyle(.plain)
+                }
+                
+                Section {
+                    NavigationLink(destination: MenuEditorView().environmentObject(menuItemStore)) {
+                        Label("Edit Menu", systemImage: "menucard")
+                    }.buttonStyle(.plain)
+                    
+                    
+                    NavigationLink(destination: MenuEditorView().environmentObject(menuItemStore)) {
+                        Label("Edit Categories", systemImage: "filemenu.and.selection")
+                    }.buttonStyle(.plain)
+                    
+                    NavigationLink(destination: MenuEditorView().environmentObject(menuItemStore)) {
+                        Label("Edit Ingredients", systemImage: "filemenu.and.selection")
+                    }.buttonStyle(.plain)
+                    
+                } header: {
+                    Text("Edit stored data")
+                }
+                
                 
                 
             }.navigationTitle("Settings")

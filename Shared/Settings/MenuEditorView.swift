@@ -43,11 +43,14 @@ struct MenuEditorView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: AddToMenuView(), label: {
+                    NavigationLink(destination: AddToMenuView().environmentObject(menuItemStore), label: {
                         Text("Add New Item")
                     })
                 }
             }.onAppear {
+                withAnimation {
+                    list = menuItemStore.items
+                }
                 Task { do {
                     try await menuItemStore.load()
                     dataDidFinishLoading = true

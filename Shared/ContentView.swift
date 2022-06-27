@@ -30,6 +30,9 @@ struct ContentView: View {
             }.navigationTitle("Orders")
                 .sheet(isPresented: $showItemsView, content: { ItemsView() })
                 .sheet(isPresented: $showSettingsView, content: { SettingsView().environmentObject(menuItemStore) })
+                .onAppear {
+                    Task { try await menuItemStore.load() }
+                }
                 .toolbar {
                     // MARK: Delete button
                     ToolbarItem(placement: .bottomBar, content: {
