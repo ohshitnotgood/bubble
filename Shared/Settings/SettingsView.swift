@@ -23,7 +23,6 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             Form {
-                
                 Section {
                     #warning("Fix destination")
                     NavigationLink(destination: AddToMenuView().environmentObject(menuItemStore)) {
@@ -33,20 +32,20 @@ struct SettingsView: View {
                 
                 Section {
                     NavigationLink(destination: MenuEditorView().environmentObject(menuItemStore)) {
-                        SettingsLabel("Edit Settings", systemImage: "menucard.fill", color: .green)
+                        SettingsLabel("Edit Menu", systemImage: "menucard.fill", color: .green)
                     }.buttonStyle(.plain)
                     
                     
                     NavigationLink(destination: CategoryEditorView().environmentObject(menuItemStore)) {
-                        SettingsLabel("Edit Categories", systemImage: "filemenu.and.selection", color: .pink)
+                        SettingsLabel("Edit Saved Categories", systemImage: "filemenu.and.selection", color: .pink)
                     }.buttonStyle(.plain)
                     
                     NavigationLink(destination: MenuEditorView().environmentObject(menuItemStore)) {
-                        SettingsLabel("Edit Ingredients", systemImage: "filemenu.and.selection", color: .accentColor)
+                        SettingsLabel("Edit Saved Ingredients", systemImage: "filemenu.and.selection", color: .accentColor)
                     }.buttonStyle(.plain)
                     
                 } header: {
-                    Text("Edit stored data")
+                    Text("Edit saved information")
                 }
                 
                 
@@ -84,7 +83,7 @@ fileprivate struct SettingsLabel: View {
             
             Text(text)
                 .font(.callout)
-        }
+        }.padding(3)
     }
 }
 
