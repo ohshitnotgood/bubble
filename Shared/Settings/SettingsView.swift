@@ -27,22 +27,22 @@ struct SettingsView: View {
                 Section {
                     #warning("Fix destination")
                     NavigationLink(destination: AddToMenuView().environmentObject(menuItemStore)) {
-                        Label("Order History", systemImage: "clock.arrow.circlepath")
+                        SettingsLabel("Order History", systemImage: "clock.arrow.circlepath", color: .orange)
                     }.buttonStyle(.plain)
                 }
                 
                 Section {
                     NavigationLink(destination: MenuEditorView().environmentObject(menuItemStore)) {
-                        Label("Edit Menu", systemImage: "menucard")
+                        SettingsLabel("Edit Settings", systemImage: "menucard.fill", color: .green)
                     }.buttonStyle(.plain)
                     
                     
                     NavigationLink(destination: CategoryEditorView().environmentObject(menuItemStore)) {
-                        Label("Edit Categories", systemImage: "filemenu.and.selection")
+                        SettingsLabel("Edit Categories", systemImage: "filemenu.and.selection", color: .pink)
                     }.buttonStyle(.plain)
                     
                     NavigationLink(destination: MenuEditorView().environmentObject(menuItemStore)) {
-                        Label("Edit Ingredients", systemImage: "filemenu.and.selection")
+                        SettingsLabel("Edit Ingredients", systemImage: "filemenu.and.selection", color: .accentColor)
                     }.buttonStyle(.plain)
                     
                 } header: {
@@ -59,6 +59,31 @@ struct SettingsView: View {
                         }
                     })
                 }
+        }
+    }
+}
+
+fileprivate struct SettingsLabel: View {
+    var text: String
+    var systemName: String
+    var color: Color
+    
+    init(_ text: String, systemImage: String, color: Color) {
+        self.color = color
+        self.text = text
+        self.systemName = systemImage
+    }
+    
+    var body: some View {
+        HStack (spacing: 15) {
+            Image(systemName: systemName)
+                .frame(width: 30, height: 30)
+                .foregroundColor(.white)
+                .background(color)
+                .cornerRadius(5)
+            
+            Text(text)
+                .font(.callout)
         }
     }
 }
