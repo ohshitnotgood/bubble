@@ -32,6 +32,14 @@ struct MenuItem: Hashable, Codable {
             self.warnings.append(each_warning.rawValue)
         })
     }
+    
+    init(itemName: String, regularIngredients: [String], warnings: [MenuWarnings], extraIngredients: [String], category: String) {
+        self.itemName = itemName
+        self.regularIngredients = regularIngredients
+        self.warnings = []
+        self.extraIngredients = extraIngredients
+        self.category = category
+    }
 }
 
 /// A list of ``MenuItem`` containing dummy data.

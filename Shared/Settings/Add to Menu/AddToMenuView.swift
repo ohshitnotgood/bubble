@@ -21,15 +21,10 @@ struct AddToMenuView: View {
     @State private var extra: [String] = []
     @State private var warnings: [MenuWarnings] = [.gluten, .dairy]
     
-    @State private var category: MenuCategory = .appetizer
-    
     @State private var selectedWarnings: [String] = []
     
-    @State private var categoriesList: [String] = []
-    
     @State private var selectedCategory = ""
-    
-    @State private var showCategoryPicker = false
+    @State private var showCategoryPickerView = false
     
     @EnvironmentObject var menuItemStore: MenuItemStore
     
@@ -39,7 +34,7 @@ struct AddToMenuView: View {
             if !itemName.isEmpty {
                 withAnimation {
                     menuItemStore.items.append(
-                        MenuItem(itemName: itemName, regularIngredients: regular, warnings: warnings, extraIngredients: extra, category: category)
+                        MenuItem(itemName: itemName, regularIngredients: regular, warnings: warnings, extraIngredients: extra, category: selectedCategory)
                     )
                 }
                 try await menuItemStore.saveItems()
@@ -114,26 +109,40 @@ struct AddToMenuView: View {
             })
             
             Section(content: {
-                // Show CategoryPicker only after one or more categories have been added.
-                if menuItemStore.categories.count > 0 {
+                Button {
+                    showCategoryPickerView = true
+                } label: {
                     HStack {
                         Text("Category")
                             .foregroundColor(.sensiBlack)
-                        
                         Spacer()
-                        
-                        Picker("Category", selection: $selectedCategory) {
-                            ForEach(menuItemStore.categories.sorted { $0 < $1 }, id: \.self) { each_category in
-                                Text(each_category)
-                                    .tag(each_category)
-                            }
-                        }.pickerStyle(.menu)
+                        Text(selectedCategory)
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(.gray)
+                            .font(.caption)
                     }
                 }
                 
-                NavigationLink(destination: CategoryEditorView().environmentObject(menuItemStore)) {
-                    Text("Edit categories")
-                }
+                //                // Show CategoryPicker only after one or more categories have been added.
+                //                if menuItemStore.categories.count > 0 {
+                //                    HStack {
+                //                        Text("Category")
+                //                            .foregroundColor(.sensiBlack)
+                //
+                //                        Spacer()
+                //
+                //                        Picker("Category", selection: $selectedCategory) {
+                //                            ForEach(menuItemStore.categories.sorted { $0 < $1 }, id: \.self) { each_category in
+                //                                Text(each_category)
+                //                                    .tag(each_category)
+                //                            }
+                //                        }.pickerStyle(.menu)
+                //                    }
+                //                }
+                //
+                //                NavigationLink(destination: CategoryEditorView().environmentObject(menuItemStore)) {
+                //                    Text("Edit categories")
+                //                }
                 
             }, header: {
                 Text("Category")
@@ -148,7 +157,10 @@ struct AddToMenuView: View {
                         dismiss()
                     }.disabled(itemName.isEmpty)
                 }
-            }
+            }.sheet(isPresented: $showCategoryPickerView, content: {
+                CategoryPickerView(selection: $selectedCategory)
+                    .environmentObject(menuItemStore)
+            }).interactiveDismissDisabled()
     }
 }
 

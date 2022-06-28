@@ -11,7 +11,12 @@ struct IngredientsPickerView: View {
     @State var availableIngredients: [String] = ["Cheese"]
     @State var chosenIngredients: [String] = ["Mayonese"]
     
+    var picker_for: String
+    
     @State private var showCustomIngredientsTextField = true
+    
+    @EnvironmentObject var menuItemStore: MenuItemStore
+    
     
     #warning("Make custom ingredients editable")
     var body: some View {
@@ -43,13 +48,13 @@ struct IngredientsPickerView: View {
                             availableIngredients.append(each_ingredient)
                         }
                     }.foregroundColor(.sensiBlack)
-                }
+                } 
                 
-                Button("Add custom ingredient...") {
+                Button("Add ingredient") {
                     
                 }
             }, header: {
-                Text("Basic Ingredients")
+                Text("\(picker_for) Ingredients")
             })
         }
     }
@@ -57,6 +62,6 @@ struct IngredientsPickerView: View {
 
 struct IngredientsPickerView_Previews: PreviewProvider {
     static var previews: some View {
-        IngredientsPickerView()
+        IngredientsPickerView(picker_for: "extra")
     }
 }

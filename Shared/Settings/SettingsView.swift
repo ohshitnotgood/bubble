@@ -24,13 +24,6 @@ struct SettingsView: View {
         NavigationView {
             Form {
                 Section {
-                    #warning("Fix destination")
-                    NavigationLink(destination: AddToMenuView().environmentObject(menuItemStore)) {
-                        SettingsLabel("Order History", systemImage: "clock.arrow.circlepath", color: .orange)
-                    }.buttonStyle(.plain)
-                }
-                
-                Section {
                     NavigationLink(destination: MenuEditorView().environmentObject(menuItemStore)) {
                         SettingsLabel("Edit Menu", systemImage: "menucard.fill", color: .green)
                     }.buttonStyle(.plain)
@@ -48,7 +41,11 @@ struct SettingsView: View {
                     Text("Edit saved information")
                 }
                 
-                
+                Section {
+                    NavigationLink(destination: HistoryView().environmentObject(menuItemStore)) {
+                        SettingsLabel("Order History", systemImage: "clock.arrow.circlepath", color: .orange)
+                    }.buttonStyle(.plain)
+                }
                 
             }.navigationTitle("Settings")
                 .toolbar {
