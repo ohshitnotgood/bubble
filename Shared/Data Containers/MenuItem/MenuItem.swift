@@ -17,7 +17,7 @@ struct MenuItem: Hashable, Codable {
     var extraIngredients: [String]
     var category: String
     
-    init(itemName: String, regularIngredients: [String], warnings: [MenuItemWarnings], extraIngredients: [String], category: MenuItemCategory) {
+    init(itemName: String, regularIngredients: [String], warnings: [MenuWarnings], extraIngredients: [String], category: MenuCategory) {
         self.itemName = itemName
         self.regularIngredients = regularIngredients
         self.warnings = []
@@ -87,7 +87,7 @@ var menuItems = [
     )
 ]
 
-enum MenuItemWarnings: String {
+enum MenuWarnings: String {
     case dairy      = "dairy"
     case meat       = "meat"
     case gluten     = "gluten"
@@ -97,13 +97,13 @@ enum MenuItemWarnings: String {
     case peanuts    = "peanuts"
 }
 
-enum MenuItemCategory: String {
+enum MenuCategory: String {
     case mainCourse = "Main Course"
     case appetizer  = "Appetizer"
     case beverage   = "Beverage"
 }
 
-struct MenuItemIngredient: Hashable, Codable {
+struct MenuIngredient: Hashable, Codable {
     var customerDidOrder = false
     var name: String
     
