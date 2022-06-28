@@ -7,20 +7,23 @@
 
 import SwiftUI
 
+
+// Listed bugs
+//
+// Swipe to delete doesn't work
+// Renaming an item to an empty string should remove the item from the list but it doesn't.
 struct CategoryEditorView: View {
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject private var menuItemStore: MenuItemStore
+    @EnvironmentObject var menuItemStore: MenuItemStore
+    
     
     @State private var text: String = ""
-    @State private var testCategories = ["Main Course", "Beverages"]
+    @State private var showNewTextField = false
+
     
-    @State private var showNewCategoryButton = true
-    
-    
-    func saveCategoryData() {
-        Task {
-            try await menuItemStore.saveCategories()
-        }
+    func onKeyboardSubmit() {
+        menuItemStore.categories.appendIfNotContains(text)
+        text = ""
     }
     
     var body: some View {
@@ -29,35 +32,43 @@ struct CategoryEditorView: View {
                 ForEach(menuItemStore.categories.indices, id: \.self) {
                     TextField("", text: $menuItemStore.categories[$0])
                         .onTapGesture {
-                            showNewCategoryButton = true
+                            showNewTextField = false
                         }
                 }
                 
-                if showNewCategoryButton {
-                    Button("Add New Category") {
-                        showNewCategoryButton.toggle()
-                    }
-                } else {
-                    TextField("Edit Category", text: $text)
+                
+                if showNewTextField {
+                    TextField("Category Name", text: $text)
                         .introspectTextField { tf in
                             tf.becomeFirstResponder()
                         }.onSubmit {
-                            menuItemStore.categories.appendIfNotContains(text)
-                            text = ""
-                            showNewCategoryButton.toggle()
-                        }.submitLabel(.done)
+                            onKeyboardSubmit()
+                            showNewTextField = false
+                        }
+                        .submitLabel(.done)
+                }
+                
+                Button("Add New Category") {
+                    if showNewTextField {
+                        onKeyboardSubmit()
+                        showNewTextField = true
+                    } else {
+                        withAnimation {
+                            showNewTextField = true
+                        }
+                    }
                 }
             }
             
-        }.navigationTitle("Add New Category")
+        }.navigationTitle("Edit Categories")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing, content: {
-                    Button("Done") {
-                        saveCategoryData()
-                        dismiss()
+            .onDisappear {
+                Task {
+                    try await menuItemStore.saveCategories()
+                    menuItemStore.categories.sort {
+                        $0 < $1
                     }
-                })
+                }
             }
         // There is no need to load categories from device as categories are being passed as an
         // environment object.

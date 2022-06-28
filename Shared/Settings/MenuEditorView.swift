@@ -17,7 +17,6 @@ struct MenuEditorView: View {
     @EnvironmentObject var menuItemStore: MenuItemStore
     
     // Data is shown from this array
-    @State private var list: [MenuItem] = []
     @State private var dataDidFinishLoading = true
     
     // Observes for new item to be added
@@ -27,9 +26,6 @@ struct MenuEditorView: View {
         Group {
             if dataDidFinishLoading {
                 List {
-//                    ForEach(list, id: \.self) { menuItem in
-//                        Text(menuItem.itemName)
-//                    }
                     ForEach(menuItemStore.items, id: \.self) { each_item in
                         Text(each_item.itemName)
                     }

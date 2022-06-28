@@ -123,7 +123,7 @@ struct AddToMenuView: View {
                         Spacer()
                         
                         Picker("Category", selection: $selectedCategory) {
-                            ForEach(categoriesList, id: \.self) { each_category in
+                            ForEach(menuItemStore.categories.sorted { $0 < $1 }, id: \.self) { each_category in
                                 Text(each_category)
                                     .tag(each_category)
                             }

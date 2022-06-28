@@ -58,8 +58,10 @@ class MenuItemStore: ObservableObject {
             guard let file = try? FileHandle(forReadingFrom: fileURL) else {
                 return
             }
-            categories = (try JSONDecoder().decode([String].self, from: file.availableData)).sorted {
-                $0 < $1
+            try withAnimation {
+                categories = (try JSONDecoder().decode([String].self, from: file.availableData)).sorted {
+                    $0 < $1
+                }
             }
         }
     }
@@ -71,8 +73,10 @@ class MenuItemStore: ObservableObject {
             let data = try JSONEncoder().encode(categories)
             let outfile = try fileURL(for: .category)
             try data.write(to: outfile, options: .completeFileProtection)
+            categories.sort {
+                $0 < $1
+            }
         }
-        
     }
     
     func saveIngredient(ingredientName name: String) async throws {

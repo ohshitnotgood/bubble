@@ -83,7 +83,7 @@ fileprivate struct SettingsLabel: View {
             
             Text(text)
                 .font(.callout)
-        }.padding(3)
+        }.padding(.vertical, 3)
     }
 }
 
