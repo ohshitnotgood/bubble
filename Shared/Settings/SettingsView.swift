@@ -10,7 +10,7 @@ import SwiftUI
 /**
  `SettingsView` allows user to add
  
- `[SettingsView] -> [MenuEditorView] -> [AddToMenuView]` to add and edit items in to the menu.
+ `[SettingsView] -> [MenuEditorView] -> [AddToMenuView] -> [CategoryEditorView]`
  
  
  `[SettingsView] -> [OrderHistoryView]` to view order history
@@ -22,7 +22,7 @@ struct SettingsView: View {
     
     var body: some View {
         NavigationView {
-            List {
+            Form {
                 
                 Section {
                     #warning("Fix destination")
@@ -37,7 +37,7 @@ struct SettingsView: View {
                     }.buttonStyle(.plain)
                     
                     
-                    NavigationLink(destination: MenuEditorView().environmentObject(menuItemStore)) {
+                    NavigationLink(destination: CategoryEditorView().environmentObject(menuItemStore)) {
                         Label("Edit Categories", systemImage: "filemenu.and.selection")
                     }.buttonStyle(.plain)
                     

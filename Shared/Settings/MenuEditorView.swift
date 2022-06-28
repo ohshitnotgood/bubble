@@ -10,14 +10,15 @@ import SwiftUI
 /**
  `MenuEditorView` displays a list of current items on the menu and provides options to add or edit an item on the menu.
  
- `[MenuEditorView] -> [AddToMenuView]` to add new items on the menu.
+ `[SettingsView] -> [MenuEditorView] -> [AddToMenuView]` to add and edit items in to the menu.
  */
 struct MenuEditorView: View {
+    // Since update is called in SettingsView, data is upto date.
     @EnvironmentObject var menuItemStore: MenuItemStore
     
     // Data is shown from this array
     @State private var list: [MenuItem] = []
-    @State private var dataDidFinishLoading = false
+    @State private var dataDidFinishLoading = true
     
     // Observes for new item to be added
     @ObservedObject private var menuListUpdater = MenuListUpdater()
@@ -26,8 +27,11 @@ struct MenuEditorView: View {
         Group {
             if dataDidFinishLoading {
                 List {
-                    ForEach(list, id: \.self) { menuItem in
-                        Text(menuItem.itemName)
+//                    ForEach(list, id: \.self) { menuItem in
+//                        Text(menuItem.itemName)
+//                    }
+                    ForEach(menuItemStore.items, id: \.self) { each_item in
+                        Text(each_item.itemName)
                     }
                 }
             } else {
@@ -47,24 +51,11 @@ struct MenuEditorView: View {
                         Text("Add New Item")
                     })
                 }
-            }.onAppear {
-                withAnimation {
-                    list = menuItemStore.items
-                }
-                Task { do {
-                    try await menuItemStore.load()
-                    dataDidFinishLoading = true
-                    menuListUpdater.menuListDidFinishUpdating = true
-                }}
-            }.onReceive(menuListUpdater.$menuListDidFinishUpdating, perform: { _ in
-                withAnimation {
-                    list = menuItemStore.items
-                }
-            })
+            }
     }
 }
 
-fileprivate class MenuListUpdater: ObservableObject {
+class MenuListUpdater: ObservableObject {
     @Published var menuListDidFinishUpdating = false
 }
 

@@ -31,7 +31,10 @@ struct ContentView: View {
                 .sheet(isPresented: $showItemsView, content: { ItemsView() })
                 .sheet(isPresented: $showSettingsView, content: { SettingsView().environmentObject(menuItemStore) })
                 .onAppear {
-                    Task { try await menuItemStore.load() }
+                    Task {
+                        try await menuItemStore.loadItems()
+                        try await menuItemStore.loadCategories()
+                    }
                 }
                 .toolbar {
                     // MARK: Delete button

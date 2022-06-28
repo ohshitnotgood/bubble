@@ -8,36 +8,41 @@
 import SwiftUI
 import Introspect
 
+/// Adds and saves a new `MenuItem` to `MenuItemStore`.
 ///
+///`[SettingsView] -> [MenuEditorView] -> [AddToMenuView]` to add and edit items in to the menu.
 ///
 /// Upon `.onDisappear()`, if `itemName` is not empty, EnvironmentObject `menuItemStore` is appended with a new `MenuItem`.
 struct AddToMenuView: View {
+    @Environment(\.dismiss) private var dismiss
+    
     @State private var itemName: String = ""
     @State private var regular: [String] = []
     @State private var extra: [String] = []
     @State private var warnings: [MenuWarnings] = [.gluten, .dairy]
     
-#warning("Update category when changed")
     @State private var category: MenuCategory = .appetizer
     
     @State private var selectedWarnings: [String] = []
     
-    @State private var categories: [String] = ["Main Course", "Appetizer", "Beverage"]
+    @State private var categoriesList: [String] = []
     
-    @State private var selectedCategory = "Main Course"
+    @State private var selectedCategory = ""
     
     @State private var showCategoryPicker = false
     
     @EnvironmentObject var menuItemStore: MenuItemStore
     
     /// Creates new `MenuItem` object and adds to `environmentObject`.
-    func saveData() {
-        if !itemName.isEmpty {
-            Task {
-                menuItemStore.items.append(
-                    MenuItem(itemName: itemName, regularIngredients: regular, warnings: warnings, extraIngredients: extra, category: category)
-                )
-                try await menuItemStore.save()
+    func saveItemsData() {
+        Task {
+            if !itemName.isEmpty {
+                withAnimation {
+                    menuItemStore.items.append(
+                        MenuItem(itemName: itemName, regularIngredients: regular, warnings: warnings, extraIngredients: extra, category: category)
+                    )
+                }
+                try await menuItemStore.saveItems()
             }
         }
     }
@@ -47,9 +52,6 @@ struct AddToMenuView: View {
         Form {
             Section {
                 TextField("Name", text: $itemName)
-                    .introspectTextField { tf in
-                        tf.becomeFirstResponder()
-                    }
             }
             
             Section(content: {
@@ -112,22 +114,24 @@ struct AddToMenuView: View {
             })
             
             Section(content: {
-                HStack {
-                    Text("Category")
-                        .foregroundColor(.sensiBlack)
-                    
-                    Spacer()
-                    
-                    Picker("Category", selection: $selectedCategory) {
-                        ForEach(categories, id: \.self) { each_category in
-                            Text(each_category)
-                                .tag(each_category)
-                        }
-                    }.pickerStyle(.menu)
+                // Show CategoryPicker only after one or more categories have been added.
+                if menuItemStore.categories.count > 0 {
+                    HStack {
+                        Text("Category")
+                            .foregroundColor(.sensiBlack)
+                        
+                        Spacer()
+                        
+                        Picker("Category", selection: $selectedCategory) {
+                            ForEach(categoriesList, id: \.self) { each_category in
+                                Text(each_category)
+                                    .tag(each_category)
+                            }
+                        }.pickerStyle(.menu)
+                    }
                 }
                 
-#warning("Navigate to CategoriesEditorView inside of Settings")
-                NavigationLink(destination: CategoryEditorView(categories: $categories)) {
+                NavigationLink(destination: CategoryEditorView().environmentObject(menuItemStore)) {
                     Text("Edit categories")
                 }
                 
@@ -137,11 +141,11 @@ struct AddToMenuView: View {
             
         }.navigationTitle("Add Item to Menu")
             .navigationBarTitleDisplayMode(.inline)
-            .onDisappear(perform: saveData)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        saveData()
+                        saveItemsData()
+                        dismiss()
                     }.disabled(itemName.isEmpty)
                 }
             }
