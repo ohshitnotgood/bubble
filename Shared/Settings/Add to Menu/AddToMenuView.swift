@@ -12,21 +12,25 @@ import Introspect
 ///
 /// Upon `.onDisappear()`, if `itemName` is not empty, EnvironmentObject `menuItemStore` is appended with a new `MenuItem`.
 struct AddToMenuView: View {
-    
     @State private var itemName: String = ""
     @State private var regular: [String] = []
     @State private var extra: [String] = []
-    @State private var warnings: [MenuItemWarnings] = [.gluten, .dairy]
-    @State private var category: MenuItemCategory = .appetizer
+    @State private var warnings: [MenuWarnings] = [.gluten, .dairy]
+    
+#warning("Update category when changed")
+    @State private var category: MenuCategory = .appetizer
     
     @State private var selectedWarnings: [String] = []
     
     @State private var categories: [String] = ["Main Course", "Appetizer", "Beverage"]
     
-    @State private var selection = 0
+    @State private var selectedCategory = "Main Course"
+    
+    @State private var showCategoryPicker = false
     
     @EnvironmentObject var menuItemStore: MenuItemStore
     
+    /// Creates new `MenuItem` object and adds to `environmentObject`.
     func saveData() {
         if !itemName.isEmpty {
             Task {
@@ -38,9 +42,9 @@ struct AddToMenuView: View {
         }
     }
     
-    #warning("Ways to add ingredients.")
+#warning("Ways to add ingredients.")
     var body: some View {
-        List {
+        Form {
             Section {
                 TextField("Name", text: $itemName)
                     .introspectTextField { tf in
@@ -73,9 +77,9 @@ struct AddToMenuView: View {
                  Over here, two separate arrays are being used: one, `warnings` that is passed from the previous view and the other, `selectedWarnings` that is used to keep track of the items that have been selected.
                  First, the `warnings` list is looped through to display all possible warnings that the app has stored on device.
                  When the button is clicked, the algorithm checks if the item clicked upon exists in `selectedWarnings`.
-                    If it isn't, then the item is added to `selectedWarnings` and a checkmark is displayed.
-                    If it is present inside `selectedWarnings`, the item is removed upon click and the checkmark is removed.
-                */
+                 If it isn't, then the item is added to `selectedWarnings` and a checkmark is displayed.
+                 If it is present inside `selectedWarnings`, the item is removed upon click and the checkmark is removed.
+                 */
                 ForEach(warnings, id: \.self) { each_warning in
                     Button (action: {
                         if selectedWarnings.contains(each_warning.rawValue) {
@@ -99,7 +103,7 @@ struct AddToMenuView: View {
                     }
                 }
                 
-                #warning("Add custom warning")
+#warning("Add custom warning")
                 Button("Add custom warning...") {
                     
                 }
@@ -108,16 +112,25 @@ struct AddToMenuView: View {
             })
             
             Section(content: {
-                Picker("Category", selection: $selection) {
-                    ForEach(Array(zip(categories.indices, categories)), id: \.0) { idx, category in
-                        Text(category)
-                            .tag(idx)
-                    }
+                HStack {
+                    Text("Category")
+                        .foregroundColor(.sensiBlack)
+                    
+                    Spacer()
+                    
+                    Picker("Category", selection: $selectedCategory) {
+                        ForEach(categories, id: \.self) { each_category in
+                            Text(each_category)
+                                .tag(each_category)
+                        }
+                    }.pickerStyle(.menu)
                 }
                 
-                NavigationLink(destination: AddCategoryView(categories: $categories)) {
-                    Text("Add New Category")
+#warning("Navigate to CategoriesEditorView inside of Settings")
+                NavigationLink(destination: CategoryEditorView(categories: $categories)) {
+                    Text("Edit categories")
                 }
+                
             }, header: {
                 Text("Category")
             })

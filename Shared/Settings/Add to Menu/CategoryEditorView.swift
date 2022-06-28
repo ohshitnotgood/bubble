@@ -7,14 +7,19 @@
 
 import SwiftUI
 
-struct AddCategoryView: View {
+struct CategoryEditorView: View {
     @Environment(\.dismiss) var dismiss
     
     @State private var text: String = ""
     var categories: Binding<[String]>
     
     var body: some View {
-        List {
+        Form {
+            Section {
+                ForEach(categories, id: \.self) { each_category in
+                    Text(each_category.wrappedValue)
+                }
+            }
             TextField("Category Name", text: $text)
         }.navigationTitle("Add New Category")
             .navigationBarTitleDisplayMode(.inline)
