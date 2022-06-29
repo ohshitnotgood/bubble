@@ -25,6 +25,7 @@ struct AddToMenuView: View {
     
     @FocusState private var focusField: FocusField?
     @State private var showCategoryPickerView   = false
+    @State private var showWarningsEditor       = false
     
     @State private var newItem = MenuItem()
     
@@ -134,13 +135,14 @@ struct AddToMenuView: View {
                 Text("Extra Ingredients")
             })
             
+            // MARK: - Warnings
             Section(content: {
                 /**
-                 Over here, two separate arrays are being used: one, `warnings` that is passed from the previous view and the other, `selectedWarnings` that is used to keep track of the items that have been selected.
-                 First, the `warnings` list is looped through to display all possible warnings that the app has stored on device.
-                 When the button is clicked, the algorithm checks if the item clicked upon exists in `selectedWarnings`.
-                 If it isn't, then the item is added to `selectedWarnings` and a checkmark is displayed.
-                 If it is present inside `selectedWarnings`, the item is removed upon click and the checkmark is removed.
+                 Over here, two separate arrays are being used: one, `menuItemStore.warnings` that is passed from the previous view and the other, `newItem.warnings` that is used to keep track of the items that have been selected.
+                 First, the `menuItemStore.warnings` list is looped through to display all possible warnings that the app has stored on device.
+                 When the button is clicked, the algorithm checks if the item clicked upon exists in `newItem.warnings`.
+                 If it isn't, then the item is added to `newItem.warnings` and a checkmark is displayed.
+                 If it is present inside `newItem.warnings`, the item is removed upon click and the checkmark is removed.
                  */
                 ForEach(menuItemStore.warnings, id: \.self) { each_warning in
                     Button (action: {
@@ -165,9 +167,8 @@ struct AddToMenuView: View {
                     }
                 }
                 
-#warning("Add custom warning")
-                Button("Add custom warning...") {
-                    
+                Button("Edit warnings...") {
+                    showWarningsEditor = true
                 }
             }, header: {
                 Text("Warnings")
@@ -204,6 +205,9 @@ struct AddToMenuView: View {
                 CategoryPickerView(selection: $newItem.category)
                     .environmentObject(menuItemStore)
             }).interactiveDismissDisabled()
+            .sheet(isPresented: $showWarningsEditor) {
+                WarningsEditorView().environmentObject(menuItemStore)
+            }
     }
 }
 
