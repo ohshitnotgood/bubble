@@ -23,6 +23,7 @@ struct AddToMenuView: View {
     
     @State private var selectedWarnings: [String] = []
     
+    // This value has to be passed onto CategoryPickerView
     @State private var selectedCategory = ""
     @State private var showCategoryPickerView = false
     
@@ -47,6 +48,7 @@ struct AddToMenuView: View {
         Form {
             Section {
                 TextField("Name", text: $itemName)
+                    .textInputAutocapitalization(.words)
             }
             
             Section(content: {
@@ -122,28 +124,6 @@ struct AddToMenuView: View {
                             .font(.caption)
                     }
                 }
-                
-                //                // Show CategoryPicker only after one or more categories have been added.
-                //                if menuItemStore.categories.count > 0 {
-                //                    HStack {
-                //                        Text("Category")
-                //                            .foregroundColor(.sensiBlack)
-                //
-                //                        Spacer()
-                //
-                //                        Picker("Category", selection: $selectedCategory) {
-                //                            ForEach(menuItemStore.categories.sorted { $0 < $1 }, id: \.self) { each_category in
-                //                                Text(each_category)
-                //                                    .tag(each_category)
-                //                            }
-                //                        }.pickerStyle(.menu)
-                //                    }
-                //                }
-                //
-                //                NavigationLink(destination: CategoryEditorView().environmentObject(menuItemStore)) {
-                //                    Text("Edit categories")
-                //                }
-                
             }, header: {
                 Text("Category")
             })

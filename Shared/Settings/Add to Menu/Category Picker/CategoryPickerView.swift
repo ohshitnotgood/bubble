@@ -11,7 +11,10 @@ struct CategoryPickerView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var menuItemStore: MenuItemStore
     
+    // This variable is received from ancestor view.
     @Binding var selection: String
+    
+    @State private var showAddNewCategoryView = false
     
     var body: some View {
         NavigationView {
@@ -30,27 +33,30 @@ struct CategoryPickerView: View {
                                     Image(systemName: "checkmark")
                                         .opacity(selection == each_category ? 1 : 0)
                                 }
-                            }.swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                Button("Delete") {
-                                    if selection == each_category {
+                            }
+                        }.onDelete { indexSet in
+                            // Over here, it is being checked that if the item that is deleted is the same
+                            // as the selection. If that is the case, selection is set to an empty string hence
+                            // preventing exit from the view and forcing the user to set a category for the item.
+                            let tempList = menuItemStore.categories
+                            menuItemStore.categories.remove(atOffsets: indexSet)
+                            
+                            tempList.forEach { each_temp_category in
+                                if !menuItemStore.categories.contains(each_temp_category) {
+                                    if selection == each_temp_category {
                                         selection = ""
                                     }
-                                    if let index = menuItemStore.categories.firstIndex(of: each_category) {
-                                        menuItemStore.categories.remove(at: index)
-                                    }
-                                }.tint(.red)
+                                }
                             }
                         }
-                    } header: {
-                        Text("Pick category")
                     }
                 }
                 
-                NavigationLink {
-                    AddNewCategoryView().environmentObject(menuItemStore)
+                Button {
+                    showAddNewCategoryView = true
                 } label: {
                     Text("Add New Category")
-                }.foregroundColor(.accentColor)
+                }
                 
                 
             }.navigationTitle("Pick Category")
@@ -59,9 +65,11 @@ struct CategoryPickerView: View {
                     ToolbarItem(placement: .confirmationAction) {
                         Button("Done") {
                             dismiss()
-                        }
+                        }.disabled(selection.isEmpty)
                     }
-                }
+                }.sheet(isPresented: $showAddNewCategoryView, content: {
+                    AddNewCategoryView().environmentObject(menuItemStore)
+                })
                 .interactiveDismissDisabled(selection.isEmpty)
         }
     }

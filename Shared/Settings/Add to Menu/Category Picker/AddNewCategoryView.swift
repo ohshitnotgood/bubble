@@ -13,6 +13,9 @@ struct AddNewCategoryView: View {
     
     @EnvironmentObject var menuItemStore: MenuItemStore
     
+    // Checks if new name is empty and if it isn't,
+    // adds new category to list, saves it to local device and
+    // dismisses view.
     func save_data() {
         if !text.isEmpty {
             Task {
@@ -24,26 +27,34 @@ struct AddNewCategoryView: View {
     }
     
     var body: some View {
-        Form {
-            Section {
-                TextField("Name", text: $text)
-//                    .introspectTextField(customize: { tf in
-//                        tf.becomeFirstResponder()
-//                    })
-                    .submitLabel(.done)
-                .onSubmit(save_data)
-            } header: {
-                Text("Category Name")
+        NavigationView {
+            Form {
+                Section {
+                    TextField("Name", text: $text)
+                        .submitLabel(.done)
+                        .onSubmit(save_data)
+                        .introspectTextField { tf in
+                            tf.becomeFirstResponder()
+                        }.textInputAutocapitalization(.words)
+                } header: {
+                    Text("Category Name")
+                }
+            }.navigationTitle("Add New Category")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .confirmationAction, content: {
+                        Button("Save") {
+                            save_data()
+                        }.disabled(text.isEmpty)
+                    })
+                    
+                    ToolbarItem(placement: .navigationBarLeading, content: {
+                        Button("Cancel") {
+                            dismiss()
+                        }
+                    })
             }
-        }.navigationTitle("Add New Category")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction, content: {
-                    Button("Save") {
-                        save_data()
-                    }.disabled(text.isEmpty)
-                })
-            }
+        }
     }
 }
 
