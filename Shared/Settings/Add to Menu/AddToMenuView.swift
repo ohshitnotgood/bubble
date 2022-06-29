@@ -107,7 +107,9 @@ struct AddToMenuView: View {
                         .onSubmit(addNewRegularIngredient)
                         .onTapGesture {
                             purgeExtraIngredientsList()
-                        }
+                        }.deleteDisabled(newItem.regularIngredients[$0] == "")
+                }.onDelete { indexSet in
+                    newItem.regularIngredients.remove(atOffsets: indexSet)
                 }
                 
                 Button("Add ingredient...", action: addNewRegularIngredient)
@@ -126,8 +128,9 @@ struct AddToMenuView: View {
                         .onSubmit(addNewExtraIngredient)
                         .onTapGesture {
                             purgeRegularIngredientsList()
-                        }
-                    
+                        }.deleteDisabled(newItem.extraIngredients[$0] == "")
+                }.onDelete { indexSet in
+                    newItem.extraIngredients.remove(atOffsets: indexSet)
                 }
                 
                 Button("Add ingredient...", action: addNewExtraIngredient)
