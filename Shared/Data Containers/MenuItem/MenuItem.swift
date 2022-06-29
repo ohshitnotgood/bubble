@@ -40,6 +40,16 @@ struct MenuItem: Hashable, Codable {
         self.extraIngredients = extraIngredients
         self.category = category
     }
+    
+    
+    /// Creates a new empty instance of ``MenuItem`` with empty string and empty lists.
+    init() {
+        self.itemName = ""
+        self.regularIngredients = []
+        self.extraIngredients = []
+        self.warnings = []
+        self.category = ""
+    }
 }
 
 /// A list of ``MenuItem`` containing dummy data.
