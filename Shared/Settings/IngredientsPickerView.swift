@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS, deprecated, message: "AddToMenuView now allows to pick ingredients")
 struct IngredientsPickerView: View {
     @State var availableIngredients: [String] = ["Cheese"]
     @State var chosenIngredients: [String] = ["Mayonese"]
@@ -31,6 +32,7 @@ struct IngredientsPickerView: View {
                     }.foregroundColor(.sensiBlack)
                 }
                 
+                
                 Button("Add custom ingredient...") {
                     
                 }
@@ -48,10 +50,6 @@ struct IngredientsPickerView: View {
                             availableIngredients.append(each_ingredient)
                         }
                     }.foregroundColor(.sensiBlack)
-                } 
-                
-                Button("Add ingredient") {
-                    
                 }
             }, header: {
                 Text("\(picker_for) Ingredients")
