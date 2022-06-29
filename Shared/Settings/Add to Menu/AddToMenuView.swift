@@ -26,6 +26,7 @@ struct AddToMenuView: View {
     @FocusState private var focusField: FocusField?
     @State private var showCategoryPickerView   = false
     @State private var showWarningsEditor       = false
+    @State private var showConfirmationDialog   = false
     
     @State private var newItem = MenuItem()
     
@@ -110,7 +111,7 @@ struct AddToMenuView: View {
                 }
                 
                 Button("Add ingredient...", action: addNewRegularIngredient)
-
+                
             }, header: {
                 Text("Regular Ingredients")
             })
@@ -197,9 +198,12 @@ struct AddToMenuView: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        saveItemsData()
-                        dismiss()
-                    }.disabled(newItem.itemName.isEmpty)
+                        showConfirmationDialog = newItem.regularIngredients.isEmpty || newItem.extraIngredients.isEmpty
+                        if !showConfirmationDialog {
+                            saveItemsData()
+                            dismiss()
+                        }
+                    }.disabled(newItem.itemName.isEmpty || newItem.category.isEmpty)
                 }
             }.sheet(isPresented: $showCategoryPickerView, content: {
                 CategoryPickerView(selection: $newItem.category)
@@ -207,7 +211,15 @@ struct AddToMenuView: View {
             }).interactiveDismissDisabled()
             .sheet(isPresented: $showWarningsEditor) {
                 WarningsEditorView().environmentObject(menuItemStore)
-            }
+            }.confirmationDialog("Discard Changes", isPresented: $showConfirmationDialog, actions: {
+                Button("Keep Editing", role: .cancel) { }
+                Button("Save anyway") {
+                    saveItemsData()
+                    dismiss()
+                }
+            }, message: {
+                Text("You haven't added any ingredients to your list")
+            })
     }
 }
 
