@@ -41,9 +41,10 @@ struct AddToMenuView: View {
                     TextField("Ingredient Name", text: $newItem.regularIngredients[$0])
                         .focused($focusField, equals: newItem.regularIngredients.last == "" ? .regularIngredients : .nil)
                         .submitLabel(.next)
+                        .autocapitalization(.words)
                         .onSubmit(addNewRegularIngredient)
                         .onTapGesture {
-                            purgeExtraIngredientsList()
+                            purgeList()
                         }.deleteDisabled(newItem.regularIngredients[$0] == "")
                 }.onDelete { indexSet in
                     newItem.regularIngredients.remove(atOffsets: indexSet)
@@ -65,7 +66,7 @@ struct AddToMenuView: View {
                         .submitLabel(.next)
                         .onSubmit(addNewExtraIngredient)
                         .onTapGesture {
-                            purgeRegularIngredientsList()
+                            purgeList()
                         }.deleteDisabled(newItem.extraIngredients[$0] == "")
                 }.onDelete { indexSet in
                     newItem.extraIngredients.remove(atOffsets: indexSet)
@@ -182,11 +183,14 @@ struct AddToMenuView: View {
         case `nil`
     }
     
+    // MARK: - save data func
     /// Appends `newItem` to `environmentObject` ``menuItemStore``.
     func saveItemsData() {
         Task {
             if !newItem.itemName.isEmpty {
                 withAnimation {
+                    newItem.regularIngredients.removeDuplicates()
+                    newItem.extraIngredients.removeDuplicates()
                     menuItemStore.items.append(newItem)
                 }
                 try await menuItemStore.saveItems()
@@ -194,27 +198,19 @@ struct AddToMenuView: View {
         }
     }
     
-    // MARK: - PurgeExtraList func
-    /// Removes all empty strings from `newItem.extraIngredients` list.
-    func purgeExtraIngredientsList() {
-        withAnimation {
-            newItem.extraIngredients.removeAll { ingredient in ingredient == "" }
-        }
-    }
-    
-    
-    // MARK: - PurgeRegularList func
-    /// Removes all empty strings from `newItem.regularIngredients` list.
-    func purgeRegularIngredientsList() {
+    // MARK: - PurgeList func
+    func purgeList() {
         withAnimation {
             newItem.regularIngredients.removeAll { ingredient in ingredient == "" }
+            newItem.extraIngredients.removeAll { ingredient in ingredient == "" }
         }
     }
     
     // MARK: - Add new regularm ingr func
     func addNewRegularIngredient() {
         withAnimation {
-            purgeExtraIngredientsList()
+//            purgeExtraIngredientsList()
+            purgeList()
             if newItem.regularIngredients.count > 0 {
                 guard let last = newItem.regularIngredients.last else { return }
                 if !last.isEmpty {
@@ -231,7 +227,7 @@ struct AddToMenuView: View {
     // MARK: - Add new extra ingr func
     func addNewExtraIngredient() {
         withAnimation {
-            purgeRegularIngredientsList()
+            purgeList()
             if newItem.extraIngredients.count > 0 {
                 guard let last = newItem.extraIngredients.last else { return }
                 if !last.isEmpty {
