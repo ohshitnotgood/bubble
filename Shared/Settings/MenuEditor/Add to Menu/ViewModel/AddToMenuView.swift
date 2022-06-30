@@ -8,14 +8,13 @@
 import SwiftUI
 import Introspect
 
-/// Adds and saves a new `MenuItem` to `MenuItemStore`.
+/// Allows users to save a new menu item.
 ///
-///`[SettingsView] -> [MenuEditorView] -> [AddToMenuView]` to add and edit items in to the menu.
-///
-/// Upon `.onDisappear()`, if `itemName` is not empty, EnvironmentObject `menuItemStore` is appended with a new `MenuItem`.
+///**Bugs List:**
+/// 
 struct AddToMenuView: View {
-    @Environment(\.dismiss) private var dismiss
     
+    // MARK: FocusField enum
     private enum FocusField: Hashable {
         case itemName
         case regularIngredients
@@ -23,16 +22,28 @@ struct AddToMenuView: View {
         case `nil`
     }
     
+    @Environment(\.dismiss) private var dismiss
+    
+//    @ObservedObject private var vm: AddToMenuViewModel
+    
+    
+    
     @FocusState private var focusField: FocusField?
     @State private var showCategoryPickerView   = false
     @State private var showWarningsEditor       = false
     @State private var showConfirmationDialog   = false
+    @State private var newItem                  = MenuItem()
     
-    @State private var newItem = MenuItem()
     
     @EnvironmentObject var menuItemStore: MenuItemStore
     
-    /// Creates new `MenuItem` object and adds to `environmentObject`.
+//    init() {
+//        self.vm = AddToMenuViewModel(environmentObject: _menuItemStore)
+//    }
+//
+    
+    //
+    /// Appends `newItem` to `environmentObject` ``menuItemStore``.
     func saveItemsData() {
         Task {
             if !newItem.itemName.isEmpty {
@@ -44,17 +55,24 @@ struct AddToMenuView: View {
         }
     }
     
+    // MARK: - PurgeExtraList func
+    /// Removes all empty strings from `newItem.extraIngredients` list.
     func purgeExtraIngredientsList() {
         withAnimation {
             newItem.extraIngredients.removeAll { ingredient in ingredient == "" }
         }
     }
     
+    
+    // MARK: - PurgeRegularList func
+    /// Removes all empty strings from `newItem.regularIngredients` list.
     func purgeRegularIngredientsList() {
         withAnimation {
             newItem.regularIngredients.removeAll { ingredient in ingredient == "" }
         }
     }
+    
+    // MARK: - Add new regularm ingr func
     func addNewRegularIngredient() {
         withAnimation {
             purgeExtraIngredientsList()
@@ -71,6 +89,7 @@ struct AddToMenuView: View {
         }
     }
     
+    // MARK: - Add new extra ingr func
     func addNewExtraIngredient() {
         withAnimation {
             purgeRegularIngredientsList()
@@ -86,8 +105,10 @@ struct AddToMenuView: View {
             }
         }
     }
+    //
     
     
+    // MARK: - Body
     var body: some View {
         Form {
             // MARK: itemName
@@ -112,6 +133,7 @@ struct AddToMenuView: View {
                     newItem.regularIngredients.remove(atOffsets: indexSet)
                 }
                 
+                // MARK: Add regular button
                 Button("Add ingredient...", action: addNewRegularIngredient)
                 
             }, header: {
@@ -133,6 +155,7 @@ struct AddToMenuView: View {
                     newItem.extraIngredients.remove(atOffsets: indexSet)
                 }
                 
+                // MARK: Add extra button
                 Button("Add ingredient...", action: addNewExtraIngredient)
                 
             }, header: {
@@ -158,6 +181,7 @@ struct AddToMenuView: View {
                             newItem.warnings.append(each_warning)
                         }
                     }) {
+                        // MARK: Warning selectors
                         HStack {
                             Text(each_warning.capitalized)
                                 .foregroundColor(.sensiBlack)
@@ -171,6 +195,7 @@ struct AddToMenuView: View {
                     }
                 }
                 
+                // MARK: EditWarnings button
                 Button("Edit warnings...") {
                     showWarningsEditor = true
                 }
@@ -178,6 +203,8 @@ struct AddToMenuView: View {
                 Text("Warnings")
             })
             
+            
+            // MARK: - Category Picker
             Section(content: {
                 Button {
                     showCategoryPickerView = true
@@ -200,6 +227,7 @@ struct AddToMenuView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
+                    // MARK: Toolbar 'Save' button
                     Button("Save") {
                         showConfirmationDialog = newItem.regularIngredients.isEmpty || newItem.extraIngredients.isEmpty
                         if !showConfirmationDialog {
@@ -209,10 +237,12 @@ struct AddToMenuView: View {
                     }.disabled(newItem.itemName.isEmpty || newItem.category.isEmpty)
                 }
             }.sheet(isPresented: $showCategoryPickerView, content: {
+                // MARK: CategoryPicker Sheet
                 CategoryPickerView(selection: $newItem.category)
                     .environmentObject(menuItemStore)
             }).interactiveDismissDisabled()
             .sheet(isPresented: $showWarningsEditor) {
+                // MARK: WarningEditor Sheet
                 WarningsEditorView().environmentObject(menuItemStore)
             }.confirmationDialog("Discard Changes", isPresented: $showConfirmationDialog, actions: {
                 Button("Keep Editing", role: .cancel) { }
@@ -226,9 +256,13 @@ struct AddToMenuView: View {
     }
 }
 
+
+
+#if DEBUG
 struct AddToMenuView_Previews: PreviewProvider {
     static var previews: some View {
         AddToMenuView()
             .environmentObject(MenuItemStore())
     }
 }
+#endif

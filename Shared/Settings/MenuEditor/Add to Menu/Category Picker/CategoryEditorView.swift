@@ -12,6 +12,7 @@ import SwiftUI
 //
 // Swipe to delete doesn't work
 // Renaming an item to an empty string should remove the item from the list but it doesn't.
+@available(iOS, deprecated, message: "Use CategoryPickerView instead.")
 struct CategoryEditorView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var menuItemStore: MenuItemStore
