@@ -13,20 +13,7 @@ import Introspect
 ///**Bugs List:**
 /// 
 struct AddToMenuView: View {
-    
-    // MARK: FocusField enum
-    private enum FocusField: Hashable {
-        case itemName
-        case regularIngredients
-        case extraIngredients
-        case `nil`
-    }
-    
     @Environment(\.dismiss) private var dismiss
-    
-//    @ObservedObject private var vm: AddToMenuViewModel
-    
-    
     
     @FocusState private var focusField: FocusField?
     @State private var showCategoryPickerView   = false
@@ -36,77 +23,6 @@ struct AddToMenuView: View {
     
     
     @EnvironmentObject var menuItemStore: MenuItemStore
-    
-//    init() {
-//        self.vm = AddToMenuViewModel(environmentObject: _menuItemStore)
-//    }
-//
-    
-    //
-    /// Appends `newItem` to `environmentObject` ``menuItemStore``.
-    func saveItemsData() {
-        Task {
-            if !newItem.itemName.isEmpty {
-                withAnimation {
-                    menuItemStore.items.append(newItem)
-                }
-                try await menuItemStore.saveItems()
-            }
-        }
-    }
-    
-    // MARK: - PurgeExtraList func
-    /// Removes all empty strings from `newItem.extraIngredients` list.
-    func purgeExtraIngredientsList() {
-        withAnimation {
-            newItem.extraIngredients.removeAll { ingredient in ingredient == "" }
-        }
-    }
-    
-    
-    // MARK: - PurgeRegularList func
-    /// Removes all empty strings from `newItem.regularIngredients` list.
-    func purgeRegularIngredientsList() {
-        withAnimation {
-            newItem.regularIngredients.removeAll { ingredient in ingredient == "" }
-        }
-    }
-    
-    // MARK: - Add new regularm ingr func
-    func addNewRegularIngredient() {
-        withAnimation {
-            purgeExtraIngredientsList()
-            if newItem.regularIngredients.count > 0 {
-                guard let last = newItem.regularIngredients.last else { return }
-                if !last.isEmpty {
-                    newItem.regularIngredients.append("")
-                    focusField = .regularIngredients
-                }
-            } else {
-                newItem.regularIngredients.append("")
-                focusField = .regularIngredients
-            }
-        }
-    }
-    
-    // MARK: - Add new extra ingr func
-    func addNewExtraIngredient() {
-        withAnimation {
-            purgeRegularIngredientsList()
-            if newItem.extraIngredients.count > 0 {
-                guard let last = newItem.extraIngredients.last else { return }
-                if !last.isEmpty {
-                    newItem.extraIngredients.append("")
-                    focusField = .extraIngredients
-                }
-            } else {
-                newItem.extraIngredients.append("")
-                focusField = .extraIngredients
-            }
-        }
-    }
-    //
-    
     
     // MARK: - Body
     var body: some View {
@@ -254,6 +170,81 @@ struct AddToMenuView: View {
                 Text("You haven't added any ingredients to your list")
             })
     }
+    // MARK: - End Body
+    
+    
+    
+    // MARK: FocusField enum
+    private enum FocusField: Hashable {
+        case itemName
+        case regularIngredients
+        case extraIngredients
+        case `nil`
+    }
+    
+    /// Appends `newItem` to `environmentObject` ``menuItemStore``.
+    func saveItemsData() {
+        Task {
+            if !newItem.itemName.isEmpty {
+                withAnimation {
+                    menuItemStore.items.append(newItem)
+                }
+                try await menuItemStore.saveItems()
+            }
+        }
+    }
+    
+    // MARK: - PurgeExtraList func
+    /// Removes all empty strings from `newItem.extraIngredients` list.
+    func purgeExtraIngredientsList() {
+        withAnimation {
+            newItem.extraIngredients.removeAll { ingredient in ingredient == "" }
+        }
+    }
+    
+    
+    // MARK: - PurgeRegularList func
+    /// Removes all empty strings from `newItem.regularIngredients` list.
+    func purgeRegularIngredientsList() {
+        withAnimation {
+            newItem.regularIngredients.removeAll { ingredient in ingredient == "" }
+        }
+    }
+    
+    // MARK: - Add new regularm ingr func
+    func addNewRegularIngredient() {
+        withAnimation {
+            purgeExtraIngredientsList()
+            if newItem.regularIngredients.count > 0 {
+                guard let last = newItem.regularIngredients.last else { return }
+                if !last.isEmpty {
+                    newItem.regularIngredients.append("")
+                    focusField = .regularIngredients
+                }
+            } else {
+                newItem.regularIngredients.append("")
+                focusField = .regularIngredients
+            }
+        }
+    }
+    
+    // MARK: - Add new extra ingr func
+    func addNewExtraIngredient() {
+        withAnimation {
+            purgeRegularIngredientsList()
+            if newItem.extraIngredients.count > 0 {
+                guard let last = newItem.extraIngredients.last else { return }
+                if !last.isEmpty {
+                    newItem.extraIngredients.append("")
+                    focusField = .extraIngredients
+                }
+            } else {
+                newItem.extraIngredients.append("")
+                focusField = .extraIngredients
+            }
+        }
+    }
+
 }
 
 
