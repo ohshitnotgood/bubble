@@ -50,6 +50,10 @@ struct MenuItem: Hashable, Codable {
         self.warnings = []
         self.category = ""
     }
+    
+    func displayableIngredientsList() {
+        
+    }
 }
 
 /// A list of ``MenuItem`` containing dummy data.

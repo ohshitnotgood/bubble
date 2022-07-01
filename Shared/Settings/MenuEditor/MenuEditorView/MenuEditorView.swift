@@ -22,14 +22,36 @@ struct MenuEditorView: View {
     // Observes for new item to be added
     @ObservedObject private var menuListUpdater = MenuListUpdater()
     
+    
+    func ingredientsList(_ list: [String]) -> some View {
+        var t = Text("")
+        list.forEach { each_ingredient in
+            t = t + Text("\(each_ingredient), ")
+        }
+        
+        return t
+    }
+    
     var body: some View {
         Group {
             if dataDidFinishLoading {
                 List {
-                    ForEach(menuItemStore.items, id: \.self) { each_item in
-                        Text(each_item.itemName)
+                    ForEach(menuItems, id: \.self) { each_item in
+                        VStack (alignment: .leading) {
+                            Text(each_item.itemName)
+                                .bold()
+                            ingredientsList(each_item.regularIngredients)
+                                .foregroundColor(.gray)
+//                            Text(each_item.regularIngredients.first!)
+                            
+                            Group {
+                                Text(Image(systemName: "exclamationmark.triangle.fill")) +
+                                Text(" \(each_item.warnings.first!)")
+                                    
+                            }.foregroundColor(.secondary).font(.body.weight(.bold))
+                        }
                     }
-                }
+                }.listStyle(.inset)
             } else {
                 VStack (spacing: 10) {
                     ProgressView()
@@ -58,6 +80,7 @@ class MenuListUpdater: ObservableObject {
 struct MenuEditorView_Previews: PreviewProvider {
     static var previews: some View {
         MenuEditorView()
+            .preferredColorScheme(.dark)
             .environmentObject(MenuItemStore())
     }
 }

@@ -18,7 +18,6 @@
 		58BE48B128695FDC0013775B /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BE48B028695FDC0013775B /* SectionHeader.swift */; };
 		58C9881C2869CC100042502E /* MenuItemStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C9881B2869CC100042502E /* MenuItemStore.swift */; };
 		58C9881E2869D1970042502E /* AddToMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C9881D2869D1970042502E /* AddToMenuView.swift */; };
-		58C988232869E4BF0042502E /* IngredientsPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C988222869E4BF0042502E /* IngredientsPickerView.swift */; };
 		58C988252869E8DB0042502E /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C988242869E8DB0042502E /* Color.swift */; };
 		58C988272869EBD40042502E /* MenuEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C988262869EBD40042502E /* MenuEditorView.swift */; };
 		58C9882A286A08790042502E /* CategoryEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C98829286A08790042502E /* CategoryEditorView.swift */; };
@@ -48,7 +47,6 @@
 		58BE48B028695FDC0013775B /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		58C9881B2869CC100042502E /* MenuItemStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemStore.swift; sourceTree = "<group>"; };
 		58C9881D2869D1970042502E /* AddToMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToMenuView.swift; sourceTree = "<group>"; };
-		58C988222869E4BF0042502E /* IngredientsPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsPickerView.swift; sourceTree = "<group>"; };
 		58C988242869E8DB0042502E /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		58C988262869EBD40042502E /* MenuEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuEditorView.swift; sourceTree = "<group>"; };
 		58C98829286A08790042502E /* CategoryEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEditorView.swift; sourceTree = "<group>"; };
@@ -99,18 +97,34 @@
 		58665970286DAD7D00E7ACD0 /* MenuEditor */ = {
 			isa = PBXGroup;
 			children = (
-				58C988262869EBD40042502E /* MenuEditorView.swift */,
+				58665974286EC76800E7ACD0 /* MenuEditorView */,
 				58C98828286A08670042502E /* Add to Menu */,
 			);
 			path = MenuEditor;
 			sourceTree = "<group>";
 		};
-		58665971286DADD700E7ACD0 /* ViewModel */ = {
+		58665971286DADD700E7ACD0 /* AddToMenuView */ = {
 			isa = PBXGroup;
 			children = (
 				58C9881D2869D1970042502E /* AddToMenuView.swift */,
 			);
-			path = ViewModel;
+			path = AddToMenuView;
+			sourceTree = "<group>";
+		};
+		58665974286EC76800E7ACD0 /* MenuEditorView */ = {
+			isa = PBXGroup;
+			children = (
+				58C988262869EBD40042502E /* MenuEditorView.swift */,
+			);
+			path = MenuEditorView;
+			sourceTree = "<group>";
+		};
+		58665975286EC7A400E7ACD0 /* SettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				58B1222D2868778400FB49F6 /* SettingsView.swift */,
+			);
+			path = SettingsView;
 			sourceTree = "<group>";
 		};
 		58A67B5D286B0A27001F1A5D /* MenuItem */ = {
@@ -125,10 +139,9 @@
 		58B1222C2868772D00FB49F6 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				58665975286EC7A400E7ACD0 /* SettingsView */,
 				58665970286DAD7D00E7ACD0 /* MenuEditor */,
 				5865AF44286B72D6001DC570 /* Order History */,
-				58B1222D2868778400FB49F6 /* SettingsView.swift */,
-				58C988222869E4BF0042502E /* IngredientsPickerView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -148,7 +161,7 @@
 		58C98828286A08670042502E /* Add to Menu */ = {
 			isa = PBXGroup;
 			children = (
-				58665971286DADD700E7ACD0 /* ViewModel */,
+				58665971286DADD700E7ACD0 /* AddToMenuView */,
 				58F6E430286CD3610036D589 /* Warnings Editor */,
 				5865AF49286B77DD001DC570 /* Category Picker */,
 			);
@@ -316,7 +329,6 @@
 				58BE48B128695FDC0013775B /* SectionHeader.swift in Sources */,
 				58F6E434286CD3B40036D589 /* WarningsEditorView.swift in Sources */,
 				58D492D72868A24400135B5F /* MenuItem.swift in Sources */,
-				58C988232869E4BF0042502E /* IngredientsPickerView.swift in Sources */,
 				5871ADCE2869703A000B0393 /* ListItem.swift in Sources */,
 				58C988272869EBD40042502E /* MenuEditorView.swift in Sources */,
 				58C9881E2869D1970042502E /* AddToMenuView.swift in Sources */,
