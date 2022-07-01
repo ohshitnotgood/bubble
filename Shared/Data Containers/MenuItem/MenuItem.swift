@@ -24,19 +24,15 @@ struct MenuItem: Hashable, Codable {
         self.extraIngredients = extraIngredients
         self.category = category.rawValue
         
-        regularIngredients.forEach { ingredient in
-            self.regularIngredients.append(ingredient)
-        }
-        
-        warnings.forEach({ each_warning in
+        warnings.forEach { each_warning in
             self.warnings.append(each_warning.rawValue)
-        })
+        }
     }
     
-    init(itemName: String, regularIngredients: [String], warnings: [MenuWarnings], extraIngredients: [String], category: String) {
+    init(itemName: String, regularIngredients: [String], warnings: [String], extraIngredients: [String], category: String) {
         self.itemName = itemName
         self.regularIngredients = regularIngredients
-        self.warnings = []
+        self.warnings = warnings
         self.extraIngredients = extraIngredients
         self.category = category
     }
@@ -51,8 +47,34 @@ struct MenuItem: Hashable, Codable {
         self.category = ""
     }
     
-    func displayableIngredientsList() {
+    func regularIngredientsAsString() -> String {
+        var r = ""
+        for (idx, each_ingredient) in self.regularIngredients.enumerated() {
+            if idx == self.regularIngredients.endIndex - 1 {
+                r += "and \(each_ingredient)"
+            } else if idx == self.regularIngredients.endIndex - 2 {
+                r += "\(each_ingredient) "
+            } else {
+                r += "\(each_ingredient), "
+            }
+        }
         
+        return r
+    }
+    
+    func warningsAsAString() -> String {
+        var r = ""
+        for (idx, each_warning) in self.warnings.enumerated() {
+            if idx == self.warnings.endIndex - 1 {
+                r += "and \(each_warning)"
+            } else if idx == self.warnings.endIndex - 2 {
+                r += "\(each_warning) "
+            } else {
+                r += "\(each_warning), "
+            }
+        }
+        
+        return r
     }
 }
 
@@ -123,22 +145,4 @@ enum MenuCategory: String {
     case mainCourse = "Main Course"
     case appetizer  = "Appetizer"
     case beverage   = "Beverage"
-}
-
-struct MenuIngredient: Hashable, Codable {
-    var customerDidOrder = false
-    var name: String
-    
-    func getObservableObject() -> ObservableIngredient {
-        return ObservableIngredient(self.name)
-    }
-}
-
-class ObservableIngredient: ObservableObject {
-    @Published var name: String
-    @Published var customerDidOrder = false
-    
-    init(_ name: String) {
-        self.name = name
-    }
 }

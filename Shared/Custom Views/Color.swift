@@ -9,4 +9,5 @@ import SwiftUI
 
 extension Color {
     static let sensiBlack: Color = .init("Sensi-Black")
+    static let materiaColor      = Color("Material-Color")
 }

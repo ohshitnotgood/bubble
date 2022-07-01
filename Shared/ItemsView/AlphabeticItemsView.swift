@@ -13,10 +13,10 @@ import SwiftUI
  `[AlphabeticItemView] -> [MenuCustomizerView]`
  */
 struct AlphabeticItemsView: View {
-    // 243, 242, 247
     @State private var searchText: String = ""
     @State private var showCancelButton = false
     
+    var selection: Binding<Int>? = nil
     
     var alphabets: [String] = []
     
@@ -24,8 +24,9 @@ struct AlphabeticItemsView: View {
         $0.itemName < $1.itemName
     }
     
-    init() {
+    init(_ selection: Binding<Int>) {
         makeAlphabetsList()
+        self.selection = selection
     }
     
     mutating func makeAlphabetsList() {
@@ -41,21 +42,27 @@ struct AlphabeticItemsView: View {
     // MARK: Body
     var body: some View {
         List {
+            ViewPicker(selection: selection!, false)
+                .listRowBackground(Color.materiaColor)
+            
             ForEach(alphabets, id: \.self) { alphabet in
                 Section(header: Text(alphabet), content: {
                     ForEach(sortedMenu.filter { $0.itemName.hasPrefix(alphabet)}, id: \.self) { menuItem in
                         ListItem(menuItem)
                             .id(menuItem)
+                            .padding(.vertical, 5)
                     }
                 }).id(alphabet)
             }
         }.interactiveDismissDisabled()
+            .listStyle(.grouped)
     }
 }
 
 
 struct AlphabeticItemsView_Previews: PreviewProvider {
     static var previews: some View {
-        AlphabeticItemsView()
+        AlphabeticItemsView(.constant(0))
+            .preferredColorScheme(.dark)
     }
 }

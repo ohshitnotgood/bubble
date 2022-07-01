@@ -12,47 +12,36 @@ struct ItemsView: View {
     @State private var selection = 0
     @State private var searchText = ""
     
-    private var showCustomPickerSegment = true
-    
+    private var showCustomPickerSegment = false
+
     var body: some View {
         NavigationView {
             Group {
                 if selection == 0 {
-                    withAnimation {
-                        AlphabeticItemsView()
-                    }
+                    AlphabeticItemsView($selection)
                 } else if selection == 1 {
-                    withAnimation {
-                        CategoryItemsView()
-                    }
+                    CategoryItemsView($selection)
                 } else if selection == 2 {
-                    withAnimation {
-                        IngredientsItemsView()
-                    }
+                    IngredientsItemsView($selection)
                 } else if selection == 3 {
-                    withAnimation {
-                        CustomItemsView()
-                    }
+                    CustomItemsView()
                 }
             }.toolbar {
-                ToolbarItem(placement: .bottomBar) {
-                    ViewPicker(selection: $selection, true)
-                }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .confirmationAction) {
                     Button("Done") {
                         dismiss()
                     }
                 }
-                
-            }.searchable(text: $searchText)
+            }.searchable(text: $searchText, placement: .navigationBarDrawer)
                 .navigationBarTitle("Menu")
                 .navigationBarTitleDisplayMode(.inline)
+            
         }
     }
 }
 
-fileprivate struct ViewPicker: View {
+
+struct ViewPicker: View {
     private var showCustomPickerSegment: Bool
     private var selection: Binding<Int>
     
@@ -62,7 +51,7 @@ fileprivate struct ViewPicker: View {
     }
     
     var body: some View {
-        Picker("", selection: selection, content: {
+        Picker("View Style", selection: selection, content: {
             Text("Alphabetic")
                 .tag(0)
             
@@ -70,7 +59,7 @@ fileprivate struct ViewPicker: View {
                 .tag(1)
             
             Text("Ingredients")
-                .tag(3)
+                .tag(2)
             
             if showCustomPickerSegment {
                 Text("Custom")
