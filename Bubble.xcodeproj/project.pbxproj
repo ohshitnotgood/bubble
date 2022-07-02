@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		582ACF952870722200BCFF82 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582ACF942870722200BCFF82 /* VisualEffectView.swift */; };
 		5865AF46286B72EC001DC570 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5865AF45286B72EC001DC570 /* HistoryView.swift */; };
 		5865AF48286B7697001DC570 /* CategoryPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5865AF47286B7697001DC570 /* CategoryPickerView.swift */; };
 		5865AF4B286B77EE001DC570 /* AddNewCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5865AF4A286B77EE001DC570 /* AddNewCategoryView.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		582ACF942870722200BCFF82 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		5865AF45286B72EC001DC570 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		5865AF47286B7697001DC570 /* CategoryPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerView.swift; sourceTree = "<group>"; };
 		5865AF4A286B77EE001DC570 /* AddNewCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCategoryView.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				5871ADCD2869703A000B0393 /* ListItem.swift */,
 				58C988242869E8DB0042502E /* Color.swift */,
 				58A67B68286B1FBD001F1A5D /* RangeReplaceableCollection.swift */,
+				582ACF942870722200BCFF82 /* VisualEffectView.swift */,
 			);
 			path = "Custom Views";
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 				58C9882A286A08790042502E /* CategoryEditorView.swift in Sources */,
 				5865AF46286B72EC001DC570 /* HistoryView.swift in Sources */,
 				58C9881C2869CC100042502E /* MenuItemStore.swift in Sources */,
+				582ACF952870722200BCFF82 /* VisualEffectView.swift in Sources */,
 				58BE48AF28695F5D0013775B /* SearchField.swift in Sources */,
 				5865AF48286B7697001DC570 /* CategoryPickerView.swift in Sources */,
 				58E2ECDB286847B40035CB7D /* ItemsView.swift in Sources */,

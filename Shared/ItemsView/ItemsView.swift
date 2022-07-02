@@ -9,48 +9,74 @@ import SwiftUI
 
 struct ItemsView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.isSearching) private var isSearching
+    
     @EnvironmentObject var menuItemStore: MenuItemStore
     
-    @State private var selection = 0
+    @State private var selection: ItemViewType = .alphabetical
     @State private var searchText = ""
     
     private var showCustomPickerSegment = false
-
+    
     var body: some View {
-        NavigationView {
-            Group {
-                if selection == 0 {
-                    AlphabeticItemsView()
-                        .environmentObject(menuItemStore)
-                } else if selection == 1 {
-                    CategoryItemsView($selection)
-                        .environmentObject(menuItemStore)
-                } else if selection == 2 {
-                    IngredientsItemsView($selection)
-                        .environmentObject(menuItemStore)
-                } else if selection == 3 {
-                    CustomItemsView()
-                        .environmentObject(menuItemStore)
-                }
-            }.toolbar {
-                ToolbarItem(placement: .bottomBar) {
-                    ViewPicker(selection: $selection, false)
-                }
-                
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") {
-                        dismiss()
-                    }
-                }
-            }.searchable(text: $searchText, placement: .toolbar)
-                .navigationBarTitle("Menu")
-                .navigationBarTitleDisplayMode(.inline)
-            
+        //        TabView {
+        //            AlphabeticItemsView()
+        //                .environmentObject(menuItemStore)
+        //                .tabItem {
+        //                    Label("Alphabetic", systemImage: "textformat.abc.dottedunderline")
+        //                }
+        //
+        //            CategoryItemsView()
+        //                .environmentObject(menuItemStore)
+        //                .tabItem {
+        //                    Label("Categoric", systemImage: "fork.knife")
+        //                }
+        //
+        //            IngredientsItemsView()
+        //                .environmentObject(menuItemStore)
+        //                .tabItem {
+        //                    Label("Ingredients", systemImage: "calendar.day.timeline.trailing")
+        //                }
+        //        }
+        
+        VStack {
+            if selection == .alphabetical {
+                AlphabeticItemsView()
+                    .environmentObject(menuItemStore)
+            } else if selection == .categoric {
+                CategoryItemsView()
+                    .environmentObject(menuItemStore)
+            } else if selection == .ingredients {
+                IngredientsItemsView()
+                    .environmentObject(menuItemStore)
+            } else if selection == .custom {
+                CustomItemsView()
+                    .environmentObject(menuItemStore)
+            }
         }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Menu {
+                    Picker("Sort by", selection: $selection) {
+                        ForEach(ItemViewType.allCases, id: \.self) { each_type in
+                            Text(each_type.rawValue)
+                                .tag(each_type)
+                        }
+                    }
+                } label: {
+                    Text(selection.rawValue)
+                }
+            }
+        }
+        .searchable(text: $searchText, placement: .toolbar, suggestions: {
+        })
+        .navigationBarTitle("Menu")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 
+// MARK: - ViewPicker
 struct ViewPicker: View {
     private var showCustomPickerSegment: Bool
     private var selection: Binding<Int>
@@ -79,29 +105,20 @@ struct ViewPicker: View {
     }
 }
 
+// MARK: - Previews
 struct ItemsView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemsView()
-            .environmentObject(MenuItemStore())
-            .preferredColorScheme(.dark)
+        NavigationView {
+            ItemsView()
+                .environmentObject(MenuItemStore())
+                .preferredColorScheme(.dark)
+        }
     }
 }
 
-struct VisualEffectView: UIViewRepresentable {
-    var material: UIBlurEffect.Style
-    
-    init(_ material: UIBlurEffect.Style) {
-        self.material = material
-    }
-    
-    func makeUIView(context: Context) -> UIVisualEffectView {
-        return UIVisualEffectView(effect: UIBlurEffect(style: material))
-    }
-    
-    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
-    }
-    
-    typealias UIViewType = UIVisualEffectView
-    
-    
+enum ItemViewType: String, Equatable, CaseIterable {
+    case alphabetical   = "Alphabetic"
+    case categoric      = "Categoric"
+    case ingredients    = "Ingredients"
+    case custom         = "Custom"
 }

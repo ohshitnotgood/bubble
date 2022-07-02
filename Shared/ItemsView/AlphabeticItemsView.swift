@@ -57,6 +57,7 @@ struct AlphabeticItemsView: View {
                 })
             }
         }.interactiveDismissDisabled()
+            .listStyle(.inset)
     }
 }
 

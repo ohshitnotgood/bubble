@@ -11,8 +11,7 @@ struct IngredientsItemsView: View {
     var selection: Binding<Int>? = nil
     var ingredients: [String] = []
     
-    init(_ selection: Binding<Int>) {
-        self.selection = selection
+    init() {
         makeIngredientsList()
     }
     
@@ -51,6 +50,6 @@ struct IngredientsItemsView: View {
 
 struct IngredientsItemsView_Previews: PreviewProvider {
     static var previews: some View {
-        IngredientsItemsView(.constant(2))
+        IngredientsItemsView()
     }
 }

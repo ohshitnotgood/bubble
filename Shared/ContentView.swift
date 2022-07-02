@@ -21,40 +21,38 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                BlankView($showItemsView)
-                    .onTapGesture(perform: {
-                        showItemsView = true
-                    })
-                
-            }.navigationTitle("Orders")
-                .sheet(isPresented: $showItemsView, content: { ItemsView() })
+            BlankView($showItemsView)
+                .onTapGesture(perform: {
+                    showItemsView = true
+                }).ignoresSafeArea(.all, edges: .all)
+            
+            
+                .navigationTitle("Orders")
                 .sheet(isPresented: $showSettingsView, content: { SettingsView().environmentObject(menuItemStore) })
                 .onAppear {
+                    // MARK: onAppear
                     Task {
                         try await menuItemStore.loadItems()
                         try await menuItemStore.loadCategories()
                     }
                 }
                 .toolbar {
-                    // MARK: Delete button
+                    // MARK: Toolbar
                     ToolbarItem(placement: .bottomBar, content: {
-//                        Button(action: {
-//                            showItemsView = true
-//                        }) {
-//                            Image(systemName: "trash")
-//                        }
-                        NavigationLink(destination: AlphabeticItemsView().environmentObject(menuItemStore)) {
+                        Button(action: {
+                            showItemsView = true
+                        }) {
                             Image(systemName: "trash")
                         }
                     })
                     
                     // MARK: New Item button
                     ToolbarItem(placement: .bottomBar, content: {
-                        Button(action: {
-                            showItemsView = true
-                        }) {
-                            Image(systemName: "square.and.pencil")
+                        NavigationLink(isActive: $showItemsView) {
+                            ItemsView()
+                                .environmentObject(menuItemStore)
+                        } label: {
+                            Image(systemName: "plus.circle")
                         }
                     })
                     
@@ -67,44 +65,45 @@ struct ContentView: View {
                         }
                     })
                 }
+            
         }
     }
-}
-
-fileprivate struct BlankView: View {
-    private var showItemsView: Binding<Bool>
     
-    init(_ showItemsView: Binding<Bool>) {
-        self.showItemsView = showItemsView
+    
+    fileprivate struct BlankView: View {
+        private var showItemsView: Binding<Bool>
+        
+        init(_ showItemsView: Binding<Bool>) {
+            self.showItemsView = showItemsView
+        }
+        
+        var body: some View {
+            VStack {
+                Spacer()
+                
+                Text("Click on the ")
+                +
+                
+                Text(Image(systemName: "plus.circle.fill")).bold()
+                +
+                
+                Text(" icon to add items from the menu or the ")
+                +
+                
+                Text(Image(systemName: "gearshape")).bold()
+                +
+                
+                Text(" icon to go add items to the menu.")
+                
+                Spacer()
+                
+            }.padding(30)
+                .contentShape(Rectangle())
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .foregroundColor(.gray)
+                .multilineTextAlignment(.center)
+        }
     }
-    
-    var body: some View {
-        VStack {
-            Spacer()
-            
-            Text("Click on the ")
-            +
-            
-            Text(Image(systemName: "square.and.pencil")).bold()
-            +
-            
-            Text(" icon to add items from the menu or the ")
-            +
-            
-            Text(Image(systemName: "gearshape")).bold()
-            +
-            
-            Text(" icon to go add items to the menu.")
-            
-            Spacer()
-            
-        }.padding(30)
-            .contentShape(Rectangle())
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .foregroundColor(.gray)
-            .multilineTextAlignment(.center)
-    }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {
