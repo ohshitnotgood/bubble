@@ -18,24 +18,14 @@ struct ListItem: View {
     var body: some View {
         NavigationLink(destination: MenuCustomizerView(menuItem), label: {
             VStack(alignment: .leading) {
-                Text(menuItem.itemName).bold()
+                Text(menuItem.itemName)
+                    .bold()
+                    .foregroundStyle(.primary)
                 
                 Text(menuItem.regularIngredientsAsString())
-//                    .foregroundColor(.secondary)
-//                    .bold()
-                    .lineLimit(1)
-                
-                Group {
-                    Text(Image(systemName: "exclamationmark.circle"))
-                    +
-                    
-                    Text(" Contains ")
-                    +
-                    
-                    Text(menuItem.warningsAsAString())
-                    
-                }.foregroundColor(.secondary)
-            }
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
+            }.frame(maxWidth: .infinity, alignment: .leading)
         }).buttonStyle(.plain)
     }
 }

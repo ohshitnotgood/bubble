@@ -33,9 +33,6 @@ struct IngredientsItemsView: View {
     
     var body: some View {
         List {
-            ViewPicker(selection: selection!, false)
-                .listRowBackground(Color.materiaColor)
-            
             ForEach(ingredients, id: \.self) { each_ingredient in
                 Section {
                     ForEach(sortedMenu, id: \.self) { menu_item in
@@ -48,7 +45,7 @@ struct IngredientsItemsView: View {
                 }
 
             }
-        }.listStyle(.grouped)
+        }.listStyle(.inset)
     }
 }
 

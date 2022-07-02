@@ -39,9 +39,12 @@ struct ContentView: View {
                 .toolbar {
                     // MARK: Delete button
                     ToolbarItem(placement: .bottomBar, content: {
-                        Button(action: {
-                            showItemsView = true
-                        }) {
+//                        Button(action: {
+//                            showItemsView = true
+//                        }) {
+//                            Image(systemName: "trash")
+//                        }
+                        NavigationLink(destination: AlphabeticItemsView().environmentObject(menuItemStore)) {
                             Image(systemName: "trash")
                         }
                     })

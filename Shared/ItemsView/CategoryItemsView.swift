@@ -27,19 +27,16 @@ struct CategoryItemsView: View {
     
     var body: some View {
         List {
-            ViewPicker(selection: selection!, false)
-                .listRowBackground(Color(red: 243/255, green: 242/255, blue: 247/255))
-            
             ForEach(categories, id: \.self) { category in
                 Section(content: {
                     ForEach(sortedMenu.filter { $0.category == category }, id: \.self) { menuItem in
                         ListItem(menuItem)
                             .id(menuItem)
                     }
-                }, header: { Text(category) }).id(category)
+                }, header: { Text(category.uppercased()) }).id(category)
             }
         }.interactiveDismissDisabled()
-            .listStyle(.grouped)
+            .listStyle(.inset)
     }
 }
 
