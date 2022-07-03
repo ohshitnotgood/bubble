@@ -16,6 +16,7 @@ class MenuItemStore: ObservableObject {
     @Published var ingredients: [String] = []
     @Published var warnings: [String] = ["Gluten", "Dairy", "Lactose"]
     
+    @available(iOS, deprecated, message: "Use instead FileManager.defaults.getURL(for: FileURLType")
     private func fileURL(for pathComponent: FileURLSaveType) throws -> URL {
         let url = try FileManager.default.url(for: .documentDirectory,
                                               in: .userDomainMask,
@@ -27,7 +28,7 @@ class MenuItemStore: ObservableObject {
     
     /// Loads `MenuItem`s from device storage onto ``MenuItemStore.items``.
     func loadItems() async throws {
-        let fileURL = try fileURL(for: .item)
+        let fileURL = try FileManager.default.getURL(for: .items)
         guard let file = try? FileHandle(forReadingFrom: fileURL) else {
             return
         }
@@ -41,18 +42,17 @@ class MenuItemStore: ObservableObject {
     
     /// Saves ``MenuItemStore.items`` into device storage.
     func saveItems() async throws {
-        let outfile = try fileURL(for: .item)
+        let outfile = try FileManager.default.getURL(for: .items)
         let data = try JSONEncoder().encode(items)
         try data.write(to: outfile, options: .completeFileProtection)
         items.sort {
             $0.itemName < $1.itemName
-            
         }
     }
     
     /// Loads *categories* from device storage into ``MenuItemStore.categories``.
     func loadCategories() async throws {
-        let fileURL = try fileURL(for: .category)
+        let fileURL = try FileManager.default.getURL(for: .categories)
         guard let file = try? FileHandle(forReadingFrom: fileURL) else {
             return
         }
@@ -68,7 +68,7 @@ class MenuItemStore: ObservableObject {
     /// Saves data stored in ``MenuItemStore.categories`` to local device.
     func saveCategories() async throws {
         let data = try JSONEncoder().encode(categories)
-        let outfile = try fileURL(for: .category)
+        let outfile = try FileManager.default.getURL(for: .categories)
         try data.write(to: outfile, options: .completeFileProtection)
         categories.sort {
             $0 < $1
@@ -78,7 +78,7 @@ class MenuItemStore: ObservableObject {
     
     func saveIngredient() async throws {
         let data = try JSONEncoder().encode(ingredients)
-        let outfile = try fileURL(for: .ingredient)
+        let outfile = try FileManager.default.getURL(for: .ingredients)
         try data.write(to: outfile, options: .completeFileProtection)
         ingredients.sort {
             $0 < $1
@@ -86,7 +86,7 @@ class MenuItemStore: ObservableObject {
     }
     
     func loadIngredients() async throws {
-        let fileURL = try fileURL(for: .ingredient)
+        let fileURL = try FileManager.default.getURL(for: .ingredients)
         guard let file = try? FileHandle(forReadingFrom: fileURL) else {
             return
         }
@@ -100,7 +100,7 @@ class MenuItemStore: ObservableObject {
     
     func saveWarnings() async throws {
         let data = try JSONEncoder().encode(warnings)
-        let outfile = try fileURL(for: .warnings)
+        let outfile = try FileManager.default.getURL(for: .warnings)
         try data.write(to: outfile, options: .completeFileProtection)
         warnings.sort {
             $0 < $1
@@ -108,7 +108,7 @@ class MenuItemStore: ObservableObject {
     }
     
     func loadWarnings() async throws {
-        let fileURL = try fileURL(for: .warnings)
+        let fileURL = try FileManager.default.getURL(for: .warnings)
         guard let file = try? FileHandle(forReadingFrom: fileURL) else {
             return
         }

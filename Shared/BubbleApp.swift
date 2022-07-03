@@ -10,11 +10,13 @@ import SwiftUI
 @main
 struct BubbleApp: App {
     @ObservedObject var menuItemStore = MenuItemStore()
+    @ObservedObject var settings      = SettingsStore()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(menuItemStore)
+                .environmentObject(settings)
         }
     }
 }

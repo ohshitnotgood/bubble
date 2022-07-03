@@ -11,6 +11,7 @@ import Foundation
 
 /// `Codable` struct that represents an item on the menu.
 struct MenuItem: Hashable, Codable {
+    var id = UUID().uuidString
     var itemName: String
     var regularIngredients: [String]
     var warnings: [String]
@@ -76,8 +77,13 @@ struct MenuItem: Hashable, Codable {
         
         return r
     }
+    
+    func convertToOrder() {
+        
+    }
 }
 
+@available(iOS, deprecated, message: "Use actual data from environment objects.")
 /// A list of ``MenuItem`` containing dummy data.
 var menuItems = [
     MenuItem(

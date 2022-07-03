@@ -36,7 +36,7 @@ struct MenuEditorView: View {
         Group {
             if dataDidFinishLoading {
                 List {
-                    ForEach(menuItems, id: \.self) { each_item in
+                    ForEach(menuItemStore.items, id: \.self) { each_item in
                         VStack (alignment: .leading) {
                             Text(each_item.itemName)
                                 .bold()

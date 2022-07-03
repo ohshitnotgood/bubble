@@ -19,6 +19,7 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var menuItemStore: MenuItemStore
+    @EnvironmentObject var settings     : SettingsStore
     
     var body: some View {
         NavigationView {
@@ -48,20 +49,20 @@ struct SettingsView: View {
                 }
                 
                 Section {
-                    Toggle(isOn: .constant(true), label: {
-                        Text("Allow menu items to be numbered")
+                    Toggle(isOn: $settings.data.enableMenuNumbering, label: {
+                        Text("Enable numbers in menu items")
                     })
                 } footer: {
                     Text("This will put numbers before your items on the menu. Enabling this now will automatically number all your items in alphabetical order. You can change the numbers in Menu Editor mode.")
                 }
                     
                 Section {
-                    Toggle(isOn: .constant(true)) {
+                    Toggle(isOn: $settings.data.showWarnings) {
                         Text("Show warnings")
                     }
                     
                     
-                    Toggle(isOn: .constant(true)) {
+                    Toggle(isOn: $settings.data.showCustomItemView) {
                         Text("Enable custom filtering")
                     }
                 
@@ -73,6 +74,11 @@ struct SettingsView: View {
                             dismiss()
                         }
                     })
+                }
+                .onDisappear {
+                    Task {
+                        try await settings.save()
+                    }
                 }
         }
     }
@@ -107,5 +113,6 @@ struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
             .environmentObject(MenuItemStore())
+            .environmentObject(SettingsStore())
     }
 }

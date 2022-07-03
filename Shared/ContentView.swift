@@ -17,6 +17,7 @@ struct ContentView: View {
     @State private var data: [MenuItem] = []
     
     @EnvironmentObject var menuItemStore: MenuItemStore
+    @EnvironmentObject var settings     : SettingsStore
     
     
     var body: some View {
@@ -28,12 +29,18 @@ struct ContentView: View {
             
             
                 .navigationTitle("Orders")
-                .sheet(isPresented: $showSettingsView, content: { SettingsView().environmentObject(menuItemStore) })
+                .sheet(isPresented: $showSettingsView, content: {
+                    SettingsView()
+                        .environmentObject(menuItemStore)
+                        .environmentObject(settings)
+                    
+                })
                 .onAppear {
                     // MARK: onAppear
                     Task {
                         try await menuItemStore.loadItems()
                         try await menuItemStore.loadCategories()
+                        try await settings.load()
                     }
                 }
                 .toolbar {
