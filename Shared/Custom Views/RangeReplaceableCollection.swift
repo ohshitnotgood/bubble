@@ -19,11 +19,11 @@ extension RangeReplaceableCollection where Element: Equatable {
     }
 }
 
-extension Array where Element: Equatable {
+extension Array where Element == String {
     mutating func removeDuplicates() {
         var result = [Element]()
         for value in self {
-            if !result.contains(value) {
+            if !result.contains(where: { $0.caseInsensitiveCompare(value.trimmingCharacters(in: .whitespacesAndNewlines)) == .orderedSame }) {
                 result.append(value)
             }
         }
