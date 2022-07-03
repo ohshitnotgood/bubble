@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		580A76B6287170F100B178F2 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580A76B5287170F100B178F2 /* SettingsStore.swift */; };
 		582ACF952870722200BCFF82 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582ACF942870722200BCFF82 /* VisualEffectView.swift */; };
+		5860A4832872027400F18FEE /* SettingsUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5860A4822872027400F18FEE /* SettingsUITest.swift */; };
+		5860A4852872027400F18FEE /* SettingsUITestLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5860A4842872027400F18FEE /* SettingsUITestLaunchTests.swift */; };
 		5865AF46286B72EC001DC570 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5865AF45286B72EC001DC570 /* HistoryView.swift */; };
 		5865AF48286B7697001DC570 /* CategoryPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5865AF47286B7697001DC570 /* CategoryPickerView.swift */; };
 		5865AF4B286B77EE001DC570 /* AddNewCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5865AF4A286B77EE001DC570 /* AddNewCategoryView.swift */; };
@@ -21,9 +23,9 @@
 		58C3046E2871763B0078A983 /* OrderStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C3046D2871763B0078A983 /* OrderStore.swift */; };
 		58C30470287177A70078A983 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C3046F287177A70078A983 /* FileManager.swift */; };
 		58C9881C2869CC100042502E /* MenuItemStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C9881B2869CC100042502E /* MenuItemStore.swift */; };
-		58C9881E2869D1970042502E /* AddToMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C9881D2869D1970042502E /* AddToMenuView.swift */; };
+		58C9881E2869D1970042502E /* MenuEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C9881D2869D1970042502E /* MenuEditorView.swift */; };
 		58C988252869E8DB0042502E /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C988242869E8DB0042502E /* Color.swift */; };
-		58C988272869EBD40042502E /* MenuEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C988262869EBD40042502E /* MenuEditorView.swift */; };
+		58C988272869EBD40042502E /* EditMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C988262869EBD40042502E /* EditMenuView.swift */; };
 		58C9882A286A08790042502E /* CategoryEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C98829286A08790042502E /* CategoryEditorView.swift */; };
 		58C9882D286A16DB0042502E /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 58C9882C286A16DB0042502E /* Introspect */; };
 		58D492D72868A24400135B5F /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D492D62868A24400135B5F /* MenuItem.swift */; };
@@ -39,9 +41,22 @@
 		58F6E434286CD3B40036D589 /* WarningsEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F6E433286CD3B40036D589 /* WarningsEditorView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		5860A4862872027400F18FEE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58E2ECB528683BE90035CB7D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 58E2ECC028683BED0035CB7D;
+			remoteInfo = "Bubble (iOS)";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		580A76B5287170F100B178F2 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		582ACF942870722200BCFF82 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
+		5860A4802872027400F18FEE /* SettingsUITest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SettingsUITest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5860A4822872027400F18FEE /* SettingsUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsUITest.swift; sourceTree = "<group>"; };
+		5860A4842872027400F18FEE /* SettingsUITestLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsUITestLaunchTests.swift; sourceTree = "<group>"; };
 		5865AF45286B72EC001DC570 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		5865AF47286B7697001DC570 /* CategoryPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerView.swift; sourceTree = "<group>"; };
 		5865AF4A286B77EE001DC570 /* AddNewCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCategoryView.swift; sourceTree = "<group>"; };
@@ -54,9 +69,9 @@
 		58C3046D2871763B0078A983 /* OrderStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStore.swift; sourceTree = "<group>"; };
 		58C3046F287177A70078A983 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		58C9881B2869CC100042502E /* MenuItemStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemStore.swift; sourceTree = "<group>"; };
-		58C9881D2869D1970042502E /* AddToMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToMenuView.swift; sourceTree = "<group>"; };
+		58C9881D2869D1970042502E /* MenuEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuEditorView.swift; sourceTree = "<group>"; };
 		58C988242869E8DB0042502E /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
-		58C988262869EBD40042502E /* MenuEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuEditorView.swift; sourceTree = "<group>"; };
+		58C988262869EBD40042502E /* EditMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMenuView.swift; sourceTree = "<group>"; };
 		58C98829286A08790042502E /* CategoryEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEditorView.swift; sourceTree = "<group>"; };
 		58D492D62868A24400135B5F /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		58E2ECBA28683BE90035CB7D /* BubbleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleApp.swift; sourceTree = "<group>"; };
@@ -73,6 +88,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5860A47D2872027400F18FEE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		58E2ECBE28683BED0035CB7D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -84,6 +106,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5860A4812872027400F18FEE /* SettingsUITest */ = {
+			isa = PBXGroup;
+			children = (
+				5860A4822872027400F18FEE /* SettingsUITest.swift */,
+				5860A4842872027400F18FEE /* SettingsUITestLaunchTests.swift */,
+			);
+			path = SettingsUITest;
+			sourceTree = "<group>";
+		};
 		5865AF44286B72D6001DC570 /* Order History */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,7 +145,7 @@
 		58665971286DADD700E7ACD0 /* AddToMenuView */ = {
 			isa = PBXGroup;
 			children = (
-				58C9881D2869D1970042502E /* AddToMenuView.swift */,
+				58C9881D2869D1970042502E /* MenuEditorView.swift */,
 			);
 			path = AddToMenuView;
 			sourceTree = "<group>";
@@ -122,7 +153,7 @@
 		58665974286EC76800E7ACD0 /* MenuEditorView */ = {
 			isa = PBXGroup;
 			children = (
-				58C988262869EBD40042502E /* MenuEditorView.swift */,
+				58C988262869EBD40042502E /* EditMenuView.swift */,
 			);
 			path = MenuEditorView;
 			sourceTree = "<group>";
@@ -200,6 +231,7 @@
 			isa = PBXGroup;
 			children = (
 				58E2ECB928683BE90035CB7D /* Shared */,
+				5860A4812872027400F18FEE /* SettingsUITest */,
 				58E2ECC228683BED0035CB7D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -222,6 +254,7 @@
 			isa = PBXGroup;
 			children = (
 				58E2ECC128683BED0035CB7D /* Bubble.app */,
+				5860A4802872027400F18FEE /* SettingsUITest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -259,6 +292,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		5860A47F2872027400F18FEE /* SettingsUITest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5860A48A2872027400F18FEE /* Build configuration list for PBXNativeTarget "SettingsUITest" */;
+			buildPhases = (
+				5860A47C2872027400F18FEE /* Sources */,
+				5860A47D2872027400F18FEE /* Frameworks */,
+				5860A47E2872027400F18FEE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5860A4872872027400F18FEE /* PBXTargetDependency */,
+			);
+			name = SettingsUITest;
+			productName = SettingsUITest;
+			productReference = 5860A4802872027400F18FEE /* SettingsUITest.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		58E2ECC028683BED0035CB7D /* Bubble (iOS) */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 58E2ECD228683BED0035CB7D /* Build configuration list for PBXNativeTarget "Bubble (iOS)" */;
@@ -289,6 +340,10 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
+					5860A47F2872027400F18FEE = {
+						CreatedOnToolsVersion = 13.4.1;
+						TestTargetID = 58E2ECC028683BED0035CB7D;
+					};
 					58E2ECC028683BED0035CB7D = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
@@ -311,11 +366,19 @@
 			projectRoot = "";
 			targets = (
 				58E2ECC028683BED0035CB7D /* Bubble (iOS) */,
+				5860A47F2872027400F18FEE /* SettingsUITest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5860A47E2872027400F18FEE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		58E2ECBF28683BED0035CB7D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -327,6 +390,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5860A47C2872027400F18FEE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5860A4832872027400F18FEE /* SettingsUITest.swift in Sources */,
+				5860A4852872027400F18FEE /* SettingsUITestLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		58E2ECBD28683BED0035CB7D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -354,8 +426,8 @@
 				58D492D72868A24400135B5F /* MenuItem.swift in Sources */,
 				58C3046E2871763B0078A983 /* OrderStore.swift in Sources */,
 				5871ADCE2869703A000B0393 /* ListItem.swift in Sources */,
-				58C988272869EBD40042502E /* MenuEditorView.swift in Sources */,
-				58C9881E2869D1970042502E /* AddToMenuView.swift in Sources */,
+				58C988272869EBD40042502E /* EditMenuView.swift in Sources */,
+				58C9881E2869D1970042502E /* MenuEditorView.swift in Sources */,
 				58E2ECE1286847E10035CB7D /* IngredientsItemsView.swift in Sources */,
 				58F6E432286CD3770036D589 /* AddNewWarningView.swift in Sources */,
 				58E2ECCA28683BED0035CB7D /* BubbleApp.swift in Sources */,
@@ -364,7 +436,54 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		5860A4872872027400F18FEE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 58E2ECC028683BED0035CB7D /* Bubble (iOS) */;
+			targetProxy = 5860A4862872027400F18FEE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		5860A4882872027400F18FEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LU5G7HVPJ7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.ohshitnotgood.SettingsUITest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Bubble (iOS)";
+			};
+			name = Debug;
+		};
+		5860A4892872027400F18FEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LU5G7HVPJ7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.ohshitnotgood.SettingsUITest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Bubble (iOS)";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		58E2ECD028683BED0035CB7D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -542,6 +661,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5860A48A2872027400F18FEE /* Build configuration list for PBXNativeTarget "SettingsUITest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5860A4882872027400F18FEE /* Debug */,
+				5860A4892872027400F18FEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		58E2ECB828683BE90035CB7D /* Build configuration list for PBXProject "Bubble" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

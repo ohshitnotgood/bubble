@@ -20,12 +20,13 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var menuItemStore: MenuItemStore
     @EnvironmentObject var settings     : SettingsStore
+    @EnvironmentObject var orderStore   : OrderStore
     
     var body: some View {
         NavigationView {
             Form {
                 Section {
-                    NavigationLink(destination: MenuEditorView().environmentObject(menuItemStore)) {
+                    NavigationLink(destination: EditMenuView().environmentObject(menuItemStore)) {
                         SettingsLabel("Edit Menu", systemImage: "menucard.fill", color: .green)
                     }.buttonStyle(.plain)
                     
@@ -34,7 +35,7 @@ struct SettingsView: View {
                         SettingsLabel("Edit Saved Categories", systemImage: "filemenu.and.selection", color: .pink)
                     }.buttonStyle(.plain)
                     
-                    NavigationLink(destination: MenuEditorView().environmentObject(menuItemStore)) {
+                    NavigationLink(destination: EditMenuView().environmentObject(menuItemStore)) {
                         SettingsLabel("Edit Saved Ingredients", systemImage: "filemenu.and.selection", color: .accentColor)
                     }.buttonStyle(.plain)
                     

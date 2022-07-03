@@ -1,5 +1,5 @@
 //
-//  AddToMenuView.swift
+//  MenuEditorView.swift
 //  Bubble (iOS)
 //
 //  Created by Praanto Samadder on 27/06/2022.
@@ -8,31 +8,57 @@
 import SwiftUI
 import Introspect
 
-/// Allows users to save a new menu item.
+/// Allows users to save a new menu item or edit an already existing one.
 ///
 ///**Bugs List:**
 /// 
-struct AddToMenuView: View {
+struct MenuEditorView: View {
     @Environment(\.dismiss) private var dismiss
     
     @FocusState private var focusField: FocusField?
     @State private var showCategoryPickerView   = false
     @State private var showWarningsEditor       = false
     @State private var showConfirmationDialog   = false
-    @State private var newItem                  = MenuItem()
+    @State private var itemAlreadyExists        = false
     
+    @State private var newItem: MenuItem
+    private var n: Bool
+    private var originalName: String = ""
     
     @EnvironmentObject var menuItemStore: MenuItemStore
     
+    init() {
+        self._newItem = State(initialValue: MenuItem())
+        self.n = true
+    }
+    
+    init(menuItem: MenuItem) {
+        self._newItem = State(initialValue: menuItem)
+        self.n = false
+        self.originalName = menuItem.itemName
+        print(originalName)
+    }
+    
     // MARK: - Body
     var body: some View {
-        Form {
+        List {
+            
             // MARK: itemName
             Section {
                 TextField("Name", text: $newItem.itemName)
                     .textInputAutocapitalization(.words)
+                    .focused($focusField, equals: .itemName)
                     .submitLabel(.done)
-                    .onSubmit { focusField = nil }
+                    .onSubmit { focusField = .regularIngredients }
+                    .onChange(of: newItem.itemName, perform: { it in
+                        let item_name = it.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+                        itemAlreadyExists = menuItemStore.items.contains(where: { item_name == $0.itemName.lowercased() }) && item_name != originalName.lowercased()
+                    })
+                
+            } footer: {
+                Text("An item with this name already exists on the menu.")
+                    .foregroundColor(.red)
+                    .opacity(itemAlreadyExists ? 1 : 0)
             }
             
             // MARK: Regular ingredients
@@ -43,12 +69,8 @@ struct AddToMenuView: View {
                         .submitLabel(.next)
                         .autocapitalization(.words)
                         .onSubmit(addNewRegularIngredient)
-                        .onTapGesture {
-                            purgeList()
-                        }.deleteDisabled(newItem.regularIngredients[$0] == "")
-                }.onDelete { indexSet in
-                    newItem.regularIngredients.remove(atOffsets: indexSet)
-                }
+                        .onTapGesture { purgeList() }.deleteDisabled(newItem.regularIngredients[$0] == "")
+                }.onDelete { newItem.regularIngredients.remove(atOffsets: $0) }
                 
                 // MARK: Add regular button
                 Button("Add ingredient...", action: addNewRegularIngredient)
@@ -64,14 +86,11 @@ struct AddToMenuView: View {
                     TextField("Ingredient Name", text: $newItem.extraIngredients[$0])
                         .focused($focusField, equals: newItem.extraIngredients.last == "" ? .extraIngredients : .nil)
                         .submitLabel(.next)
-                        .onSubmit(addNewExtraIngredient)
                         .autocapitalization(.words)
-                        .onTapGesture {
-                            purgeList()
-                        }.deleteDisabled(newItem.extraIngredients[$0] == "")
-                }.onDelete { indexSet in
-                    newItem.extraIngredients.remove(atOffsets: indexSet)
-                }
+                        .onSubmit(addNewExtraIngredient)
+                        .onTapGesture { purgeList() }
+                        .deleteDisabled(newItem.extraIngredients[$0] == "")
+                }.onDelete { newItem.extraIngredients.remove(atOffsets: $0) }
                 
                 // MARK: Add extra button
                 Button("Add ingredient...", action: addNewExtraIngredient)
@@ -141,7 +160,18 @@ struct AddToMenuView: View {
                 Text("Category")
             })
             
-        }.navigationTitle("Add Item to Menu")
+            // MARK: Delete button
+            if !n {
+                Button("Delete Item", role: .destructive) {
+                    if let index = menuItemStore.items.firstIndex(where: { $0.id == newItem.id }) {
+                        menuItemStore.items.remove(at: index)
+                    }
+                    dismiss()
+                }.frame(maxWidth: .infinity)
+            }
+            
+            // MARK: - End Form
+        }.navigationTitle(n ? "Add Item to Menu" : "Edit Menu Item")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
@@ -152,7 +182,7 @@ struct AddToMenuView: View {
                             saveItemsData()
                             dismiss()
                         }
-                    }.disabled(newItem.itemName.isEmpty || newItem.category.isEmpty)
+                    }.disabled(newItem.itemName.isEmpty || newItem.category.isEmpty || itemAlreadyExists )
                 }
             }.sheet(isPresented: $showCategoryPickerView, content: {
                 // MARK: CategoryPicker Sheet
@@ -162,7 +192,10 @@ struct AddToMenuView: View {
             .sheet(isPresented: $showWarningsEditor) {
                 // MARK: WarningEditor Sheet
                 WarningsEditorView().environmentObject(menuItemStore)
+                
             }.confirmationDialog("Discard Changes", isPresented: $showConfirmationDialog, actions: {
+                
+                // MARK: Confirmation Dialog
                 Button("Keep Editing", role: .cancel) { }
                 Button("Save anyway") {
                     saveItemsData()
@@ -176,7 +209,7 @@ struct AddToMenuView: View {
     
     
     
-    // MARK: FocusField enum
+    // MARK: enum FocusField
     private enum FocusField: Hashable {
         case itemName
         case regularIngredients
@@ -184,64 +217,50 @@ struct AddToMenuView: View {
         case `nil`
     }
     
-    // MARK: - save data func
+    // MARK: - func Save data
+    
     /// Appends `newItem` to `environmentObject` ``menuItemStore``.
-    func saveItemsData() {
-        Task {
-            if !newItem.itemName.isEmpty {
-                withAnimation {
-                    newItem.regularIngredients.removeDuplicates()
-                    newItem.extraIngredients.removeDuplicates()
-                    menuItemStore.items.append(newItem)
-                }
-                try await menuItemStore.saveItems()
-            }
+    private func saveItemsData() {
+        purgeList()
+        if n {
+            menuItemStore.items.append(newItem)
+        } else if let index = menuItemStore.items.firstIndex(where: { $0.id == newItem.id }) {
+            menuItemStore.items.insert(newItem, at: index)
         }
+        
+        
+        Task { try await menuItemStore.saveItems() }
     }
     
-    // MARK: - PurgeList func
-    func purgeList() {
+    // MARK: - func PurgeList
+    /// Removes duplicates and empty strings from regular and extras lists.
+    private func purgeList() {
         withAnimation {
-            newItem.regularIngredients.removeAll { ingredient in ingredient == "" }
-            newItem.extraIngredients.removeAll { ingredient in ingredient == "" }
+            newItem.regularIngredients.removeAll { $0 == "" }
+            newItem.extraIngredients.removeAll { $0 == "" }
+            
+            newItem.regularIngredients.removeDuplicates()
+            newItem.extraIngredients.removeDuplicates()
         }
     }
     
-    // MARK: - Add new regularm ingr func
-    func addNewRegularIngredient() {
-        withAnimation {
-//            purgeExtraIngredientsList()
-            purgeList()
-            if newItem.regularIngredients.count > 0 {
-                guard let last = newItem.regularIngredients.last else { return }
-                if !last.isEmpty {
-                    newItem.regularIngredients.append("")
-                    focusField = .regularIngredients
-                }
-            } else {
-                newItem.regularIngredients.append("")
-                focusField = .regularIngredients
-            }
-        }
-    }
-    
-    // MARK: - Add new extra ingr func
-    func addNewExtraIngredient() {
+    // MARK: - func Add new regular ingr
+    private func addNewRegularIngredient() {
         withAnimation {
             purgeList()
-            if newItem.extraIngredients.count > 0 {
-                guard let last = newItem.extraIngredients.last else { return }
-                if !last.isEmpty {
-                    newItem.extraIngredients.append("")
-                    focusField = .extraIngredients
-                }
-            } else {
-                newItem.extraIngredients.append("")
-                focusField = .extraIngredients
-            }
+            newItem.regularIngredients.append("")
+            focusField = .regularIngredients
         }
     }
-
+    
+    // MARK: - func Add new extra ingr
+    private func addNewExtraIngredient() {
+        withAnimation {
+            purgeList()
+            newItem.extraIngredients.append("")
+            focusField = .extraIngredients
+        }
+    }
 }
 
 
@@ -249,8 +268,10 @@ struct AddToMenuView: View {
 #if DEBUG
 struct AddToMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        AddToMenuView()
-            .environmentObject(MenuItemStore())
+        NavigationView {
+            MenuEditorView(menuItem: menuItems[1])
+                .environmentObject(MenuItemStore())
+        }
     }
 }
 #endif
