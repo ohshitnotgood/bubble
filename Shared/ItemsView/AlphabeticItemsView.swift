@@ -16,20 +16,14 @@ struct AlphabeticItemsView: View {
     @State private var searchText: String = ""
     @State private var showCancelButton = false
     
-    var alphabets: [String] = []
+    @EnvironmentObject var menuItemStore: MenuItemStore
+    @EnvironmentObject var orderStore   : OrderStore
+    @EnvironmentObject var settingsStore: SettingsStore
     
-    @State var selector = 0
+    @State private var alphabets: [String] = []
     
-    let sortedMenu = menuItems.sorted {
-        $0.itemName < $1.itemName
-    }
-    
-    init() {
-        makeAlphabetsList()
-    }
-    
-    mutating func makeAlphabetsList() {
-        for each_item in sortedMenu {
+    private func makeAlphabetsList() {
+        for each_item in menuItemStore.items {
             if let firstChar = each_item.itemName.first {
                 if !alphabets.contains(String(firstChar)) {
                     alphabets.append(String(firstChar))
@@ -43,7 +37,7 @@ struct AlphabeticItemsView: View {
         List {
             ForEach(alphabets, id: \.self) { alphabet in
                 Section(header: Text(alphabet), content: {
-                    ForEach(sortedMenu.filter { $0.itemName.hasPrefix(alphabet)}, id: \.self) { menuItem in
+                    ForEach(menuItemStore.items.filter { $0.itemName.hasPrefix(alphabet)}, id: \.self) { menuItem in
                         ListItem(menuItem)
                     }
                 })
@@ -51,6 +45,7 @@ struct AlphabeticItemsView: View {
         }.interactiveDismissDisabled()
             .listStyle(.plain)
             .searchable(text: $searchText)
+            .onAppear(perform: makeAlphabetsList)
     }
 }
 
@@ -59,6 +54,9 @@ struct AlphabeticItemsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             AlphabeticItemsView()
+                .environmentObject(MenuItemStore())
+                .environmentObject(SettingsStore())
+                .environmentObject(OrderStore())
                 .navigationTitle("Menu")
                 .searchable(text: .constant(""))
         }

@@ -65,6 +65,7 @@ struct AddToMenuView: View {
                         .focused($focusField, equals: newItem.extraIngredients.last == "" ? .extraIngredients : .nil)
                         .submitLabel(.next)
                         .onSubmit(addNewExtraIngredient)
+                        .autocapitalization(.words)
                         .onTapGesture {
                             purgeList()
                         }.deleteDisabled(newItem.extraIngredients[$0] == "")

@@ -9,8 +9,10 @@ import SwiftUI
 
 struct ItemsView: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.isSearching) private var isSearching
+    
     @EnvironmentObject var menuItemStore: MenuItemStore
+    @EnvironmentObject var settingsStore: SettingsStore
+    @EnvironmentObject var orderStore   : OrderStore
     
     @State private var selection: ItemViewType = .alphabetical
     
@@ -19,24 +21,39 @@ struct ItemsView: View {
             if selection == .alphabetical {
                 AlphabeticItemsView()
                     .environmentObject(menuItemStore)
+                    .environmentObject(settingsStore)
+                    .environmentObject(orderStore)
+                    
             } else if selection == .categoric {
                 CategoryItemsView()
                     .environmentObject(menuItemStore)
+                    .environmentObject(settingsStore)
+                    .environmentObject(orderStore)
+                
             } else if selection == .ingredients {
                 IngredientsItemsView()
                     .environmentObject(menuItemStore)
+                    .environmentObject(settingsStore)
+                    .environmentObject(orderStore)
+                
             } else if selection == .custom {
                 CustomItemsView()
                     .environmentObject(menuItemStore)
+                    .environmentObject(settingsStore)
+                    .environmentObject(orderStore)
+                
             }
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
                     Picker("Sort by", selection: $selection) {
-                        ForEach(ItemViewType.allCases, id: \.self) { each_type in
-                            Text(each_type.rawValue)
-                                .tag(each_type)
+                        Text("Alphabetic").tag(ItemViewType.alphabetical)
+                        Text("Categoric").tag(ItemViewType.categoric)
+                        Text("Ingredients").tag(ItemViewType.ingredients)
+                        
+                        if settingsStore.data.showCustomItemView {
+                            Text("Custom").tag(ItemViewType.custom)
                         }
                     }
                 } label: {

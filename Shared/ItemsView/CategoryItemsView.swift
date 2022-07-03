@@ -10,13 +10,14 @@ import SwiftUI
 struct CategoryItemsView: View {
     @State private var searchText = ""
     
-    var categories: [String] = []
-    let sortedMenu = menuItems.sorted {
-        $0.itemName < $1.itemName
-    }
+    @EnvironmentObject var menuItemStore: MenuItemStore
+    @EnvironmentObject var orderStore   : OrderStore
+    @EnvironmentObject var settingsStore: SettingsStore
     
-    init() {
-        for each_item in sortedMenu {
+    @State private var categories: [String] = []
+    
+    private func makeCategoriesList() {
+        for each_item in menuItemStore.items {
             if !categories.contains(each_item.category) {
                 categories.append(each_item.category)
             }
@@ -27,7 +28,7 @@ struct CategoryItemsView: View {
         List {
             ForEach(categories, id: \.self) { category in
                 Section(content: {
-                    ForEach(sortedMenu.filter { $0.category == category }, id: \.self) { menuItem in
+                    ForEach(menuItemStore.items.filter { $0.category == category }, id: \.self) { menuItem in
                         ListItem(menuItem)
                             .id(menuItem)
                     }
@@ -36,6 +37,7 @@ struct CategoryItemsView: View {
         }.interactiveDismissDisabled()
             .listStyle(.inset)
             .searchable(text: $searchText)
+            .onAppear(perform: makeCategoriesList)
     }
 }
 
@@ -43,6 +45,9 @@ struct CategoryItemsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             CategoryItemsView()
+                .environmentObject(MenuItemStore())
+                .environmentObject(SettingsStore())
+                .environmentObject(OrderStore())
         }
     }
 }

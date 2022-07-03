@@ -9,18 +9,15 @@ import SwiftUI
 
 struct IngredientsItemsView: View {
     @State var searchText = ""
-    var ingredients: [String] = []
     
-    init() {
-        makeIngredientsList()
-    }
+    @EnvironmentObject var menuItemStore: MenuItemStore
+    @EnvironmentObject var orderStore   : OrderStore
+    @EnvironmentObject var settingsStore: SettingsStore
     
-    let sortedMenu = menuItems.sorted {
-        $0.itemName < $1.itemName
-    }
+    @State private var ingredients: [String] = []
     
-    mutating func makeIngredientsList() {
-        sortedMenu.forEach { each_item in
+    private func makeIngredientsList() {
+        menuItemStore.items.forEach { each_item in
             each_item.regularIngredients.forEach { each_ingredient in
                 if !ingredients.contains(each_ingredient) {
                     ingredients.append(each_ingredient)
@@ -34,7 +31,7 @@ struct IngredientsItemsView: View {
         List {
             ForEach(ingredients, id: \.self) { each_ingredient in
                 Section {
-                    ForEach(sortedMenu, id: \.self) { menu_item in
+                    ForEach(menuItemStore.items, id: \.self) { menu_item in
                         if menu_item.regularIngredients.contains(each_ingredient) {
                             ListItem(menu_item)
                         }
@@ -46,11 +43,15 @@ struct IngredientsItemsView: View {
             }
         }.listStyle(.inset)
             .searchable(text: $searchText)
+            .onAppear(perform: makeIngredientsList)
     }
 }
 
 struct IngredientsItemsView_Previews: PreviewProvider {
     static var previews: some View {
         IngredientsItemsView()
+            .environmentObject(MenuItemStore())
+            .environmentObject(SettingsStore())
+            .environmentObject(OrderStore())
     }
 }

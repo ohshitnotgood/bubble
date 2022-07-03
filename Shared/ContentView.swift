@@ -8,16 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selectionMode    : Int    = 0
-    @State private var searchText       : String = ""
-    
     @State private var showItemsView    : Bool   = false
     @State private var showSettingsView : Bool   = false
     
     @State private var data: [MenuItem] = []
     
     @EnvironmentObject var menuItemStore: MenuItemStore
-    @EnvironmentObject var settings     : SettingsStore
+    @EnvironmentObject var settingsStore: SettingsStore
+    @EnvironmentObject var orderStore   : OrderStore
     
     
     var body: some View {
@@ -32,7 +30,8 @@ struct ContentView: View {
                 .sheet(isPresented: $showSettingsView, content: {
                     SettingsView()
                         .environmentObject(menuItemStore)
-                        .environmentObject(settings)
+                        .environmentObject(settingsStore)
+                        .environmentObject(orderStore)
                     
                 })
                 .onAppear {
@@ -40,7 +39,7 @@ struct ContentView: View {
                     Task {
                         try await menuItemStore.loadItems()
                         try await menuItemStore.loadCategories()
-                        try await settings.load()
+                        try await settingsStore.load()
                     }
                 }
                 .toolbar {
@@ -58,6 +57,8 @@ struct ContentView: View {
                         NavigationLink(isActive: $showItemsView) {
                             ItemsView()
                                 .environmentObject(menuItemStore)
+                                .environmentObject(settingsStore)
+                                .environmentObject(orderStore)
                         } label: {
                             Image(systemName: "plus.circle")
                         }
@@ -75,47 +76,49 @@ struct ContentView: View {
             
         }
     }
+}
+
+fileprivate struct BlankView: View {
+    private var showItemsView: Binding<Bool>
     
+    init(_ showItemsView: Binding<Bool>) {
+        self.showItemsView = showItemsView
+    }
     
-    fileprivate struct BlankView: View {
-        private var showItemsView: Binding<Bool>
-        
-        init(_ showItemsView: Binding<Bool>) {
-            self.showItemsView = showItemsView
-        }
-        
-        var body: some View {
-            VStack {
-                Spacer()
-                
-                Text("Click on the ")
-                +
-                
-                Text(Image(systemName: "plus.circle.fill")).bold()
-                +
-                
-                Text(" icon to add items from the menu or the ")
-                +
-                
-                Text(Image(systemName: "gearshape")).bold()
-                +
-                
-                Text(" icon to go add items to the menu.")
-                
-                Spacer()
-                
-            }.padding(30)
-                .contentShape(Rectangle())
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .foregroundColor(.gray)
-                .multilineTextAlignment(.center)
-        }
+    var body: some View {
+        VStack {
+            Spacer()
+            
+            Text("Click on the ")
+            +
+            
+            Text(Image(systemName: "plus.circle")).bold()
+            +
+            
+            Text(" icon to add items from the menu or the ")
+            +
+            
+            Text(Image(systemName: "gearshape")).bold()
+            +
+            
+            Text(" icon to go add items to the menu.")
+            
+            Spacer()
+            
+        }.padding(30)
+            .contentShape(Rectangle())
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .foregroundColor(.gray)
+            .multilineTextAlignment(.center)
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
             .environmentObject(MenuItemStore())
+            .environmentObject(OrderStore())
+            .environmentObject(SettingsStore())
     }
 }

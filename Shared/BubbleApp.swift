@@ -9,14 +9,16 @@ import SwiftUI
 
 @main
 struct BubbleApp: App {
-    @ObservedObject var menuItemStore = MenuItemStore()
-    @ObservedObject var settings      = SettingsStore()
+    var menuItemStore = MenuItemStore()
+    var settingsStore = SettingsStore()
+    var orderStore    = OrderStore()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(menuItemStore)
-                .environmentObject(settings)
+                .environmentObject(settingsStore)
+                .environmentObject(orderStore)
         }
     }
 }
