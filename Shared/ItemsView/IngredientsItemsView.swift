@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct IngredientsItemsView: View {
-    var selection: Binding<Int>? = nil
+    @State var searchText = ""
     var ingredients: [String] = []
     
     init() {
@@ -45,6 +45,7 @@ struct IngredientsItemsView: View {
 
             }
         }.listStyle(.inset)
+            .searchable(text: $searchText)
     }
 }
 

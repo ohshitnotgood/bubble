@@ -35,11 +35,14 @@ struct CategoryItemsView: View {
             }
         }.interactiveDismissDisabled()
             .listStyle(.inset)
+            .searchable(text: $searchText)
     }
 }
 
 struct CategoryItemsView_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryItemsView()
+        NavigationView {
+            CategoryItemsView()
+        }
     }
 }

@@ -10,35 +10,11 @@ import SwiftUI
 struct ItemsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.isSearching) private var isSearching
-    
     @EnvironmentObject var menuItemStore: MenuItemStore
     
     @State private var selection: ItemViewType = .alphabetical
-    @State private var searchText = ""
-    
-    private var showCustomPickerSegment = false
     
     var body: some View {
-        //        TabView {
-        //            AlphabeticItemsView()
-        //                .environmentObject(menuItemStore)
-        //                .tabItem {
-        //                    Label("Alphabetic", systemImage: "textformat.abc.dottedunderline")
-        //                }
-        //
-        //            CategoryItemsView()
-        //                .environmentObject(menuItemStore)
-        //                .tabItem {
-        //                    Label("Categoric", systemImage: "fork.knife")
-        //                }
-        //
-        //            IngredientsItemsView()
-        //                .environmentObject(menuItemStore)
-        //                .tabItem {
-        //                    Label("Ingredients", systemImage: "calendar.day.timeline.trailing")
-        //                }
-        //        }
-        
         VStack {
             if selection == .alphabetical {
                 AlphabeticItemsView()
@@ -68,8 +44,6 @@ struct ItemsView: View {
                 }
             }
         }
-        .searchable(text: $searchText, placement: .toolbar, suggestions: {
-        })
         .navigationBarTitle("Menu")
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -108,10 +82,18 @@ struct ViewPicker: View {
 // MARK: - Previews
 struct ItemsView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            ItemsView()
-                .environmentObject(MenuItemStore())
-                .preferredColorScheme(.dark)
+        Group {
+            NavigationView {
+                ItemsView()
+                    .environmentObject(MenuItemStore())
+                    .preferredColorScheme(.dark)
+            }
+            
+            NavigationView {
+                ItemsView()
+                    .environmentObject(MenuItemStore())
+                    .preferredColorScheme(.light)
+            }
         }
     }
 }

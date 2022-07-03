@@ -47,6 +47,25 @@ struct SettingsView: View {
                     }.buttonStyle(.plain)
                 }
                 
+                Section {
+                    Toggle(isOn: .constant(true), label: {
+                        Text("Allow menu items to be numbered")
+                    })
+                } footer: {
+                    Text("This will put numbers before your items on the menu. Enabling this now will automatically number all your items in alphabetical order. You can change the numbers in Menu Editor mode.")
+                }
+                    
+                Section {
+                    Toggle(isOn: .constant(true)) {
+                        Text("Show warnings")
+                    }
+                    
+                    
+                    Toggle(isOn: .constant(true)) {
+                        Text("Enable custom filtering")
+                    }
+                
+                }
             }.navigationTitle("Settings")
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction, content: {
