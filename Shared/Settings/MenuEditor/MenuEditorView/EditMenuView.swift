@@ -31,26 +31,29 @@ struct EditMenuView: View {
     
     // MARK: - Body
     var body: some View {
-        List {
-            ForEach(menuItemStore.items, id: \.self) { each_item in
-                Section {
-                    // MARK: NavigationLink
-                    NavigationLink(destination: {
-                        MenuEditorView(menuItem: each_item)
-                            .environmentObject(menuItemStore)
+        ScrollView {
+            ForEach(menuItems, id: \.self) { each_item in
+                // MARK: NavigationLink
+                NavigationLink(destination: {
+                    MenuEditorView(menuItem: each_item)
+                        .environmentObject(menuItemStore)
+                    
+                }) {
+                    // MARK: Link Label
+                    VStack (alignment: .leading) {
+                        Text(each_item.itemName)
+                            .bold()
                         
-                    }) {
-                        // MARK: Link Label
-                        VStack (alignment: .leading) {
-                            Text(each_item.itemName)
-                                .bold()
-                            
-                            ingredientsList(each_item.regularIngredients)
-                                .foregroundColor(.secondary)
-                            
-                        }.padding(.vertical, 10)
-                    }
-                }
+                        ingredientsList(each_item.regularIngredients)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.leading)
+                        
+                    }.padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(.quaternary)
+                        .cornerRadius(15)
+                        .padding(5)
+                }.buttonStyle(.plain)
             }
         }.navigationTitle("Edit Menu")
             .navigationBarTitleDisplayMode(.inline)

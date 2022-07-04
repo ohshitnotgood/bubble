@@ -188,12 +188,14 @@ struct MenuEditorView: View {
                 // MARK: CategoryPicker Sheet
                 CategoryPickerView(selection: $newItem.category)
                     .environmentObject(menuItemStore)
-            }).interactiveDismissDisabled()
+            })
+            .interactiveDismissDisabled()
             .sheet(isPresented: $showWarningsEditor) {
                 // MARK: WarningEditor Sheet
                 WarningsEditorView().environmentObject(menuItemStore)
                 
-            }.confirmationDialog("Discard Changes", isPresented: $showConfirmationDialog, actions: {
+            }
+            .confirmationDialog("Discard Changes", isPresented: $showConfirmationDialog, actions: {
                 
                 // MARK: Confirmation Dialog
                 Button("Keep Editing", role: .cancel) { }

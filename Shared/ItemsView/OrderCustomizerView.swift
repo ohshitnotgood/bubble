@@ -1,5 +1,5 @@
 //
-//  MenuCustomizerView.swift
+//  OrderCustomizerView.swift
 //  Bubble (iOS)
 //
 //  Created by Praanto Samadder on 27/06/2022.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MenuCustomizerView: View {
+struct OrderCustomizerView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var editorText = ""
     @State private var isToggleOn = false
@@ -16,7 +16,7 @@ struct MenuCustomizerView: View {
     @State private var extraIngredients   : [String]
     @State private var itemName           : String
     
-    @State private var servingSize        = "1"
+    @State private var servingSize        = ""
     
     init(_ menuItem: MenuItem) {
         self._regularIngredients = State(initialValue: menuItem.regularIngredients)
@@ -32,7 +32,7 @@ struct MenuCustomizerView: View {
                     
                     Spacer()
                     
-                    TextField("", text: $servingSize)
+                    TextField("1", text: $servingSize)
                         .textFieldStyle(.roundedBorder)
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: true, vertical: true)
@@ -64,6 +64,17 @@ struct MenuCustomizerView: View {
                 Text("The parmesan costs extra.")
             })
             
+            Section {
+                
+            } header: {
+                Text("Warnings")
+            } footer: {
+                VStack {
+                    Text("Milk")
+                    Text("Milk")
+                }
+            }
+            
             Section (content: {
                 TextEditor(text: $editorText)
                     .frame(minHeight: 100)
@@ -86,6 +97,6 @@ struct MenuCustomizerView: View {
 
 struct MenuCustomizerView_Previews: PreviewProvider {
     static var previews: some View {
-        MenuCustomizerView(menuItems[3])
+        OrderCustomizerView(menuItems[3])
     }
 }

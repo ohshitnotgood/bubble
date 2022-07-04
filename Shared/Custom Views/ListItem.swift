@@ -25,7 +25,7 @@ struct ListItem: View {
     
     // MARK: Main Body
     var body: some View {
-        NavigationLink(destination: MenuCustomizerView(menuItem), label: {
+        NavigationLink(destination: OrderCustomizerView(menuItem), label: {
             HStack {
                 if !itemNumber.isEmpty {
                     VStack {
