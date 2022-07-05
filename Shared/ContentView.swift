@@ -23,7 +23,7 @@ struct ContentView: View {
             Group {
 #warning("Make greater than zero.")
                 if orderStore.current.count <= 0 {
-                    EmptyView()
+                    Text("backgrud")
                 } else {
                     BlankView($showItemsView)
                         .onTapGesture(perform: {

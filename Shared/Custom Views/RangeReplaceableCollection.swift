@@ -30,6 +30,7 @@ extension RangeReplaceableCollection where Element: Equatable {
 }
 
 extension Array where Element == String {
+    /// Removes repeating strings in a list.
     mutating func removeDuplicates() {
         var result = [Element]()
         for value in self {
@@ -38,5 +39,15 @@ extension Array where Element == String {
             }
         }
         self = result
+    }
+    
+    mutating func removeIfContainsElseAppend(_ e: String) {
+        if self.contains(e) {
+            if let index = self.firstIndex(of: e) {
+                self.remove(at: index)
+            }
+        } else {
+            self.append(e)
+        }
     }
 }

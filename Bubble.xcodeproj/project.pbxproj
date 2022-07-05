@@ -10,6 +10,7 @@
 		58058973287480B500F074F3 /* OrderCustomizerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58058972287480B500F074F3 /* OrderCustomizerViewModel.swift */; };
 		580A76B6287170F100B178F2 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580A76B5287170F100B178F2 /* SettingsStore.swift */; };
 		582ACF952870722200BCFF82 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582ACF942870722200BCFF82 /* VisualEffectView.swift */; };
+		58307E5D2874A4D500163EF7 /* MenuEditorViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58307E5C2874A4D500163EF7 /* MenuEditorViewBuilder.swift */; };
 		5860A4832872027400F18FEE /* SettingsUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5860A4822872027400F18FEE /* SettingsUITest.swift */; };
 		5860A4852872027400F18FEE /* SettingsUITestLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5860A4842872027400F18FEE /* SettingsUITestLaunchTests.swift */; };
 		5865AF46286B72EC001DC570 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5865AF45286B72EC001DC570 /* HistoryView.swift */; };
@@ -58,6 +59,7 @@
 		58058972287480B500F074F3 /* OrderCustomizerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCustomizerViewModel.swift; sourceTree = "<group>"; };
 		580A76B5287170F100B178F2 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		582ACF942870722200BCFF82 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
+		58307E5C2874A4D500163EF7 /* MenuEditorViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuEditorViewBuilder.swift; sourceTree = "<group>"; };
 		5860A4802872027400F18FEE /* SettingsUITest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SettingsUITest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5860A4822872027400F18FEE /* SettingsUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsUITest.swift; sourceTree = "<group>"; };
 		5860A4842872027400F18FEE /* SettingsUITestLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsUITestLaunchTests.swift; sourceTree = "<group>"; };
@@ -157,12 +159,13 @@
 			path = MenuEditor;
 			sourceTree = "<group>";
 		};
-		58665971286DADD700E7ACD0 /* AddToMenuView */ = {
+		58665971286DADD700E7ACD0 /* MenuEditorView */ = {
 			isa = PBXGroup;
 			children = (
 				58C9881D2869D1970042502E /* MenuEditorView.swift */,
+				58307E5C2874A4D500163EF7 /* MenuEditorViewBuilder.swift */,
 			);
-			path = AddToMenuView;
+			path = MenuEditorView;
 			sourceTree = "<group>";
 		};
 		58665974286EC76800E7ACD0 /* MenuEditorView */ = {
@@ -227,7 +230,7 @@
 		58C98828286A08670042502E /* Add to Menu */ = {
 			isa = PBXGroup;
 			children = (
-				58665971286DADD700E7ACD0 /* AddToMenuView */,
+				58665971286DADD700E7ACD0 /* MenuEditorView */,
 				58F6E430286CD3610036D589 /* Warnings Editor */,
 				5865AF49286B77DD001DC570 /* Category Picker */,
 			);
@@ -448,6 +451,7 @@
 				58E2ECDB286847B40035CB7D /* ItemsView.swift in Sources */,
 				58E2ECE3286847E80035CB7D /* CustomItemsView.swift in Sources */,
 				58E2ECDD286847C40035CB7D /* AlphabeticItemsView.swift in Sources */,
+				58307E5D2874A4D500163EF7 /* MenuEditorViewBuilder.swift in Sources */,
 				580A76B6287170F100B178F2 /* SettingsStore.swift in Sources */,
 				58BE48B128695FDC0013775B /* SectionHeader.swift in Sources */,
 				58F6E434286CD3B40036D589 /* WarningsEditorView.swift in Sources */,
