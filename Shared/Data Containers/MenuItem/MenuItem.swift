@@ -78,8 +78,11 @@ struct MenuItem: Hashable, Codable {
         return r
     }
     
-    func convertToOrder() {
-        
+    /// Converts ``MenuItem`` object to a ``Order`` object.
+    func getOrderObject(notes: String, quantity: Double) -> Order {
+        return Order(
+            name: self.itemName, regularIngredients: self.regularIngredients, extraIngredients: self.extraIngredients, notes: notes, quantity: quantity
+        )
     }
 }
 

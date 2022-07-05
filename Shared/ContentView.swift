@@ -20,13 +20,18 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            BlankView($showItemsView)
-                .onTapGesture(perform: {
-                    showItemsView = true
-                }).ignoresSafeArea(.all, edges: .all)
-            
-            
-                .navigationTitle("Orders")
+            Group {
+#warning("Make greater than zero.")
+                if orderStore.current.count <= 0 {
+                    EmptyView()
+                } else {
+                    BlankView($showItemsView)
+                        .onTapGesture(perform: {
+                            showItemsView = true
+                        }).ignoresSafeArea(.all, edges: .all)
+                }
+                
+            }.navigationTitle("Orders")
                 .sheet(isPresented: $showSettingsView, content: {
                     SettingsView()
                         .environmentObject(menuItemStore)
@@ -116,9 +121,12 @@ fileprivate struct BlankView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
-            .environmentObject(MenuItemStore())
-            .environmentObject(OrderStore())
-            .environmentObject(SettingsStore())
+        Group {
+            ContentView()
+                .preferredColorScheme(.dark)
+                .environmentObject(MenuItemStore())
+                .environmentObject(OrderStore())
+                .environmentObject(SettingsStore())
+        }
     }
 }

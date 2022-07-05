@@ -20,42 +20,42 @@ struct EditMenuView: View {
     // Data is shown from this array
     @State private var dataDidFinishLoading = true
     
-    private func ingredientsList(_ list: [String]) -> some View {
-        var t = Text("")
-        list.forEach { each_ingredient in
-            t = t + Text("\(each_ingredient), ")
+    private func ingredientsAsString(_ list: [String]) -> String {
+        var r = ""
+        list.forEach { each_string in
+            r += each_string == list.last ? each_string : "\(each_string), "
         }
         
-        return t.bold()
+        return r
     }
     
     // MARK: - Body
     var body: some View {
-        ScrollView {
-            ForEach(menuItems, id: \.self) { each_item in
+        List {
+            ForEach(menuItemStore.items, id: \.self) { each_item in
                 // MARK: NavigationLink
-                NavigationLink(destination: {
-                    MenuEditorView(menuItem: each_item)
-                        .environmentObject(menuItemStore)
-                    
-                }) {
-                    // MARK: Link Label
+                NavigationLink(destination: { MenuEditorView(menuItem: each_item).environmentObject(menuItemStore)}, label: {
                     VStack (alignment: .leading) {
-                        Text(each_item.itemName)
-                            .bold()
-                        
-                        ingredientsList(each_item.regularIngredients)
-                            .foregroundColor(.secondary)
-                            .multilineTextAlignment(.leading)
-                        
-                    }.padding()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(.quaternary)
-                        .cornerRadius(15)
-                        .padding(5)
-                }.buttonStyle(.plain)
+                        HStack {
+                            Image(systemName: "line.3.horizontal")
+                                .font(.body.weight(.bold))
+                                .foregroundStyle(.secondary)
+                                .padding(.trailing, 10)
+                                .padding(.vertical, 5)
+                            
+                            Text(each_item.itemName)
+                            
+                            Spacer()
+                            
+                            Image(systemName: "chevron.right")
+                                .font(.callout)
+                                .foregroundStyle(.tertiary)
+                        }
+                    }.padding(.vertical, 5)
+                }).buttonStyle(.plain)
             }
         }.navigationTitle("Edit Menu")
+            .listStyle(.inset)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -71,10 +71,14 @@ struct EditMenuView: View {
 struct EditMenuView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            EditMenuView()
-                .preferredColorScheme(.dark)
-                .environmentObject(MenuItemStore())
-                .environmentObject(SettingsStore())
-        }
+            Text("Background")
+                .sheet(isPresented: .constant(true)) {
+                    NavigationView {
+                        EditMenuView()
+                            .environmentObject(MenuItemStore())
+                            .environmentObject(SettingsStore())
+                    }
+                }.preferredColorScheme(.dark)
+        }.preferredColorScheme(.dark)
     }
 }

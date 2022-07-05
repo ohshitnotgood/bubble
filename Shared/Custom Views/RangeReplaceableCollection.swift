@@ -17,6 +17,16 @@ extension RangeReplaceableCollection where Element: Equatable {
             return (true, element)
         }
     }
+    
+    mutating func removeIfContainsElseAppend(_ element: Element) {
+        if self.contains(element) {
+            if let index = self.firstIndex(of: element) {
+                self.remove(at: index)
+            }
+        } else {
+            self.append(element)
+        }
+    }
 }
 
 extension Array where Element == String {

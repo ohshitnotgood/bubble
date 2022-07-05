@@ -54,11 +54,3 @@ class OrderStore: ObservableObject {
         }
     }
 }
-
-
-struct Order: Codable {
-    var name: String
-    var dateTime = Date.now
-    var regularIngredients: [String]
-    var extraIngredients: [String]
-}
