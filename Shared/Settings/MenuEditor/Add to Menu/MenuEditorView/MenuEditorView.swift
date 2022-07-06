@@ -19,6 +19,8 @@ struct MenuEditorView: View {
     @State private var showWarningsEditor       = false
     @State private var showConfirmationDialog   = false
     @State private var itemAlreadyExists        = false
+    @State private var showRegularPicker        = false
+    @State private var showExtraPicker          = false
     
     @State private var newItem: MenuItem
     private var item_editing_mode: Bool
@@ -96,15 +98,23 @@ struct MenuEditorView: View {
     // MARK: regular section
     @ViewBuilder func section_regularIngredients() -> some View {
         Section(content: {
-            ForEach(newItem.regularIngredients.indices, id: \.self) {
-                text_field($newItem.regularIngredients[$0])
-                    .focused($focusField, equals: newItem.regularIngredients.last == "" ? .regularIngredients : .nil)
-                    .onTapGesture { purgeList() }
-                    .onSubmit(addNewRegularIngredient)
-                
-            }.onDelete { newItem.regularIngredients.remove(atOffsets: $0) }
+//            ForEach(newItem.regularIngredients.indices, id: \.self) {
+//                text_field($newItem.regularIngredients[$0])
+//                    .focused($focusField, equals: newItem.regularIngredients.last == "" ? .regularIngredients : .nil)
+//                    .onTapGesture { purgeList() }
+//                    .onSubmit(addNewRegularIngredient)
+//
+//            }.onDelete { newItem.regularIngredients.remove(atOffsets: $0) }
+//
+//            Button("Add ingredient...", action: addNewRegularIngredient)
             
-            Button("Add ingredient...", action: addNewRegularIngredient)
+            ForEach(newItem.regularIngredients, id: \.self) {
+                Text($0)
+            }
+            
+            Button("Edit ingredients...") {
+                showRegularPicker = true
+            }
             
         }, header: {
             Text("Regular Ingredients")
@@ -114,16 +124,24 @@ struct MenuEditorView: View {
     // MARK: extra section
     @ViewBuilder func section_extraIngredients() -> some View {
         Section(content: {
-            ForEach(newItem.extraIngredients.indices, id: \.self) {
-                
-                text_field($newItem.extraIngredients[$0])
-                    .focused($focusField, equals: newItem.extraIngredients.last == "" ? .extraIngredients : .nil)
-                    .onTapGesture { purgeList() }
-                    .onSubmit(addNewExtraIngredient)
-                
-            }.onDelete { newItem.extraIngredients.remove(atOffsets: $0) }
+//            ForEach(newItem.extraIngredients.indices, id: \.self) {
+//
+//                text_field($newItem.extraIngredients[$0])
+//                    .focused($focusField, equals: newItem.extraIngredients.last == "" ? .extraIngredients : .nil)
+//                    .onTapGesture { purgeList() }
+//                    .onSubmit(addNewExtraIngredient)
+//
+//            }.onDelete { newItem.extraIngredients.remove(atOffsets: $0) }
+//
+//            Button("Add ingredient...", action: addNewExtraIngredient)
             
-            Button("Add ingredient...", action: addNewExtraIngredient)
+            ForEach(newItem.extraIngredients, id: \.self) {
+                Text($0)
+            }
+            
+            Button("Edit ingredients...") {
+                showExtraPicker = true
+            }
             
         }, header: {
             Text("Extra Ingredients")
@@ -186,6 +204,7 @@ struct MenuEditorView: View {
         if !item_editing_mode {
             menuItemStore.items.append(newItem)
         } else if let index = menuItemStore.items.firstIndex(where: { $0.id == newItem.id }) {
+            menuItemStore.items.remove(at: index)
             menuItemStore.items.insert(newItem, at: index)
         }
         
@@ -243,6 +262,12 @@ struct MenuEditorView: View {
             .sheet(isPresented: $showCategoryPickerView, content: { CategoryPickerView(selection: $newItem.category).environmentObject(menuItemStore)})
             .interactiveDismissDisabled()
             .sheet(isPresented: $showWarningsEditor) { WarningsEditorView().environmentObject(menuItemStore) }
+            .sheet(isPresented: $showRegularPicker, content: {
+                IngredientSelector(saveSelectedIngredientsIn: $newItem.regularIngredients, ingredientsSaveOnDevice: menuItemStore.ingredients)
+            })
+            .sheet(isPresented: $showExtraPicker, content: {
+                IngredientSelector(saveSelectedIngredientsIn: $newItem.extraIngredients, ingredientsSaveOnDevice: menuItemStore.ingredients)
+            })
             .confirmationDialog("Discard Changes", isPresented: $showConfirmationDialog, actions: {
                 confirmationDialogButtons {
                     saveItemsData()

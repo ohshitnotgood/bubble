@@ -9,14 +9,15 @@ import Foundation
 
 extension RangeReplaceableCollection where Element: Equatable {
     /// Appends provided element to the list if the list doesn't already contain it.
-    @discardableResult
-    mutating func appendIfNotContains(_ element: Element) -> (appended: Bool, memberAfterAppend: Element) {
-        if let index = firstIndex(of: element) {
-            return (false, self[index])
-        } else {
-            append(element)
-            return (true, element)
+    mutating func appendIfNotContains(_ element: Element) {
+        if !self.contains(element) {
+            self.append(element)
         }
+//        if let index = firstIndex(of: element) {
+//            self.remove(at: index)
+//        } else {
+//            self.append(element)
+//        }
     }
     
     /// Removes provided element from the list if the element is already in there. Otherwise, the element is appended to the list.

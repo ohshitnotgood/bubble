@@ -46,6 +46,7 @@ struct ContentView: View {
                     Task {
                         try await menuItemStore.loadItems()
                         try await menuItemStore.loadCategories()
+                        try await menuItemStore.loadIngredients()
                         try await settingsStore.load()
                         try await orderStore.load()
                     }

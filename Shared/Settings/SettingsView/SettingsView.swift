@@ -77,6 +77,8 @@ struct SettingsView: View {
                             try await menuItemStore.saveAll()
                         }
                     }
+                } header: {
+                    Text("Testing Data")
                 } footer: {
                     Text("This will save a set of dummy data to the menu for testing. If you are using a release version of the app and you are seeing this message, report a bug to praanto@icloud.com.")
                 }
