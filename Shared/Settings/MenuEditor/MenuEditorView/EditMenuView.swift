@@ -8,10 +8,8 @@
 import SwiftUI
 
 /**
- `MenuEditorView` displays a list of current items on the menu and provides options to add or edit an item on the menu.
- 
- `[SettingsView] -> [MenuEditorView] -> [AddToMenuView]` to add and edit items in to the menu.
- */
+ Displays a list of current items on the menu and provides buttons to add or edit an item on the menu.
+*/
 struct EditMenuView: View {
     // Since update is called in SettingsView, data is upto date.
     @EnvironmentObject var menuItemStore: MenuItemStore

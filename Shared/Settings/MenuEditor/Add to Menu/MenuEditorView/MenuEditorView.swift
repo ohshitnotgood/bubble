@@ -8,9 +8,8 @@
 import SwiftUI
 import Introspect
 
-/// Allows users to save a new menu item or edit an already existing one.
+/// Displays text fields and toggles to edit an item in the menu.
 ///
-///**Bugs List:**
 /// 
 struct MenuEditorView: View {
     @Environment(\.dismiss) private var dismiss
