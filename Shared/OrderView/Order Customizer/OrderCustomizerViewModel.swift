@@ -10,15 +10,10 @@ import Foundation
 class OrderCustomizerViewModel: ObservableObject {
     var menuItem: MenuItem
     
-    @Published var order = Order()
-    
-    @Published var selectedFromRegular: [String] = []
-    @Published var selectedFromExtra: [String] = []
-    @Published var notes: String = ""
-    @Published var servingSize = 0 {
+    @Published var order: Order {
         didSet {
-            if servingSize < 0 {
-                servingSize = 0
+            if order.quantity < 0 {
+                order.quantity = 0
             }
             updateOrderCompletionFlag()
         }
@@ -28,62 +23,54 @@ class OrderCustomizerViewModel: ObservableObject {
     
     @Published var regularIngredientToggleValues: [(isOn: Bool, value: String)] = [] {
         didSet {
-            regularIngredientToggleValues.forEach { isOn, ingredient in
-                if isOn {
-                    print("\(ingredient) has been set to \(isOn)")
-                    order.regularIngredients.appendIfNotContains(ingredient)
-                } else {
-                    print("\(ingredient) has been set to \(isOn)")
-                    order.regularIngredients.removeFirstInstance(of: ingredient)
-                }
-            }
-            print("\nlist: \(order.regularIngredients)")
-            updateOrderCompletionFlag()
+            updateRegularList()
         }
     }
     
     @Published var extraIngredientsToggleValues: [(isOn: Bool, value: String)] = [] {
         didSet {
-            extraIngredientsToggleValues.forEach { isOn, ingredient in
-                if isOn {
-                    print("\(ingredient) has been set to \(isOn)")
-                    order.extraIngredients.appendIfNotContains(ingredient)
-                } else {
-                    print("\(ingredient) has been set to \(isOn)")
-                    order.extraIngredients.removeFirstInstance(of: ingredient)
-                }
-            }
-            print("\nlist: \(order.extraIngredients)")
-            updateOrderCompletionFlag()
+            updateExtraList()
         }
     }
     
     init(_ menuItem: MenuItem) {
         self.menuItem = menuItem
-        menuItem.regularIngredients.forEach { each_ingredient in
-            regularIngredientToggleValues.append((isOn: true, value: each_ingredient))
-        }
-        
-        menuItem.extraIngredients.forEach { each_ingredient in
-            extraIngredientsToggleValues.append((isOn: false, value: each_ingredient))
-        }
+        self.order = Order()
+        menuItem.regularIngredients.forEach { regularIngredientToggleValues.append((isOn: true, value: $0)) }
+        menuItem.extraIngredients.forEach { extraIngredientsToggleValues.append((isOn: false, value: $0)) }
     }
     
     init(with menuItem: MenuItem, and order: Order) {
         self.menuItem = menuItem
-        menuItem.regularIngredients.forEach { each_ingredient in
-            regularIngredientToggleValues.append((isOn: true, value: each_ingredient))
-        }
-        
-        menuItem.extraIngredients.forEach { each_ingredient in
-            extraIngredientsToggleValues.append((isOn: false, value: each_ingredient))
-        }
-        
         self.order = order
+        menuItem.regularIngredients.forEach { regularIngredientToggleValues.append((isOn: true, value: $0)) }
+        menuItem.extraIngredients.forEach { extraIngredientsToggleValues.append((isOn: false, value: $0)) }
     }
     
     
     private func updateOrderCompletionFlag() {
-        isOrderComplete = (selectedFromRegular.count > 0) && (servingSize > 0)
+        isOrderComplete = (order.regularIngredients.count > 0) && (order.quantity > 0)
+    }
+    
+    private func updateRegularList() {
+        regularIngredientToggleValues.forEach { isOn, ingredient in
+            if isOn {
+                order.regularIngredients.appendIfNotContains(ingredient)
+            } else {
+                order.regularIngredients.removeFirstInstance(of: ingredient)
+            }
+        }
+        updateOrderCompletionFlag()
+    }
+    
+    private func updateExtraList() {
+        extraIngredientsToggleValues.forEach { isOn, ingredient in
+            if isOn {
+                order.extraIngredients.appendIfNotContains(ingredient)
+            } else {
+                order.extraIngredients.removeFirstInstance(of: ingredient)
+            }
+        }
+        updateOrderCompletionFlag()
     }
 }

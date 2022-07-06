@@ -48,6 +48,7 @@ struct ContentView: View {
                         try await menuItemStore.loadItems()
                         try await menuItemStore.loadCategories()
                         try await settingsStore.load()
+                        try await orderStore.load()
                     }
                 }
                 .toolbar {

@@ -27,9 +27,9 @@ struct OrderCustomizerView: View {
     var body: some View {
         List {
             Section {
-                Stepper("Servings size", value: $vm.servingSize)
+                Stepper("Servings size", value: $vm.order.quantity)
             } footer: {
-                Text("**\(vm.servingSize) people**")
+                Text("**\(Int(vm.order.quantity)) people**")
                     .frame(maxWidth: .infinity, alignment: .trailing)
             }
             
@@ -54,7 +54,7 @@ struct OrderCustomizerView: View {
             }
             
             Section (content: {
-                TextEditor(text: $vm.notes)
+                TextEditor(text: $vm.order.notes)
                     .frame(minHeight: 100)
             }, header: {
                 Text("Notes")
@@ -74,8 +74,9 @@ struct OrderCustomizerView: View {
     
     func addToOrder() {
         if vm.isOrderComplete {
-            let order = Order(name: menuItem.itemName, regularIngredients: vm.selectedFromRegular, extraIngredients: vm.selectedFromExtra, notes: vm.notes, quantity: Double(vm.servingSize))
+            let order = Order(name: menuItem.itemName, regularIngredients: vm.order.regularIngredients, extraIngredients: vm.order.extraIngredients, notes: vm.order.notes, quantity: Double(vm.order.quantity))
             orderStore.current.append(order)
+            Task { try await orderStore.save() }
         }
     }
 }
