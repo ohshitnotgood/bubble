@@ -58,7 +58,7 @@ struct ListItem_Previews: PreviewProvider {
             NavigationView {
                 List {
                     ForEach(0...20, id: \.self) { _ in
-                        ListItem(menuItems[0])
+                        ListItem(demoMenuItem_pasta)
                     }
                 }.listStyle(.plain)
             }
@@ -66,7 +66,7 @@ struct ListItem_Previews: PreviewProvider {
             NavigationView {
                 List {
                     ForEach(0...20, id: \.self) {
-                        ListItem(menuItems[0], itemNumber: $0)
+                        ListItem(demoMenuItem_pasta, itemNumber: $0)
                     }
                 }.listStyle(.plain)
             }

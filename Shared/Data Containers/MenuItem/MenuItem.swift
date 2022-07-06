@@ -18,18 +18,6 @@ struct MenuItem: Hashable, Codable {
     var extraIngredients: [String]
     var category: String
     
-    init(itemName: String, regularIngredients: [String], warnings: [MenuWarnings], extraIngredients: [String], category: MenuCategory) {
-        self.itemName = itemName
-        self.regularIngredients = regularIngredients
-        self.warnings = []
-        self.extraIngredients = extraIngredients
-        self.category = category.rawValue
-        
-        warnings.forEach { each_warning in
-            self.warnings.append(each_warning.rawValue)
-        }
-    }
-    
     init(itemName: String, regularIngredients: [String], warnings: [String], extraIngredients: [String], category: String) {
         self.itemName = itemName
         self.regularIngredients = regularIngredients
@@ -77,81 +65,8 @@ struct MenuItem: Hashable, Codable {
         
         return r
     }
-    
-    /// Converts ``MenuItem`` object to a ``Order`` object.
-    func getOrderObject(notes: String, quantity: Double) -> Order {
-        return Order(
-            name: self.itemName, regularIngredients: self.regularIngredients, extraIngredients: self.extraIngredients, notes: notes, quantity: quantity
-        )
-    }
 }
 
-@available(iOS, deprecated, message: "Use actual data from environment objects.")
-/// A list of ``MenuItem`` containing dummy data.
-var menuItems = [
-    MenuItem(
-        itemName: "Grilled Cheese Sandwich",
-        regularIngredients: ["Cheese", "White Bread"],
-        warnings: [.dairy, .lactose, .gluten],
-        extraIngredients: ["Brown Bread"],
-        category: .appetizer
-    ),
-    MenuItem(
-        itemName: "Spaghetti",
-        regularIngredients: ["Spaghetti", "Tomato Sauce", "Chicken", "Mozzarella Cheese"],
-        warnings: [.meat, .dairy, .lactose],
-        extraIngredients: ["Parmesan Cheese"],
-        category: .mainCourse
-    ),
-    MenuItem(
-        itemName: "Bruschetta",
-        regularIngredients: ["Tomato Sauce", "Chicken", "Mozzarella Cheese", "Parmesan Cheese"],
-        warnings: [.meat, .dairy, .lactose, .gluten],
-        extraIngredients: ["Parmesan Cheese"],
-        category: .mainCourse
-    ),
-    MenuItem(
-        itemName: "Lasagna",
-        regularIngredients: ["Flour", "Tomato Sauce", "Chicken", "Mozzarella Cheese"],
-        warnings: [.meat, .dairy, .lactose, .highCarbs, .gluten],
-        extraIngredients: ["Parmesan Cheese"],
-        category: .mainCourse
-    ),
-    MenuItem(
-        itemName: "Pizza",
-        regularIngredients: ["Flour Dough", "Tomato Sauce", "Chicken", "Pepparoni"],
-        warnings: [.meat, .dairy, .lactose, .gluten],
-        extraIngredients: ["Parmesan Cheese", "Sausages"],
-        category: .mainCourse
-    ),
-    MenuItem(
-        itemName: "Pasta",
-        regularIngredients: ["Flour Dough", "Eggs", "Tomato Sauce", "Chicken", "Pepparoni"],
-        warnings: [.meat, .dairy, .lactose, .gluten],
-        extraIngredients: ["Parmesan Cheese", "Sausages"],
-        category: .mainCourse
-    ),
-    MenuItem(
-        itemName: "Garlic Bread",
-        regularIngredients: ["Bread", "Mozzerella Cheese", "Garlic", "Tomato Sauce"],
-        warnings: [.lactose, .dairy, .gluten],
-        extraIngredients: [],
-        category: .appetizer
-    )
-]
+var demoMenuItem_pizza = MenuItem(itemName: "Pizza", regularIngredients: ["Tomato Sauce", "Mozzarella Cheese", "Chicken"], warnings: ["Gluten", "Lactose", "Non-veg/non-vegan"], extraIngredients: ["Pesto Sauce", "Sausages", "Ham", "Bacon"], category: "Pizzas")
 
-enum MenuWarnings: String {
-    case dairy      = "dairy"
-    case meat       = "meat"
-    case gluten     = "gluten"
-    case highFat    = "high fat"
-    case highCarbs  = "high carbs"
-    case lactose    = "lactose"
-    case peanuts    = "peanuts"
-}
-
-enum MenuCategory: String {
-    case mainCourse = "Main Course"
-    case appetizer  = "Appetizer"
-    case beverage   = "Beverage"
-}
+var demoMenuItem_pasta = MenuItem(itemName: "Pasta", regularIngredients: ["Tomato Sauce", "Mozzarella Cheese", "Chicken"], warnings: ["Gluten", "Lactose", "Non-veg/non-vegan"], extraIngredients: ["Pesto Sauce", "Parmesan Cheese"], category: "Pastas")

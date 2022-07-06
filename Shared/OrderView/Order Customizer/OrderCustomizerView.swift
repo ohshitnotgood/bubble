@@ -74,7 +74,7 @@ struct OrderCustomizerView: View {
     
     func addToOrder() {
         if vm.isOrderComplete {
-            let order = Order(name: menuItem.itemName, regularIngredients: vm.order.regularIngredients, extraIngredients: vm.order.extraIngredients, notes: vm.order.notes, quantity: Double(vm.order.quantity))
+            let order = Order(name: menuItem.itemName, regularIngredients: vm.order.regularIngredients, extraIngredients: vm.order.extraIngredients, notes: vm.order.notes, quantity: Double(vm.order.quantity), menuItem: menuItem)
             orderStore.current.append(order)
             Task { try await orderStore.save() }
         }
@@ -84,7 +84,7 @@ struct OrderCustomizerView: View {
 struct MenuCustomizerView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            OrderCustomizerView(menuItems[3])
+            OrderCustomizerView(demoMenuItem_pasta)
                 .environmentObject(OrderStore())
         }
     }

@@ -16,21 +16,25 @@ struct Order: Codable, Hashable {
     var notes: String
     var quantity: Double
     
+    var menuItem: MenuItem
+    
     init() {
         self.name = ""
         self.regularIngredients = []
         self.extraIngredients = []
         self.notes = ""
         self.quantity = 0.0
+        self.menuItem = MenuItem()
     }
     
-    init(name: String, regularIngredients: [String], extraIngredients: [String], notes: String, quantity: Double) {
+    init(name: String, regularIngredients: [String], extraIngredients: [String], notes: String, quantity: Double, menuItem: MenuItem) {
         self.name = name
         self.regularIngredients = regularIngredients
         self.extraIngredients = extraIngredients
         self.notes = notes
         self.quantity = quantity
+        self.menuItem = menuItem
     }
 }
 
-var dummyOrder = Order(name: "Pizza", regularIngredients: ["Pesto Sauce"], extraIngredients: [""], notes: "Extra cheese", quantity: 1.0)
+var dummyOrder = Order(name: "Pizza", regularIngredients: ["Pesto Sauce"], extraIngredients: [""], notes: "Extra cheese", quantity: 1.0, menuItem: demoMenuItem_pasta)
