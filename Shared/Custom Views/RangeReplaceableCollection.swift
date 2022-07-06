@@ -8,6 +8,7 @@
 import Foundation
 
 extension RangeReplaceableCollection where Element: Equatable {
+    /// Appends provided element to the list if the list doesn't already contain it.
     @discardableResult
     mutating func appendIfNotContains(_ element: Element) -> (appended: Bool, memberAfterAppend: Element) {
         if let index = firstIndex(of: element) {
@@ -18,6 +19,7 @@ extension RangeReplaceableCollection where Element: Equatable {
         }
     }
     
+    /// Removes provided element from the list if the element is already in there. Otherwise, the element is appended to the list.
     mutating func removeIfContainsElseAppend(_ element: Element) {
         if self.contains(element) {
             if let index = self.firstIndex(of: element) {
@@ -41,16 +43,7 @@ extension Array where Element == String {
         self = result
     }
     
-    mutating func removeIfContainsElseAppend(_ e: String) {
-        if self.contains(e) {
-            if let index = self.firstIndex(of: e) {
-                self.remove(at: index)
-            }
-        } else {
-            self.append(e)
-        }
-    }
-    
+    /// Strips each element of unnecessary whitespaces and new lines.
     mutating func stripAll() {
         self = self.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
     }
