@@ -9,6 +9,7 @@ import Foundation
 
 /// Data structure to store information of individual orders such as names, date at which the order was made, notes, etc.
 struct Order: Codable, Hashable {
+    var orderId = UUID().uuidString
     var name: String
     var dateTime = Date.now
     var regularIngredients: [String]
@@ -19,13 +20,13 @@ struct Order: Codable, Hashable {
     var menuItem: MenuItem
     
     /// Creates an ``Order`` object when adding a new item to the order.
-    init() {
+    init(menuItem: MenuItem) {
         self.name = ""
         self.regularIngredients = []
         self.extraIngredients = []
         self.notes = ""
         self.quantity = 0.0
-        self.menuItem = MenuItem()
+        self.menuItem = menuItem
     }
     
     /// Creates a new ``Order`` object when in order editing mode.

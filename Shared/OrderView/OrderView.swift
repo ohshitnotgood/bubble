@@ -18,6 +18,11 @@ struct OrderView: View {
                 OrderViewCell(each_order)
             }
         }.listStyle(.inset)
+            .onAppear {
+                Task {
+                    try await orderStore.load()
+                }
+            }
     }
 }
 

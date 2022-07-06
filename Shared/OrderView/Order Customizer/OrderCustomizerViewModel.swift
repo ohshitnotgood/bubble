@@ -8,7 +8,7 @@
 import Foundation
 
 class OrderCustomizerViewModel: ObservableObject {
-    var menuItem: MenuItem
+    var edit_mode: Bool
     
     @Published var order: Order {
         didSet {
@@ -33,18 +33,21 @@ class OrderCustomizerViewModel: ObservableObject {
         }
     }
     
-    init(_ menuItem: MenuItem) {
-        self.menuItem = menuItem
-        self.order = Order()
+    init(inCreateModeWith menuItem: MenuItem) {
+        self.order = Order(menuItem: menuItem)
+//        self.menuItem = menuItem
+        self.edit_mode = false
         menuItem.regularIngredients.forEach { regularIngredientToggleValues.append((isOn: true, value: $0)) }
         menuItem.extraIngredients.forEach { extraIngredientsToggleValues.append((isOn: false, value: $0)) }
     }
     
-    init(with menuItem: MenuItem, and order: Order) {
-        self.menuItem = menuItem
+    
+    init(inEditModeWith order: Order) {
         self.order = order
-        menuItem.regularIngredients.forEach { regularIngredientToggleValues.append((isOn: true, value: $0)) }
-        menuItem.extraIngredients.forEach { extraIngredientsToggleValues.append((isOn: false, value: $0)) }
+//        self.menuItem = order.menuItem
+        self.edit_mode = true
+        order.menuItem.regularIngredients.forEach { regularIngredientToggleValues.append((isOn: true, value: $0)) }
+        order.menuItem.extraIngredients.forEach { extraIngredientsToggleValues.append((isOn: false, value: $0)) }
     }
     
     

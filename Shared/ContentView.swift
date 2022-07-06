@@ -11,8 +11,6 @@ struct ContentView: View {
     @State private var showItemsView    : Bool   = false
     @State private var showSettingsView : Bool   = false
     
-    @State private var data: [MenuItem] = []
-    
     @EnvironmentObject var menuItemStore: MenuItemStore
     @EnvironmentObject var settingsStore: SettingsStore
     @EnvironmentObject var orderStore   : OrderStore
@@ -22,11 +20,12 @@ struct ContentView: View {
         NavigationView {
             Group {
                 if orderStore.current.count > 0 {
-                    List {
-                        ForEach(orderStore.current, id: \.self) { each_order in
-                            OrderViewCell(each_order)
-                        }
-                    }.listStyle(.inset)
+                    OrderView()
+//                    List {
+//                        ForEach(orderStore.current, id: \.self) { each_order in
+//                            OrderViewCell(each_order)
+//                        }
+//                    }.listStyle(.inset)
                 } else {
                     BlankView($showItemsView)
                         .onTapGesture(perform: {
@@ -55,7 +54,13 @@ struct ContentView: View {
                     // MARK: Toolbar
                     ToolbarItem(placement: .bottomBar, content: {
                         Button(action: {
-                            showItemsView = true
+                            Task {
+                                withAnimation {
+                                    orderStore.current = []
+                                }
+                                try await orderStore.save()
+                            }
+                            
                         }) {
                             Image(systemName: "trash")
                         }

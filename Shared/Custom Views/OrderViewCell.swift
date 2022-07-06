@@ -16,8 +16,7 @@ struct OrderViewCell: View {
     
     var body: some View {
         NavigationLink {
-            OrderCustomizerView(MenuItem(itemName: order.name, regularIngredients: order.regularIngredients, warnings: [], extraIngredients: order.extraIngredients, category: ""))
-                .environmentObject(MenuItemStore())
+            OrderCustomizerView(inEditMode: order)
         } label: {
             HStack {
                 Text("x \(Int(order.quantity))")
@@ -26,7 +25,7 @@ struct OrderViewCell: View {
                     .frame(maxWidth: 35, maxHeight: .infinity, alignment: .leading)
                 
                 VStack (alignment: .leading) {
-                    Text(order.name)
+                    Text(order.menuItem.itemName)
                         .bold()
                     
                     Text("**With**: \(String(order.regularIngredients.map { $0 + ", "}.joined().dropLast().dropLast()))")

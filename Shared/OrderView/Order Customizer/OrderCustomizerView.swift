@@ -10,18 +10,17 @@ import SwiftUI
 struct OrderCustomizerView: View {
     @Environment(\.dismiss) private var dismiss
     
-    @State private var menuItem: MenuItem
     @ObservedObject var vm: OrderCustomizerViewModel
     @EnvironmentObject var orderStore: OrderStore
     
-    init(_ menuItem: MenuItem) {
-        self._menuItem = State(initialValue: menuItem)
-        self.vm = OrderCustomizerViewModel(menuItem)
+    /// Displays ``OrderCustomizerView`` in **create mode**.
+    init(inCreateMode menuItem: MenuItem) {
+        self.vm = OrderCustomizerViewModel(inCreateModeWith: menuItem)
     }
     
-    init(_ menuItem: MenuItem, order: Order) {
-        self._menuItem = State(initialValue: menuItem)
-        self.vm = OrderCustomizerViewModel(menuItem)
+    /// Displays ``OrderCustomizerView`` in **edit mode**.
+    init(inEditMode order: Order) {
+        self.vm = OrderCustomizerViewModel(inEditModeWith: order)
     }
     
     var body: some View {
@@ -34,8 +33,8 @@ struct OrderCustomizerView: View {
             }
             
             Section(content: {
-                ForEach(menuItem.regularIngredients.indices, id: \.self) {
-                    Toggle(menuItem.regularIngredients[$0], isOn: $vm.regularIngredientToggleValues[$0].isOn)
+                ForEach(vm.order.menuItem.regularIngredients.indices, id: \.self) {
+                    Toggle(vm.order.menuItem.regularIngredients[$0], isOn: $vm.regularIngredientToggleValues[$0].isOn)
                 }
                 
                 
@@ -43,10 +42,10 @@ struct OrderCustomizerView: View {
                 Text("Regular Ingredients")
             })
             
-            if menuItem.extraIngredients.count > 0 {
+            if vm.order.menuItem.extraIngredients.count > 0 {
                 Section(content: {
-                    ForEach(menuItem.extraIngredients.indices, id: \.self) {
-                        Toggle(menuItem.extraIngredients[$0], isOn: $vm.extraIngredientsToggleValues[$0].isOn)
+                    ForEach(vm.order.menuItem.extraIngredients.indices, id: \.self) {
+                        Toggle(vm.order.menuItem.extraIngredients[$0], isOn: $vm.extraIngredientsToggleValues[$0].isOn)
                     }
                 }, header: {
                     Text("Extra Ingredients")
@@ -61,22 +60,33 @@ struct OrderCustomizerView: View {
             }, footer: {
                 Text("This item should take around 15 minutes to prepare.")
             })
-        }.navigationTitle(menuItem.itemName)
+        }.navigationTitle(vm.order.menuItem.itemName)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction, content: {
-                    Button("Add") {
-                        addToOrder()
+                    Button(vm.edit_mode ? "Save" : "Add") {
+                        if vm.edit_mode {
+                            saveOrder()
+                            dismiss()
+                        } else {
+                            addToOrder()
+                        }
                     }.disabled(!vm.isOrderComplete)
                 })
             }
     }
     
     func addToOrder() {
-        if vm.isOrderComplete {
-            let order = Order(name: menuItem.itemName, regularIngredients: vm.order.regularIngredients, extraIngredients: vm.order.extraIngredients, notes: vm.order.notes, quantity: Double(vm.order.quantity), menuItem: menuItem)
-            orderStore.current.append(order)
-            Task { try await orderStore.save() }
+        orderStore.current.append(vm.order)
+        Task { try await orderStore.save() }
+    }
+    
+    func saveOrder() {
+        Task {
+            if let index = orderStore.current.firstIndex(where: { $0.orderId == vm.order.orderId }) {
+                orderStore.current[index] = vm.order
+            }
+            try await orderStore.save()
         }
     }
 }
@@ -84,7 +94,7 @@ struct OrderCustomizerView: View {
 struct MenuCustomizerView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            OrderCustomizerView(demoMenuItem_pasta)
+            OrderCustomizerView(inCreateMode: demoMenuItem_pasta)
                 .environmentObject(OrderStore())
         }
     }
