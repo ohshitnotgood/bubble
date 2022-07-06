@@ -18,6 +18,7 @@ struct Order: Codable, Hashable {
     
     var menuItem: MenuItem
     
+    /// Creates an ``Order`` object when adding a new item to the order.
     init() {
         self.name = ""
         self.regularIngredients = []
@@ -27,6 +28,17 @@ struct Order: Codable, Hashable {
         self.menuItem = MenuItem()
     }
     
+    /// Creates a new ``Order`` object when in order editing mode.
+    ///
+    /// In this block, an ``Order`` is initialized when ``OrderCustomizerView`` is in editing mode.
+    ///
+    /// - Parameters:
+    ///   - name: Name of the item being ordered
+    ///   - regularIngredients: Ingredients in base order that has been ordered. **Does not include** ingredients that was not ordered.
+    ///   - extraIngredients: Ingredients that has been ordered. **Does not include** ingredients that was not ordered.
+    ///   - notes: Notes can be added for extra additional information
+    ///   - quantity: Number of people who ordered the exact same item.
+    ///   - menuItem: Corresponding ``MenuItem``. This ``MenuItem``object stores information about ingredients available
     init(name: String, regularIngredients: [String], extraIngredients: [String], notes: String, quantity: Double, menuItem: MenuItem) {
         self.name = name
         self.regularIngredients = regularIngredients
