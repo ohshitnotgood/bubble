@@ -39,11 +39,12 @@ struct ListItem: View {
                 
                 VStack(alignment: .leading) {
                     Text(menuItem.itemName)
+                        .fontWeight(.semibold)
                         .foregroundStyle(.primary)
                     
                     Text(menuItem.regularIngredientsAsString())
                         .foregroundStyle(.secondary)
-                        .font(.caption)
+                        .font(.subheadline)
                         .lineLimit(1)
                 }.frame(maxWidth: .infinity, alignment: .leading)
             }.padding(.vertical, 5)

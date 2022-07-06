@@ -6,8 +6,11 @@
 //
 
 import XCTest
+import Fakery
 
 class SettingsUITest: XCTestCase {
+    
+    let faker = Faker()
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -38,17 +41,29 @@ class SettingsUITest: XCTestCase {
         let tablesQuery2 = app.tables
         let tablesQuery = tablesQuery2
         tablesQuery/*@START_MENU_TOKEN@*/.textFields["Name"]/*[[".cells[\"Name\"].textFields[\"Name\"]",".textFields[\"Name\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        tablesQuery/*@START_MENU_TOKEN@*/.textFields["Name"]/*[[".cells[\"Name\"].textFields[\"Name\"]",".textFields[\"Name\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.typeText(faker.name.name())
         tablesQuery2.children(matching: .cell).matching(identifier: "Add ingredient...").element(boundBy: 0).children(matching: .other).element(boundBy: 0).children(matching: .other).element.tap()
-        tablesQuery/*@START_MENU_TOKEN@*/.textFields["Ingredient Name"]/*[[".cells[\"Ingredient Name\"].textFields[\"Ingredient Name\"]",".textFields[\"Ingredient Name\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        
+        let regular_ingredients_text_field = tablesQuery/*@START_MENU_TOKEN@*/.textFields["Ingredient Name"]/*[[".cells[\"Ingredient Name\"].textFields[\"Ingredient Name\"]",".textFields[\"Ingredient Name\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        
+        
+        regular_ingredients_text_field.tap()
+        regular_ingredients_text_field.typeText(faker.address.city())
+        // TODO: submit through keyboard
+        
+        
+        
         tablesQuery2.children(matching: .cell).matching(identifier: "Add ingredient...").element(boundBy: 1).children(matching: .other).element(boundBy: 0).children(matching: .other).element.tap()
         tablesQuery2.cells["Ingredient Name"].textFields["Ingredient Name"].tap()
         tablesQuery2.cells["Gluten"].children(matching: .other).element(boundBy: 0).children(matching: .other).element.tap()
         tablesQuery/*@START_MENU_TOKEN@*/.buttons["Category"]/*[[".cells[\"Category\"].buttons[\"Category\"]",".buttons[\"Category\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         tablesQuery2.cells["Pizzas"].children(matching: .other).element(boundBy: 0).children(matching: .other).element.tap()
         app.navigationBars["Add Item to Menu"].buttons["Save"].tap()
-        tablesQuery2.cells["Pizza, Flour Dough, Tomato Sauce, Chicken, Pepparoni, "].swipeDown()
     }
     
+    func test_c() {
+                
+    }
     
     func test_MenuEditorView_updatingExistingItems() {
         

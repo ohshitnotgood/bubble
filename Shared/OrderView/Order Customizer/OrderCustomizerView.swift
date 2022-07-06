@@ -9,17 +9,10 @@ import SwiftUI
 
 struct OrderCustomizerView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var editorText = ""
-    @State private var isToggleOn = false
     
-    @State private var servingSize = 0
     @State private var menuItem: MenuItem
-    
-    @State private var selectedRegulars: [String] = []
-    @State private var selectedExtras  : [String] = []
-    
-    
     @ObservedObject var vm: OrderCustomizerViewModel
+    @EnvironmentObject var orderStore: OrderStore
     
     init(_ menuItem: MenuItem) {
         self._menuItem = State(initialValue: menuItem)
@@ -29,9 +22,9 @@ struct OrderCustomizerView: View {
     var body: some View {
         List {
             Section {
-                Stepper("Servings size", value: $servingSize)
+                Stepper("Servings size", value: $vm.servingSize)
             } footer: {
-                Text("Serving for **\(servingSize) people**.")
+                Text("Serving for **\(vm.servingSize) people**")
                     .frame(maxWidth: .infinity, alignment: .trailing)
             }
             
@@ -45,22 +38,18 @@ struct OrderCustomizerView: View {
                 Text("Regular Ingredients")
             })
             
-            Section(content: {
-                ForEach(menuItem.extraIngredients, id: \.self) { each_ingredient in
-                    Toggle(each_ingredient, isOn: $isToggleOn)
-                        .toggleStyle(.switch)
-                }
-                
-                
-            }, header: {
-                Text("Extra Ingredients")
-            }, footer: {
-                Text("The parmesan costs extra.")
-            })
-            
+            if menuItem.extraIngredients.count > 0 {
+                Section(content: {
+                    ForEach(menuItem.extraIngredients.indices, id: \.self) {
+                        Toggle(menuItem.extraIngredients[$0], isOn: $vm.extraIngredientsToggleValues[$0])
+                    }
+                }, header: {
+                    Text("Extra Ingredients")
+                })
+            }
             
             Section (content: {
-                TextEditor(text: $editorText)
+                TextEditor(text: $vm.notes)
                     .frame(minHeight: 100)
             }, header: {
                 Text("Notes")
@@ -72,14 +61,19 @@ struct OrderCustomizerView: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction, content: {
                     Button("Add") {
+                        addToOrder()
                         dismiss()
-                    }
+                    }.disabled(!vm.isOrderComplete)
                 })
             }
     }
     
     func addToOrder() {
-        
+        if vm.isOrderComplete {
+            let order = menuItem.getOrderObject(notes: vm.notes, quantity: Double(vm.servingSize))
+            orderStore.current.append(order)
+            dismiss()
+        }
     }
 }
 
@@ -87,6 +81,7 @@ struct MenuCustomizerView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             OrderCustomizerView(menuItems[3])
+                .environmentObject(OrderStore())
         }
     }
 }

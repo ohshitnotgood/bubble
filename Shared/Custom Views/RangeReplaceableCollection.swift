@@ -50,4 +50,8 @@ extension Array where Element == String {
             self.append(e)
         }
     }
+    
+    mutating func stripAll() {
+        self = self.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+    }
 }
