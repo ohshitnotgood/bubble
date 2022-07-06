@@ -11,6 +11,7 @@
 		580A76B6287170F100B178F2 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580A76B5287170F100B178F2 /* SettingsStore.swift */; };
 		582ACF952870722200BCFF82 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582ACF942870722200BCFF82 /* VisualEffectView.swift */; };
 		58307E5D2874A4D500163EF7 /* MenuEditorViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58307E5C2874A4D500163EF7 /* MenuEditorViewBuilder.swift */; };
+		5855B20A2875ABA800DD818B /* BubbleUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5855B2092875ABA800DD818B /* BubbleUnitTests.swift */; };
 		5860A4832872027400F18FEE /* SettingsUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5860A4822872027400F18FEE /* SettingsUITest.swift */; };
 		5860A4852872027400F18FEE /* SettingsUITestLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5860A4842872027400F18FEE /* SettingsUITestLaunchTests.swift */; };
 		5865AF46286B72EC001DC570 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5865AF45286B72EC001DC570 /* HistoryView.swift */; };
@@ -47,6 +48,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5855B20B2875ABA800DD818B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58E2ECB528683BE90035CB7D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 58E2ECC028683BED0035CB7D;
+			remoteInfo = "Bubble (iOS)";
+		};
 		5860A4862872027400F18FEE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 58E2ECB528683BE90035CB7D /* Project object */;
@@ -61,6 +69,8 @@
 		580A76B5287170F100B178F2 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		582ACF942870722200BCFF82 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		58307E5C2874A4D500163EF7 /* MenuEditorViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuEditorViewBuilder.swift; sourceTree = "<group>"; };
+		5855B2072875ABA800DD818B /* BubbleUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BubbleUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5855B2092875ABA800DD818B /* BubbleUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleUnitTests.swift; sourceTree = "<group>"; };
 		5860A4802872027400F18FEE /* SettingsUITest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SettingsUITest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5860A4822872027400F18FEE /* SettingsUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsUITest.swift; sourceTree = "<group>"; };
 		5860A4842872027400F18FEE /* SettingsUITestLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsUITestLaunchTests.swift; sourceTree = "<group>"; };
@@ -98,6 +108,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5855B2042875ABA800DD818B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5860A47D2872027400F18FEE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -123,6 +140,14 @@
 				58058972287480B500F074F3 /* OrderCustomizerViewModel.swift */,
 			);
 			path = "Order Customizer";
+			sourceTree = "<group>";
+		};
+		5855B2082875ABA800DD818B /* BubbleUnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				5855B2092875ABA800DD818B /* BubbleUnitTests.swift */,
+			);
+			path = BubbleUnitTests;
 			sourceTree = "<group>";
 		};
 		5860A4812872027400F18FEE /* SettingsUITest */ = {
@@ -263,6 +288,7 @@
 			children = (
 				58E2ECB928683BE90035CB7D /* Shared */,
 				5860A4812872027400F18FEE /* SettingsUITest */,
+				5855B2082875ABA800DD818B /* BubbleUnitTests */,
 				58E2ECC228683BED0035CB7D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -287,6 +313,7 @@
 			children = (
 				58E2ECC128683BED0035CB7D /* Bubble.app */,
 				5860A4802872027400F18FEE /* SettingsUITest.xctest */,
+				5855B2072875ABA800DD818B /* BubbleUnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -323,6 +350,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		5855B2062875ABA800DD818B /* BubbleUnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5855B20F2875ABA800DD818B /* Build configuration list for PBXNativeTarget "BubbleUnitTests" */;
+			buildPhases = (
+				5855B2032875ABA800DD818B /* Sources */,
+				5855B2042875ABA800DD818B /* Frameworks */,
+				5855B2052875ABA800DD818B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5855B20C2875ABA800DD818B /* PBXTargetDependency */,
+			);
+			name = BubbleUnitTests;
+			productName = BubbleUnitTests;
+			productReference = 5855B2072875ABA800DD818B /* BubbleUnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		5860A47F2872027400F18FEE /* SettingsUITest */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5860A48A2872027400F18FEE /* Build configuration list for PBXNativeTarget "SettingsUITest" */;
@@ -371,6 +416,10 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
+					5855B2062875ABA800DD818B = {
+						CreatedOnToolsVersion = 13.4.1;
+						TestTargetID = 58E2ECC028683BED0035CB7D;
+					};
 					5860A47F2872027400F18FEE = {
 						CreatedOnToolsVersion = 13.4.1;
 						TestTargetID = 58E2ECC028683BED0035CB7D;
@@ -398,11 +447,19 @@
 			targets = (
 				58E2ECC028683BED0035CB7D /* Bubble (iOS) */,
 				5860A47F2872027400F18FEE /* SettingsUITest */,
+				5855B2062875ABA800DD818B /* BubbleUnitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5855B2052875ABA800DD818B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5860A47E2872027400F18FEE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -421,6 +478,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5855B2032875ABA800DD818B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5855B20A2875ABA800DD818B /* BubbleUnitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5860A47C2872027400F18FEE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -473,6 +538,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5855B20C2875ABA800DD818B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 58E2ECC028683BED0035CB7D /* Bubble (iOS) */;
+			targetProxy = 5855B20B2875ABA800DD818B /* PBXContainerItemProxy */;
+		};
 		5860A4872872027400F18FEE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 58E2ECC028683BED0035CB7D /* Bubble (iOS) */;
@@ -481,6 +551,47 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		5855B20D2875ABA800DD818B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LU5G7HVPJ7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.ohshitnotgood.BubbleUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bubble.app/Bubble";
+			};
+			name = Debug;
+		};
+		5855B20E2875ABA800DD818B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LU5G7HVPJ7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.ohshitnotgood.BubbleUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bubble.app/Bubble";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		5860A4882872027400F18FEE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -697,6 +808,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5855B20F2875ABA800DD818B /* Build configuration list for PBXNativeTarget "BubbleUnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5855B20D2875ABA800DD818B /* Debug */,
+				5855B20E2875ABA800DD818B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		5860A48A2872027400F18FEE /* Build configuration list for PBXNativeTarget "SettingsUITest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
