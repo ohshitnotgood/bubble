@@ -10,6 +10,8 @@ import Foundation
 class OrderCustomizerViewModel: ObservableObject {
     var menuItem: MenuItem
     
+    @Published var order = Order()
+    
     @Published var selectedFromRegular: [String] = []
     @Published var selectedFromExtra: [String] = []
     @Published var notes: String = ""
@@ -24,34 +26,34 @@ class OrderCustomizerViewModel: ObservableObject {
     
     @Published var isOrderComplete: Bool = false
     
-    @Published var regularIngredients: [(isOn: Bool, value: String)] = [] {
+    @Published var regularIngredientToggleValues: [(isOn: Bool, value: String)] = [] {
         didSet {
-            regularIngredients.forEach { isOn, ingredient in
+            regularIngredientToggleValues.forEach { isOn, ingredient in
                 if isOn {
                     print("\(ingredient) has been set to \(isOn)")
-                    selectedFromRegular.appendIfNotContains(ingredient)
+                    order.regularIngredients.appendIfNotContains(ingredient)
                 } else {
                     print("\(ingredient) has been set to \(isOn)")
-                    selectedFromRegular.removeFirstInstance(of: ingredient)
+                    order.regularIngredients.removeFirstInstance(of: ingredient)
                 }
             }
-            print("\nlist: \(selectedFromRegular)")
+            print("\nlist: \(order.regularIngredients)")
             updateOrderCompletionFlag()
         }
     }
     
-    @Published var extraIngredients: [(isOn: Bool, value: String)] = [] {
+    @Published var extraIngredientsToggleValues: [(isOn: Bool, value: String)] = [] {
         didSet {
-            extraIngredients.forEach { isOn, ingredient in
+            extraIngredientsToggleValues.forEach { isOn, ingredient in
                 if isOn {
                     print("\(ingredient) has been set to \(isOn)")
-                    selectedFromExtra.appendIfNotContains(ingredient)
+                    order.extraIngredients.appendIfNotContains(ingredient)
                 } else {
                     print("\(ingredient) has been set to \(isOn)")
-                    selectedFromExtra.removeFirstInstance(of: ingredient)
+                    order.extraIngredients.removeFirstInstance(of: ingredient)
                 }
             }
-            print("\nlist: \(selectedFromExtra)")
+            print("\nlist: \(order.extraIngredients)")
             updateOrderCompletionFlag()
         }
     }
@@ -59,12 +61,25 @@ class OrderCustomizerViewModel: ObservableObject {
     init(_ menuItem: MenuItem) {
         self.menuItem = menuItem
         menuItem.regularIngredients.forEach { each_ingredient in
-            regularIngredients.append((isOn: true, value: each_ingredient))
+            regularIngredientToggleValues.append((isOn: true, value: each_ingredient))
         }
         
         menuItem.extraIngredients.forEach { each_ingredient in
-            extraIngredients.append((isOn: false, value: each_ingredient))
+            extraIngredientsToggleValues.append((isOn: false, value: each_ingredient))
         }
+    }
+    
+    init(with menuItem: MenuItem, and order: Order) {
+        self.menuItem = menuItem
+        menuItem.regularIngredients.forEach { each_ingredient in
+            regularIngredientToggleValues.append((isOn: true, value: each_ingredient))
+        }
+        
+        menuItem.extraIngredients.forEach { each_ingredient in
+            extraIngredientsToggleValues.append((isOn: false, value: each_ingredient))
+        }
+        
+        self.order = order
     }
     
     

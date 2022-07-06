@@ -35,7 +35,7 @@ struct OrderCustomizerView: View {
             
             Section(content: {
                 ForEach(menuItem.regularIngredients.indices, id: \.self) {
-                    Toggle(menuItem.regularIngredients[$0], isOn: $vm.regularIngredients[$0].isOn)
+                    Toggle(menuItem.regularIngredients[$0], isOn: $vm.regularIngredientToggleValues[$0].isOn)
                 }
                 
                 
@@ -46,7 +46,7 @@ struct OrderCustomizerView: View {
             if menuItem.extraIngredients.count > 0 {
                 Section(content: {
                     ForEach(menuItem.extraIngredients.indices, id: \.self) {
-                        Toggle(menuItem.extraIngredients[$0], isOn: $vm.extraIngredients[$0].isOn)
+                        Toggle(menuItem.extraIngredients[$0], isOn: $vm.extraIngredientsToggleValues[$0].isOn)
                     }
                 }, header: {
                     Text("Extra Ingredients")
