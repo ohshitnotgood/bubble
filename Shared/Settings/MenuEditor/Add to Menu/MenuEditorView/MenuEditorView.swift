@@ -203,6 +203,9 @@ struct MenuEditorView: View {
             
             newItem.regularIngredients.removeDuplicates()
             newItem.extraIngredients.removeDuplicates()
+            
+            newItem.regularIngredients.stripAll()
+            newItem.extraIngredients.stripAll()
         }
     }
     
