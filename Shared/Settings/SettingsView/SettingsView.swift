@@ -66,8 +66,21 @@ struct SettingsView: View {
                     Toggle(isOn: $settings.data.showCustomItemView) {
                         Text("Enable custom filtering")
                     }
-                
                 }
+                
+                #if DEBUG
+                Section {
+                    Button("Load Demo Data into Menu") {
+                        menuItemStore.items.append(demoMenuItem_pizza)
+                        menuItemStore.items.append(demoMenuItem_pasta)
+                        Task {
+                            try await menuItemStore.saveAll()
+                        }
+                    }
+                } footer: {
+                    Text("This will save a set of dummy data to the menu for testing. If you are using a release version of the app and you are seeing this message, report a bug to praanto@icloud.com.")
+                }
+                #endif
             }.navigationTitle("Settings")
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction, content: {
