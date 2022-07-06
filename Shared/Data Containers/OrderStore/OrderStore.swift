@@ -22,7 +22,7 @@ class OrderStore: ObservableObject {
     }
     
     private func load_current() async throws {
-        let fileURL = try FileManager.default.getURL(for: .orders)
+        let fileURL = try FileManager.default.getURL(for: .currentOrders)
         guard let file = try? FileHandle(forReadingFrom: fileURL) else { return }
         current = (try JSONDecoder().decode([Order].self, from: file.availableData))
     }
@@ -34,7 +34,7 @@ class OrderStore: ObservableObject {
     }
     
     private func save_current() async throws {
-        let outfile = try FileManager.default.getURL(for: .orders)
+        let outfile = try FileManager.default.getURL(for: .currentOrders)
         let data = try JSONEncoder().encode(current)
         try data.write(to: outfile, options: .completeFileProtection)
     }

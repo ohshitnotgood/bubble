@@ -18,7 +18,7 @@ enum FileURLType: String {
     case ingredients    = "menuIngredients.data"
     case categories     = "menuCategory.data"
     case warnings       = "menuWarnings.data"
-    case orders         = "orders.data"
+    case currentOrders         = "orders.data"
     case orderHistory   = "order_history.data"
     case settings       = "settings_store.data"
 }
