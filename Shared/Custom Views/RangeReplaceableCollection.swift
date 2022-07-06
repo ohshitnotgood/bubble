@@ -54,4 +54,10 @@ extension Array where Element == String {
     mutating func stripAll() {
         self = self.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
     }
+    
+    mutating func removeFirstInstance(of string: String) {
+        if let index = self.firstIndex(of: string) {
+            self.remove(at: index)
+        }
+    }
 }

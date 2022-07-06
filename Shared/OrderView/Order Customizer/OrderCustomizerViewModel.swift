@@ -24,50 +24,51 @@ class OrderCustomizerViewModel: ObservableObject {
     
     @Published var isOrderComplete: Bool = false
     
-    @Published var regularIngredientsToggleValues: [Bool] = [] {
+    @Published var regularIngredients: [(isOn: Bool, value: String)] = [] {
         didSet {
-            updateOrderCompletionFlag()
-            
-            print("Change detected in regular ingredients toggle values list")
-            
-            regularIngredientsToggleValues.indices.forEach { idx in
-                if regularIngredientsToggleValues[idx] == true {
-                    selectedFromRegular.append(menuItem.regularIngredients[idx])
+            regularIngredients.forEach { isOn, ingredient in
+                if isOn {
+                    print("\(ingredient) has been set to \(isOn)")
+                    selectedFromRegular.appendIfNotContains(ingredient)
                 } else {
-                    if let index = selectedFromRegular.firstIndex(of: menuItem.regularIngredients[idx]) {
-                        selectedFromRegular.remove(at: index)
-                    }
+                    print("\(ingredient) has been set to \(isOn)")
+                    selectedFromRegular.removeFirstInstance(of: ingredient)
                 }
             }
+            print("\nlist: \(selectedFromRegular)")
+            updateOrderCompletionFlag()
         }
     }
     
-    @Published var extraIngredientsToggleValues: [Bool] = [] {
+    @Published var extraIngredients: [(isOn: Bool, value: String)] = [] {
         didSet {
-            extraIngredientsToggleValues.indices.forEach { idx in
-                if extraIngredientsToggleValues[idx] == true {
-                    selectedFromExtra.append(menuItem.extraIngredients[idx])
+            extraIngredients.forEach { isOn, ingredient in
+                if isOn {
+                    print("\(ingredient) has been set to \(isOn)")
+                    selectedFromExtra.appendIfNotContains(ingredient)
                 } else {
-                    if let index = selectedFromExtra.firstIndex(of: menuItem.extraIngredients[idx]) {
-                        selectedFromExtra.remove(at: index)
-                    }
+                    print("\(ingredient) has been set to \(isOn)")
+                    selectedFromExtra.removeFirstInstance(of: ingredient)
                 }
             }
+            print("\nlist: \(selectedFromExtra)")
+            updateOrderCompletionFlag()
         }
     }
     
     init(_ menuItem: MenuItem) {
         self.menuItem = menuItem
         menuItem.regularIngredients.forEach { each_ingredient in
-            regularIngredientsToggleValues.append(true)
+            regularIngredients.append((isOn: true, value: each_ingredient))
         }
         
         menuItem.extraIngredients.forEach { each_ingredient in
-            extraIngredientsToggleValues.append(false)
+            extraIngredients.append((isOn: false, value: each_ingredient))
         }
     }
     
+    
     private func updateOrderCompletionFlag() {
-        isOrderComplete = selectedFromRegular.count > 0 && servingSize > 0
+        isOrderComplete = (selectedFromRegular.count > 0) && (servingSize > 0)
     }
 }

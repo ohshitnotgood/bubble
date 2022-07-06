@@ -16,7 +16,7 @@ struct OrderViewCell: View {
     
     var body: some View {
         NavigationLink {
-            OrderCustomizerView(MenuItem())
+            OrderCustomizerView(MenuItem(itemName: order.name, regularIngredients: order.regularIngredients, warnings: [], extraIngredients: order.extraIngredients, category: ""))
                 .environmentObject(MenuItemStore())
         } label: {
             HStack {
@@ -31,6 +31,7 @@ struct OrderViewCell: View {
                     
                     Text("**With**: \(String(order.regularIngredients.map { $0 + ", "}.joined().dropLast().dropLast()))")
                         .foregroundStyle(.secondary)
+                        .font(.subheadline)
                     
                     Text("**Notes**: \(order.notes)")
                         .foregroundStyle(.secondary)

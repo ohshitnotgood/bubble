@@ -19,18 +19,23 @@ struct OrderCustomizerView: View {
         self.vm = OrderCustomizerViewModel(menuItem)
     }
     
+    init(_ menuItem: MenuItem, order: Order) {
+        self._menuItem = State(initialValue: menuItem)
+        self.vm = OrderCustomizerViewModel(menuItem)
+    }
+    
     var body: some View {
         List {
             Section {
                 Stepper("Servings size", value: $vm.servingSize)
             } footer: {
-                Text("Serving for **\(vm.servingSize) people**")
+                Text("**\(vm.servingSize) people**")
                     .frame(maxWidth: .infinity, alignment: .trailing)
             }
             
             Section(content: {
                 ForEach(menuItem.regularIngredients.indices, id: \.self) {
-                    Toggle(menuItem.regularIngredients[$0], isOn: $vm.regularIngredientsToggleValues[$0])
+                    Toggle(menuItem.regularIngredients[$0], isOn: $vm.regularIngredients[$0].isOn)
                 }
                 
                 
@@ -41,7 +46,7 @@ struct OrderCustomizerView: View {
             if menuItem.extraIngredients.count > 0 {
                 Section(content: {
                     ForEach(menuItem.extraIngredients.indices, id: \.self) {
-                        Toggle(menuItem.extraIngredients[$0], isOn: $vm.extraIngredientsToggleValues[$0])
+                        Toggle(menuItem.extraIngredients[$0], isOn: $vm.extraIngredients[$0].isOn)
                     }
                 }, header: {
                     Text("Extra Ingredients")
@@ -62,7 +67,6 @@ struct OrderCustomizerView: View {
                 ToolbarItem(placement: .confirmationAction, content: {
                     Button("Add") {
                         addToOrder()
-                        dismiss()
                     }.disabled(!vm.isOrderComplete)
                 })
             }
@@ -70,9 +74,8 @@ struct OrderCustomizerView: View {
     
     func addToOrder() {
         if vm.isOrderComplete {
-            let order = menuItem.getOrderObject(notes: vm.notes, quantity: Double(vm.servingSize))
+            let order = Order(name: menuItem.itemName, regularIngredients: vm.selectedFromRegular, extraIngredients: vm.selectedFromExtra, notes: vm.notes, quantity: Double(vm.servingSize))
             orderStore.current.append(order)
-            dismiss()
         }
     }
 }

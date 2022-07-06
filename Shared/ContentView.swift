@@ -21,9 +21,12 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             Group {
-#warning("Make greater than zero.")
-                if orderStore.current.count <= 0 {
-                    Text("backgrud")
+                if orderStore.current.count > 0 {
+                    List {
+                        ForEach(orderStore.current, id: \.self) { each_order in
+                            OrderViewCell(each_order)
+                        }
+                    }.listStyle(.inset)
                 } else {
                     BlankView($showItemsView)
                         .onTapGesture(perform: {

@@ -43,6 +43,7 @@
 		58E2ECE3286847E80035CB7D /* CustomItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2ECE2286847E80035CB7D /* CustomItemsView.swift */; };
 		58F6E432286CD3770036D589 /* AddNewWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F6E431286CD3770036D589 /* AddNewWarningView.swift */; };
 		58F6E434286CD3B40036D589 /* WarningsEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F6E433286CD3B40036D589 /* WarningsEditorView.swift */; };
+		58FC3BAB287572E5007E7EB4 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FC3BAA287572E5007E7EB4 /* OrderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		58E2ECE2286847E80035CB7D /* CustomItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomItemsView.swift; sourceTree = "<group>"; };
 		58F6E431286CD3770036D589 /* AddNewWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewWarningView.swift; sourceTree = "<group>"; };
 		58F6E433286CD3B40036D589 /* WarningsEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningsEditorView.swift; sourceTree = "<group>"; };
+		58FC3BAA287572E5007E7EB4 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,6 +243,7 @@
 			isa = PBXGroup;
 			children = (
 				580589712874808200F074F3 /* Order Customizer */,
+				58FC3BAA287572E5007E7EB4 /* OrderView.swift */,
 			);
 			path = OrderView;
 			sourceTree = "<group>";
@@ -461,6 +464,7 @@
 				58C988272869EBD40042502E /* EditMenuView.swift in Sources */,
 				58C9881E2869D1970042502E /* MenuEditorView.swift in Sources */,
 				58E2ECE1286847E10035CB7D /* IngredientsItemsView.swift in Sources */,
+				58FC3BAB287572E5007E7EB4 /* OrderView.swift in Sources */,
 				58F6E432286CD3770036D589 /* AddNewWarningView.swift in Sources */,
 				58E2ECCA28683BED0035CB7D /* BubbleApp.swift in Sources */,
 			);

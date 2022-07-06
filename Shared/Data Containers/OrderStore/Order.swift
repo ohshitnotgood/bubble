@@ -8,7 +8,7 @@
 import Foundation
 
 /// Data structure to store information of individual orders such as names, date at which the order was made, notes, etc.
-struct Order: Codable {
+struct Order: Codable, Hashable {
     var name: String
     var dateTime = Date.now
     var regularIngredients: [String]
