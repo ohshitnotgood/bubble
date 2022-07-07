@@ -14,17 +14,11 @@ struct ItemsView: View {
     @EnvironmentObject var settingsStore: SettingsStore
     @EnvironmentObject var orderStore   : OrderStore
     
-    @State private var selection: ItemViewType = .alphabetical
+    @State private var selection: ItemViewType = .nil
     
     var body: some View {
         VStack {
-            if selection == .alphabetical {
-                AlphabeticItemsView()
-                    .environmentObject(menuItemStore)
-                    .environmentObject(settingsStore)
-                    .environmentObject(orderStore)
-                    
-            } else if selection == .categoric {
+            if selection == .categoric {
                 CategoryItemsView()
                     .environmentObject(menuItemStore)
                     .environmentObject(settingsStore)
@@ -36,11 +30,12 @@ struct ItemsView: View {
                     .environmentObject(settingsStore)
                     .environmentObject(orderStore)
                 
-            } else if selection == .custom {
-                CustomItemsView()
+            } else {
+                AlphabeticItemsView()
                     .environmentObject(menuItemStore)
                     .environmentObject(settingsStore)
                     .environmentObject(orderStore)
+                
                 
             }
         }
@@ -51,13 +46,13 @@ struct ItemsView: View {
                         Text("Alphabetic").tag(ItemViewType.alphabetical)
                         Text("Categoric").tag(ItemViewType.categoric)
                         Text("Ingredients").tag(ItemViewType.ingredients)
-                        
-                        if settingsStore.data.showCustomItemView {
-                            Text("Custom").tag(ItemViewType.custom)
-                        }
                     }
                 } label: {
-                    Text(selection.rawValue)
+                    if selection == .nil {
+                        Image(systemName: "line.3.horizontal.decrease.circle")
+                    } else {
+                        Text(selection.rawValue)
+                    }
                 }
             }
         }
@@ -119,5 +114,5 @@ enum ItemViewType: String, Equatable, CaseIterable {
     case alphabetical   = "Alphabetic"
     case categoric      = "Categoric"
     case ingredients    = "Ingredients"
-    case custom         = "Custom"
+    case `nil`          = ""
 }
