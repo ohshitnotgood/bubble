@@ -81,7 +81,7 @@ struct MenuItemEditorView: View {
             Section {
                 ForEach(menuItemStore.warnings, id: \.self) { each_w in
                     Button {
-                        
+                        vm.newItem.warnings.removeIfContainsElseAppend(each_w)
                     } label: {
                         // MARK: Warning label
                         HStack {
@@ -116,7 +116,7 @@ struct MenuItemEditorView: View {
                         Spacer()
                         Text(vm.newItem.category)
                         Image(systemName: "chevron.right")
-                            .foregroundColor(.gray)
+                            .foregroundColor(.secondary)
                             .font(.caption)
                     }
                 }
