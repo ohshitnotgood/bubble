@@ -9,15 +9,15 @@ import SwiftUI
 
 struct MenuItemEditorView: View {
     @EnvironmentObject var menuItemStore: MenuItemStore
-    @ObservedObject private var vm: MenuItemEditorViewModel
+    @StateObject private var vm: MenuItemEditorViewModel
     @Environment(\.dismiss) private var dismiss
     
     init() {
-        self.vm = MenuItemEditorViewModel()
+        _vm = StateObject(wrappedValue: MenuItemEditorViewModel())
     }
     
     init(inEditMode menuItem: MenuItem) {
-        self.vm = MenuItemEditorViewModel(inEditMode: menuItem)
+        _vm = StateObject(wrappedValue: MenuItemEditorViewModel(inEditMode: menuItem))
     }
     
     func saveData() async throws {
@@ -43,9 +43,6 @@ struct MenuItemEditorView: View {
                     .onChange(of: vm.newItem.itemName, perform: { _ in
                         vm.checkItemExist(in: menuItemStore.items)
                     })
-//                    .introspectTextField { tf in
-//                        tf.becomeFirstResponder()
-//                    }
             } header: {
                 Text("Item name")
             } footer: {
@@ -142,14 +139,16 @@ struct MenuItemEditorView: View {
             }
             
             
-        }.navigationTitle(vm.item_editing_mode ? "Edit Menu Item Editor" : "Add a Menu Item Editor")
+        }.navigationTitle(vm.item_editing_mode ? "Edit Menu Item" : "Add a Menu Item")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") { Task {
                         vm.updateConfirmationDialogFlag()
-                        try await saveData()
-                        dismiss()
+                        if !vm.showConfirmationDialog {
+                            try await saveData()
+                            dismiss()
+                        }
                     }}.disabled(vm.newItem.itemName.isEmpty || vm.newItem.category.isEmpty || vm.itemAlreadyExists)
                 }
             }

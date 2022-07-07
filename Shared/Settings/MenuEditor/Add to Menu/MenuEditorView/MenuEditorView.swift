@@ -11,7 +11,7 @@ import Introspect
 /// Displays text fields and toggles to edit an item in the menu.
 ///
 ///
-@available(*, deprecated, renamed: "MenuItemEditorView()")
+@available(*, renamed: "MenuItemEditorView()")
 struct MenuEditorView: View {
     @Environment(\.dismiss) private var dismiss
     

@@ -29,31 +29,21 @@ struct EditMenuView: View {
     
     // MARK: - Body
     var body: some View {
-        List {
-            ForEach(menuItemStore.items, id: \.self) { each_item in
-                // MARK: NavigationLink
-                NavigationLink(destination: { MenuItemEditorView(inEditMode: each_item).environmentObject(menuItemStore)}, label: {
-                    VStack (alignment: .leading) {
-                        HStack {
-                            Image(systemName: "line.3.horizontal")
-                                .font(.body.weight(.bold))
-                                .foregroundStyle(.secondary)
-                                .padding(.trailing, 10)
-                                .padding(.vertical, 5)
-                            
-                            Text(each_item.itemName)
-                            
-                            Spacer()
-                            
-                            Image(systemName: "chevron.right")
-                                .font(.callout)
-                                .foregroundStyle(.tertiary)
-                        }
-                    }.padding(.vertical, 5)
-                }).buttonStyle(.plain)
+        Group {
+            if menuItemStore.items.count > 0 {
+            List {
+                ForEach(menuItemStore.items, id: \.self) { each_item in
+                    // MARK: NavigationLink
+                    NavigationLink(destination: { MenuItemEditorView(inEditMode: each_item).environmentObject(menuItemStore)}, label: {
+                        Text(each_item.itemName)
+                    }).buttonStyle(.plain)
+                }
+            }
+            } else {
+                Text("No items")
+                    .foregroundStyle(.secondary)
             }
         }.navigationTitle("Edit Menu")
-            .listStyle(.inset)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {

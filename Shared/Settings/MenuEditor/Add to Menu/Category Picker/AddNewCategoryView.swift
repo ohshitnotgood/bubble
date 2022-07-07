@@ -22,9 +22,9 @@ struct AddNewCategoryView: View {
             Task {
                 menuItemStore.categories.appendIfNotContains(text.trimmingCharacters(in: .whitespacesAndNewlines))
                 try await menuItemStore.saveCategories()
+                dismiss()
             }
         }
-        dismiss()
     }
     
     var body: some View {
