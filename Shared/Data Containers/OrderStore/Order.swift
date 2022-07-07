@@ -51,6 +51,7 @@ struct Order: Codable, Hashable {
     
     static let pizza = Order(name: "Pizza", regularIngredients: ["Pesto Sauce"], extraIngredients: [""], notes: "Extra cheese", quantity: 1.0, menuItem: MenuItem.pizza)
     
-    static let pasta = Order(name: "Pizza", regularIngredients: ["Pesto Sauce"], extraIngredients: [""], notes: "Extra cheese", quantity: 1.0, menuItem: MenuItem.pizza)
+    static let pasta = Order(name: "Pizza", regularIngredients: ["Pesto Sauce"], extraIngredients: [""], notes: "", quantity: 1.0, menuItem: MenuItem.pizza)
 
+    static let spagghetti = Order(name: "Spagghetti", regularIngredients: ["Tomato Sauce", "Mozzarella Cheese", "Parmesan Cheese"], extraIngredients: ["Pecorino Cheese"], notes: "", quantity: 1.0, menuItem: MenuItem.pizza)
 }

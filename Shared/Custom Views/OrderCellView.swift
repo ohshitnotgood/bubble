@@ -32,8 +32,10 @@ struct OrderCellView: View {
                         .foregroundStyle(.secondary)
                         .font(.subheadline)
                     
-                    Text("**Notes**: \(order.notes)")
-                        .foregroundStyle(.secondary)
+                    if order.notes.isNotEmpty {
+                        Text("**Notes**: \(order.notes)")
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }.padding(.vertical, 5)
         }
@@ -45,12 +47,9 @@ struct OrderViewCell_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             List {
-                Section {
-                    OrderCellView(Order.pasta)
-                    OrderCellView(Order.pizza)
-                } header: {
-                    Text("Person 1")
-                }
+                OrderCellView(Order.pasta)
+                OrderCellView(Order.pizza)
+                OrderCellView(Order.spagghetti)
             }.listStyle(.inset)
                 .navigationTitle("Orders")
         }
