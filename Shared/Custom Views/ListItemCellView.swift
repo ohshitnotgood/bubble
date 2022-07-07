@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ListItem: View {
+struct ListItemCellView: View {
     @State private var menuItem: MenuItem
     private var itemNumber: String = ""
     
@@ -58,7 +58,7 @@ struct ListItem_Previews: PreviewProvider {
             NavigationView {
                 List {
                     ForEach(0...20, id: \.self) { _ in
-                        ListItem(demoMenuItem_pasta)
+                        ListItemCellView(MenuItem.pasta)
                     }
                 }.listStyle(.plain)
             }
@@ -66,7 +66,7 @@ struct ListItem_Previews: PreviewProvider {
             NavigationView {
                 List {
                     ForEach(0...20, id: \.self) {
-                        ListItem(demoMenuItem_pasta, itemNumber: $0)
+                        ListItemCellView(MenuItem.pasta, itemNumber: $0)
                     }
                 }.listStyle(.plain)
             }

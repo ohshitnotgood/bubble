@@ -33,7 +33,7 @@ struct IngredientsItemsView: View {
                 Section {
                     ForEach(menuItemStore.items, id: \.self) { menu_item in
                         if menu_item.regularIngredients.contains(each_ingredient) {
-                            ListItem(menu_item)
+                            ListItemCellView(menu_item)
                         }
                     }
                 } header: {

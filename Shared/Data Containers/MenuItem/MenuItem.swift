@@ -65,8 +65,9 @@ struct MenuItem: Hashable, Codable {
         
         return r
     }
+    
+    static let pizza = MenuItem(itemName: "Pizza", regularIngredients: ["Tomato Sauce", "Mozzarella Cheese", "Chicken"], warnings: ["Gluten", "Lactose", "Non-veg/non-vegan"], extraIngredients: ["Pesto Sauce", "Sausages", "Ham", "Bacon"], category: "Pizzas")
+    
+    static let pasta = MenuItem(itemName: "Pasta", regularIngredients: ["Tomato Sauce", "Carbonara Cream", "Chicken"], warnings: ["Gluten", "Lactose", "Non-veg/non-vegan"], extraIngredients: ["Parmesan Cheese", "Cheddar Cheese", "Sausages", "Olives"], category: "Pastas")
+
 }
-
-var demoMenuItem_pizza = MenuItem(itemName: "Pizza", regularIngredients: ["Tomato Sauce", "Mozzarella Cheese", "Chicken"], warnings: ["Gluten", "Lactose", "Non-veg/non-vegan"], extraIngredients: ["Pesto Sauce", "Sausages", "Ham", "Bacon"], category: "Pizzas")
-
-var demoMenuItem_pasta = MenuItem(itemName: "Pasta", regularIngredients: ["Tomato Sauce", "Mozzarella Cheese", "Chicken"], warnings: ["Gluten", "Lactose", "Non-veg/non-vegan"], extraIngredients: ["Pesto Sauce", "Parmesan Cheese"], category: "Pastas")

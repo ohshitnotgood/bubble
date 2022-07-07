@@ -286,7 +286,7 @@ struct MenuEditorView: View {
 struct AddToMenuView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            MenuEditorView(menuItem: demoMenuItem_pasta)
+            MenuEditorView(menuItem: MenuItem.pizza)
                 .environmentObject(MenuItemStore())
         }
     }

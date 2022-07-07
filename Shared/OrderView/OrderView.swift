@@ -15,7 +15,7 @@ struct OrderView: View {
     var body: some View {
         List {
             ForEach(orderStore.current, id: \.self) { each_order in
-                OrderViewCell(each_order)
+                OrderCellView(each_order)
             }
         }.listStyle(.inset)
             .onAppear {

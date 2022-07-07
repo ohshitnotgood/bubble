@@ -94,7 +94,7 @@ struct OrderCustomizerView: View {
 struct MenuCustomizerView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            OrderCustomizerView(inCreateMode: demoMenuItem_pasta)
+            OrderCustomizerView(inCreateMode: MenuItem.pasta)
                 .environmentObject(OrderStore())
         }
     }

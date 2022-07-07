@@ -29,7 +29,7 @@ struct CategoryItemsView: View {
             ForEach(categories, id: \.self) { category in
                 Section(content: {
                     ForEach(menuItemStore.items.filter { $0.category == category }, id: \.self) { menuItem in
-                        ListItem(menuItem)
+                        ListItemCellView(menuItem)
                             .id(menuItem)
                     }
                 }, header: { Text(category) }).id(category)

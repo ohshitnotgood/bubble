@@ -48,6 +48,9 @@ struct Order: Codable, Hashable {
         self.quantity = quantity
         self.menuItem = menuItem
     }
-}
+    
+    static let pizza = Order(name: "Pizza", regularIngredients: ["Pesto Sauce"], extraIngredients: [""], notes: "Extra cheese", quantity: 1.0, menuItem: MenuItem.pizza)
+    
+    static let pasta = Order(name: "Pizza", regularIngredients: ["Pesto Sauce"], extraIngredients: [""], notes: "Extra cheese", quantity: 1.0, menuItem: MenuItem.pizza)
 
-var dummyOrder = Order(name: "Pizza", regularIngredients: ["Pesto Sauce"], extraIngredients: [""], notes: "Extra cheese", quantity: 1.0, menuItem: demoMenuItem_pasta)
+}

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct OrderViewCell: View {
+struct OrderCellView: View {
     @State private var order: Order
     
     init(_ order: Order) {
@@ -46,8 +46,8 @@ struct OrderViewCell_Previews: PreviewProvider {
         NavigationView {
             List {
                 Section {
-                    OrderViewCell(dummyOrder)
-                    OrderViewCell(dummyOrder)
+                    OrderCellView(Order.pasta)
+                    OrderCellView(Order.pizza)
                 } header: {
                     Text("Person 1")
                 }

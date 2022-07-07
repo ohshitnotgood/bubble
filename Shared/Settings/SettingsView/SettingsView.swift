@@ -71,8 +71,8 @@ struct SettingsView: View {
                 #if DEBUG
                 Section {
                     Button("Load Demo Data into Menu") {
-                        menuItemStore.items.append(demoMenuItem_pizza)
-                        menuItemStore.items.append(demoMenuItem_pasta)
+                        menuItemStore.items.append(MenuItem.pizza)
+                        menuItemStore.items.append(MenuItem.pasta)
                         Task {
                             try await menuItemStore.saveAll()
                         }
