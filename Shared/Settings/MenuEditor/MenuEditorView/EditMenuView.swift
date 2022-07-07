@@ -32,7 +32,7 @@ struct EditMenuView: View {
         List {
             ForEach(menuItemStore.items, id: \.self) { each_item in
                 // MARK: NavigationLink
-                NavigationLink(destination: { MenuEditorView(menuItem: each_item).environmentObject(menuItemStore)}, label: {
+                NavigationLink(destination: { MenuItemEditorView(inEditMode: each_item).environmentObject(menuItemStore)}, label: {
                     VStack (alignment: .leading) {
                         HStack {
                             Image(systemName: "line.3.horizontal")
@@ -57,7 +57,7 @@ struct EditMenuView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: MenuEditorView().environmentObject(menuItemStore), label: {
+                    NavigationLink(destination: MenuItemEditorView().environmentObject(menuItemStore), label: {
                         Text("Add New Item")
                     })
                 }

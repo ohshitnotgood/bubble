@@ -10,7 +10,8 @@ import Introspect
 
 /// Displays text fields and toggles to edit an item in the menu.
 ///
-/// 
+///
+@available(*, deprecated, renamed: "MenuItemEditorView()")
 struct MenuEditorView: View {
     @Environment(\.dismiss) private var dismiss
     
@@ -263,10 +264,10 @@ struct MenuEditorView: View {
             .interactiveDismissDisabled()
             .sheet(isPresented: $showWarningsEditor) { WarningsEditorView().environmentObject(menuItemStore) }
             .sheet(isPresented: $showRegularPicker, content: {
-                IngredientSelector(saveSelectedIngredientsIn: $newItem.regularIngredients, ingredientsSaveOnDevice: menuItemStore.ingredients)
+                IngredientSelector(saveSelectedIngredientsIn: $newItem.regularIngredients, loadSavedIngredientsFrom: menuItemStore.ingredients)
             })
             .sheet(isPresented: $showExtraPicker, content: {
-                IngredientSelector(saveSelectedIngredientsIn: $newItem.extraIngredients, ingredientsSaveOnDevice: menuItemStore.ingredients)
+                IngredientSelector(saveSelectedIngredientsIn: $newItem.extraIngredients, loadSavedIngredientsFrom: menuItemStore.ingredients)
             })
             .confirmationDialog("Discard Changes", isPresented: $showConfirmationDialog, actions: {
                 confirmationDialogButtons {

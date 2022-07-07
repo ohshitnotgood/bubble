@@ -24,7 +24,7 @@ struct CategoryPickerView: View {
                         ForEach(menuItemStore.categories, id: \.self) { each_category in
                             Button {
                                 selection = each_category
-                                dismiss()
+//                                dismiss()
                             } label: {
                                 HStack {
                                     Text(each_category)

@@ -16,7 +16,7 @@ struct IngredientSelector: View {
     var selectedIngredients: Binding<[String]>
     @State var availableIngredients: [String] = []
     
-    init(saveSelectedIngredientsIn: Binding<[String]>, ingredientsSaveOnDevice availableIngredients: [String]) {
+    init(saveSelectedIngredientsIn: Binding<[String]>, loadSavedIngredientsFrom availableIngredients: [String]) {
         selectedIngredients = saveSelectedIngredientsIn
         
         var t = availableIngredients
@@ -37,7 +37,7 @@ struct IngredientSelector: View {
                         })
                         .textInputAutocapitalization(.words)
                         .focused($focus, equals: true)
-                        .submitLabel(.next)
+                        .submitLabel(newIngredientName.isEmpty ? .done : .next)
                         .onSubmit {
                             withAnimation {
                                 selectedIngredients.wrappedValue.appendIfNotContains(newIngredientName)
@@ -100,7 +100,7 @@ struct IngredientSelector: View {
 
 struct IngredientSelector_Previews: PreviewProvider {
     static var previews: some View {
-        IngredientSelector(saveSelectedIngredientsIn: .constant([]), ingredientsSaveOnDevice: [])
+        IngredientSelector(saveSelectedIngredientsIn: .constant([]), loadSavedIngredientsFrom: [])
             .environmentObject(MenuItemStore())
             .navigationTitle("Edit Ingredients")
             .navigationBarTitleDisplayMode(.inline)

@@ -18,6 +18,8 @@
 		5865AF48286B7697001DC570 /* CategoryPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5865AF47286B7697001DC570 /* CategoryPickerView.swift */; };
 		5865AF4B286B77EE001DC570 /* AddNewCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5865AF4A286B77EE001DC570 /* AddNewCategoryView.swift */; };
 		5871ADCE2869703A000B0393 /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5871ADCD2869703A000B0393 /* ListItem.swift */; };
+		5880BFD028761AE700E1B29B /* MenuItemEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5880BFCF28761AE700E1B29B /* MenuItemEditorView.swift */; };
+		5880BFD228761B0600E1B29B /* MenuItemEditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5880BFD128761B0600E1B29B /* MenuItemEditorViewModel.swift */; };
 		588289D128694AD1003D9BF8 /* OrderCustomizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588289D028694AD1003D9BF8 /* OrderCustomizerView.swift */; };
 		58A67B69286B1FBD001F1A5D /* RangeReplaceableCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A67B68286B1FBD001F1A5D /* RangeReplaceableCollection.swift */; };
 		58B1222E2868778400FB49F6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B1222D2868778400FB49F6 /* SettingsView.swift */; };
@@ -79,6 +81,8 @@
 		5865AF47286B7697001DC570 /* CategoryPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerView.swift; sourceTree = "<group>"; };
 		5865AF4A286B77EE001DC570 /* AddNewCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCategoryView.swift; sourceTree = "<group>"; };
 		5871ADCD2869703A000B0393 /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
+		5880BFCF28761AE700E1B29B /* MenuItemEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemEditorView.swift; sourceTree = "<group>"; };
+		5880BFD128761B0600E1B29B /* MenuItemEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemEditorViewModel.swift; sourceTree = "<group>"; };
 		588289D028694AD1003D9BF8 /* OrderCustomizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCustomizerView.swift; sourceTree = "<group>"; };
 		58A67B68286B1FBD001F1A5D /* RangeReplaceableCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeReplaceableCollection.swift; sourceTree = "<group>"; };
 		58B1222D2868778400FB49F6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -193,6 +197,8 @@
 			children = (
 				58C9881D2869D1970042502E /* MenuEditorView.swift */,
 				58307E5C2874A4D500163EF7 /* MenuEditorViewBuilder.swift */,
+				5880BFCF28761AE700E1B29B /* MenuItemEditorView.swift */,
+				5880BFD128761B0600E1B29B /* MenuItemEditorViewModel.swift */,
 			);
 			path = MenuEditorView;
 			sourceTree = "<group>";
@@ -525,6 +531,7 @@
 				58C9881C2869CC100042502E /* MenuItemStore.swift in Sources */,
 				58E0ABD72875F94C001C5717 /* IngredientSelector.swift in Sources */,
 				58D2BF70287403F2008FD289 /* Order.swift in Sources */,
+				5880BFD228761B0600E1B29B /* MenuItemEditorViewModel.swift in Sources */,
 				582ACF952870722200BCFF82 /* VisualEffectView.swift in Sources */,
 				58BE48AF28695F5D0013775B /* SearchField.swift in Sources */,
 				5865AF48286B7697001DC570 /* CategoryPickerView.swift in Sources */,
@@ -542,6 +549,7 @@
 				58C9881E2869D1970042502E /* MenuEditorView.swift in Sources */,
 				58E2ECE1286847E10035CB7D /* IngredientsItemsView.swift in Sources */,
 				58FC3BAB287572E5007E7EB4 /* OrderView.swift in Sources */,
+				5880BFD028761AE700E1B29B /* MenuItemEditorView.swift in Sources */,
 				58F6E432286CD3770036D589 /* AddNewWarningView.swift in Sources */,
 				58E2ECCA28683BED0035CB7D /* BubbleApp.swift in Sources */,
 			);

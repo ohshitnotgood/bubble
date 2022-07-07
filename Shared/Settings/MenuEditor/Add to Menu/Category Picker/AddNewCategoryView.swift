@@ -17,7 +17,7 @@ struct AddNewCategoryView: View {
     // Checks if new name is empty and if it isn't,
     // adds new category to list, saves it to local device and
     // dismisses view.
-    func save_data() {
+    func saveDataAndDismiss() {
         if !text.isEmpty {
             Task {
                 menuItemStore.categories.appendIfNotContains(text.trimmingCharacters(in: .whitespacesAndNewlines))
@@ -37,7 +37,7 @@ struct AddNewCategoryView: View {
                             })
                         })
                         .submitLabel(.done)
-                        .onSubmit(save_data)
+                        .onSubmit(saveDataAndDismiss)
                         .introspectTextField { tf in
                             tf.becomeFirstResponder()
                         }.textInputAutocapitalization(.words)
@@ -53,8 +53,9 @@ struct AddNewCategoryView: View {
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction, content: {
                         Button("Save") {
-                            save_data()
-                        }.disabled(text.isEmpty || categoryAlreadyExists)
+                            saveDataAndDismiss()
+                        }
+                        .disabled(text.isEmpty || categoryAlreadyExists)
                     })
                     
                     ToolbarItem(placement: .navigationBarLeading, content: {
