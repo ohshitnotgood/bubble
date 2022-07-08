@@ -15,22 +15,19 @@ struct ContentView: View {
     @EnvironmentObject var settingsStore: SettingsStore
     @EnvironmentObject var orderStore   : OrderStore
     
-    
     var body: some View {
         NavigationView {
             Group {
                 if orderStore.current.count > 0 {
                     OrderView()
-//                    List {
-//                        ForEach(orderStore.current, id: \.self) { each_order in
-//                            OrderViewCell(each_order)
-//                        }
-//                    }.listStyle(.inset)
                 } else {
-                    BlankView($showItemsView)
-                        .onTapGesture(perform: {
-                            showItemsView = true
-                        }).ignoresSafeArea(.all, edges: .all)
+                    ScrollView {
+                        Text("No orders")
+                            .padding(.top, UIScreen.screenHeight / 3)
+                            .foregroundStyle(.secondary)
+                    }.onTapGesture {
+                        showItemsView = true
+                    }
                 }
                 
             }.navigationTitle("Orders")
@@ -57,7 +54,7 @@ struct ContentView: View {
                         Button(action: {
                             Task {
                                 withAnimation {
-                                    orderStore.current = []
+                                    orderStore.current.removeAll()
                                 }
                                 try await orderStore.save()
                             }
@@ -76,7 +73,7 @@ struct ContentView: View {
                                 .environmentObject(orderStore)
                         } label: {
                             Image(systemName: "plus.circle")
-                        }
+                        }.available(in: .phone)
                     })
                     
                     // MARK: Settings button
@@ -93,6 +90,7 @@ struct ContentView: View {
     }
 }
 
+@available(*, deprecated)
 fileprivate struct BlankView: View {
     private var showItemsView: Binding<Bool>
     

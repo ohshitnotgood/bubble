@@ -28,13 +28,24 @@ struct OrderCellView: View {
                     Text(order.menuItem.itemName)
                         .bold()
                     
-                    Text("**With**: \(String(order.regularIngredients.map { $0 + ", "}.joined().dropLast().dropLast()))")
-                        .foregroundStyle(.secondary)
-                        .font(.subheadline)
+                    VStack (alignment: .leading) {
+                        ForEach(order.regularIngredients, id: \.self) {
+                            Text($0.trimmingCharacters(in: .whitespacesAndNewlines))
+                                .bold()
+                                .font(.subheadline)
+                        }
+                    }.foregroundStyle(.primary)
+                        .padding(5)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(.quaternary)
+                        .cornerRadius(10)
+                    
+                    RoundedRectangle(cornerRadius: 10)
+                        .foregroundStyle(.quaternary)
+                    
                     
                     if order.notes.isNotEmpty {
                         Text("**Notes**: \(order.notes)")
-                            .foregroundStyle(.secondary)
                     }
                 }
             }.padding(.vertical, 5)
