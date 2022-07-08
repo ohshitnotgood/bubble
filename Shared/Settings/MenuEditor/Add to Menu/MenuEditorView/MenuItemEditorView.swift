@@ -7,6 +7,28 @@
 
 import SwiftUI
 
+/// View that allows users to add a new or edit an existing item on the menu.
+///
+/// There are `NavigationLinks` to the following views:
+///
+/// - ``IngredientSelector``: when the user clicks on **Edit Ingredients...** adding/editing regular and extra ingredients.
+///
+/// - ``CategoryPickerView``: for picking a category
+///
+/// - ``WarningsEditorView``: for editing warnings
+///
+///
+/// This view references ``MenuItemEditorViewModel`` to store state information.
+///
+/// Item is only added to/saved in the menu when the **Save** button is clicked from the toolbar which calls ``saveData()`` function.
+///
+/// A `confirmationDialog` is shown if no **regular ingredients** has been added which then allows the user to *keep editing* or
+/// *save anyway*.
+///
+/// There isn't a `WarningPickerView` since **warnings are selected directly in this view**. Only the ingredients and the category
+/// are picked in separate `sheet`s.
+///
+/// *Last updated on June 8, 2022 at 22:40*
 struct MenuItemEditorView: View {
     @EnvironmentObject var menuItemStore: MenuItemStore
     @EnvironmentObject var settingsStore: SettingsStore
@@ -14,15 +36,19 @@ struct MenuItemEditorView: View {
     @StateObject private var vm: MenuItemEditorViewModel
     @Environment(\.dismiss) private var dismiss
     
+    /// Initialises in creating mode.
     init() {
         _vm = StateObject(wrappedValue: MenuItemEditorViewModel())
     }
     
+    
+    /// Initialises in editing mode.
     init(inEditMode menuItem: MenuItem) {
         _vm = StateObject(wrappedValue: MenuItemEditorViewModel(inEditMode: menuItem))
     }
     
-    func saveData() async throws {
+    func saveData() {
+        vm.newItem.itemNumber = menuItemStore.items.count + 1
         if vm.item_editing_mode {
             if let index = menuItemStore.items.firstIndex(where: { $0.id == vm.newItem.id }) {
                 menuItemStore.items.remove(at: index)
@@ -88,7 +114,6 @@ struct MenuItemEditorView: View {
                     Button {
                         vm.newItem.warnings.removeIfContainsElseAppend(each_w)
                     } label: {
-                        // MARK: Warning label
                         HStack {
                             Text(each_w.capitalized)
                                 .foregroundColor(.primary)
@@ -148,10 +173,11 @@ struct MenuItemEditorView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
+                    // MARK: Save Button
                     Button("Save") { Task {
                         vm.updateConfirmationDialogFlag()
                         if !vm.showConfirmationDialog {
-                            try await saveData()
+                            saveData()
                             dismiss()
                         }
                     }}.disabled(vm.newItem.itemName.isEmpty || vm.newItem.category.isEmpty || vm.itemAlreadyExists)
@@ -176,7 +202,7 @@ struct MenuItemEditorView: View {
                 }
                 
                 Button("Save Anyway") { Task {
-                    try await saveData()
+                    saveData()
                     dismiss()
                 }}
             }, message: {

@@ -33,7 +33,6 @@ struct EditMenuView: View {
             if menuItemStore.items.count > 0 {
             List {
                 ForEach(menuItemStore.items, id: \.self) { each_item in
-                    // MARK: NavigationLink
                     NavigationLink(destination: { MenuItemEditorView(inEditMode: each_item).environmentObject(menuItemStore).environmentObject(settingsStore)}, label: {
                         Text(each_item.itemName)
                     }).buttonStyle(.plain)

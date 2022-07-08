@@ -42,7 +42,7 @@ struct ListItemCellView: View {
                         .fontWeight(.semibold)
                         .foregroundStyle(.primary)
                     
-                    Text(menuItem.regularIngredientsAsString())
+                    Text(menuItem.regularIngredients.joined(separator: ", ").dropLast().dropLast())
                         .foregroundStyle(.secondary)
                         .font(.subheadline)
                         .lineLimit(1)
