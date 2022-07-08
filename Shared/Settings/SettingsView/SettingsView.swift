@@ -73,9 +73,7 @@ struct SettingsView: View {
                     Button("Load Demo Data into Menu") {
                         menuItemStore.items.append(MenuItem.pizza)
                         menuItemStore.items.append(MenuItem.pasta)
-                        Task {
-                            try await menuItemStore.saveAll()
-                        }
+                        menuItemStore.saveAll()
                     }
                 } header: {
                     Text("Testing Data")
@@ -92,9 +90,7 @@ struct SettingsView: View {
                     })
                 }
                 .onDisappear {
-                    Task {
-                        try await settings.save()
-                    }
+                    settings.save()
                 }
         }
     }

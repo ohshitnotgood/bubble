@@ -19,19 +19,19 @@ class SettingsStore: ObservableObject {
     }
     
     /// Saves changed settings to device memory.
-    func save() async throws {
+    func save() { Task {
         let outfile = try fileURL()
         let data = try JSONEncoder().encode(data)
         try data.write(to: outfile, options: .completeFileProtection)
-    }
+    }}
     
-    func load() async throws {
+    func load() { Task {
         let fileURL = try fileURL()
         guard let file = try? FileHandle(forReadingFrom: fileURL) else {
             return
         }
         data = (try JSONDecoder().decode(SettingsJSON.self, from: file.availableData))
-    }
+    }}
 }
 
 struct SettingsJSON: Codable {

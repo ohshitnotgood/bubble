@@ -209,8 +209,7 @@ struct MenuEditorView: View {
             menuItemStore.items.insert(newItem, at: index)
         }
         
-        
-        Task { try await menuItemStore.saveItems() }
+        menuItemStore.saveItems()
     }
     
     // MARK: - func PurgeList

@@ -18,10 +18,8 @@ struct AddNewWarningView: View {
     // dismisses view.
     func save_data() {
         if !text.isEmpty {
-            Task {
-                menuItemStore.warnings.appendIfNotContains(text)
-                try await menuItemStore.saveWarnings()
-            }
+            menuItemStore.warnings.appendIfNotContains(text)
+            menuItemStore.saveWarnings()
         }
         dismiss()
     }

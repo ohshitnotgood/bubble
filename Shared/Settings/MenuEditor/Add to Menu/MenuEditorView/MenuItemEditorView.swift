@@ -22,7 +22,7 @@ struct MenuItemEditorView: View {
         _vm = StateObject(wrappedValue: MenuItemEditorViewModel(inEditMode: menuItem))
     }
     
-    func saveData() async throws {
+    func saveData() {
         if vm.item_editing_mode {
             if let index = menuItemStore.items.firstIndex(where: { $0.id == vm.newItem.id }) {
                 menuItemStore.items.remove(at: index)
@@ -31,9 +31,8 @@ struct MenuItemEditorView: View {
         } else {
             menuItemStore.items.append(vm.newItem)
         }
-        Task {
-            try await menuItemStore.saveItems()
-        }
+        menuItemStore.saveItems()
+        
     }
     
     var body: some View {
@@ -131,12 +130,9 @@ struct MenuItemEditorView: View {
             Section {
                 if vm.item_editing_mode {
                     Button("Delete", role: .destructive) {
-                        if let index = menuItemStore.items.firstIndex(where: { $0.id == vm.newItem.id
-                        }) {
+                        if let index = menuItemStore.items.firstIndex(where: { $0.id == vm.newItem.id }) {
                             menuItemStore.items.remove(at: index)
-                            Task {
-                                try await menuItemStore.saveItems()
-                            }
+                            menuItemStore.saveItems()
                         }
                         dismiss()
                     }.frame(maxWidth: .infinity)
@@ -151,7 +147,7 @@ struct MenuItemEditorView: View {
                     Button("Save") { Task {
                         vm.updateConfirmationDialogFlag()
                         if !vm.showConfirmationDialog {
-                            try await saveData()
+                            saveData()
                             dismiss()
                         }
                     }}.disabled(vm.newItem.itemName.isEmpty || vm.newItem.category.isEmpty || vm.itemAlreadyExists)
@@ -172,13 +168,11 @@ struct MenuItemEditorView: View {
                     .environmentObject(menuItemStore)
             }
             .confirmationDialog("", isPresented: $vm.showConfirmationDialog, actions: {
-                Button("Keep Editing", role: .cancel) {
-                }
-                
-                Button("Save Anyway") { Task {
-                    try await saveData()
+                Button("Keep Editing", role: .cancel) {}
+                Button("Save Anyway") {
+                    saveData()
                     dismiss()
-                }}
+                }
             }, message: {
                 Text("Are you sure you want to save this item without any ingredients?")
             })

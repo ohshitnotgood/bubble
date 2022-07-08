@@ -11,15 +11,15 @@ class OrderStore: ObservableObject {
     @Published var current: [Order] = []
     @Published var history: [Order] = []
     
-    func load() async throws {
+    func load() { Task {
         try await load_current()
         try await load_history()
-    }
+    }}
     
-    func save() async throws {
+    func save() { Task {
         try await save_current()
         try await save_history()
-    }
+    }}
     
     private func load_current() async throws {
         let fileURL = try FileManager.default.getURL(for: .currentOrders)
@@ -46,11 +46,11 @@ class OrderStore: ObservableObject {
     }
     
     /// Moves orders stored in `current` to `history` and saves to device memory.
-    func updateHistory() async throws {
+    func updateHistory() {
         if !current.isEmpty {
             current.forEach { history.append($0) }
             current = []
-            try await save()
+            save()
         }
     }
 }
