@@ -9,6 +9,8 @@ import SwiftUI
 
 struct MenuItemEditorView: View {
     @EnvironmentObject var menuItemStore: MenuItemStore
+    @EnvironmentObject var settingsStore: SettingsStore
+    
     @StateObject private var vm: MenuItemEditorViewModel
     @Environment(\.dismiss) private var dismiss
     
@@ -43,6 +45,9 @@ struct MenuItemEditorView: View {
                     .onChange(of: vm.newItem.itemName, perform: { _ in
                         vm.checkItemExist(in: menuItemStore.items)
                     })
+                if settingsStore.data.enableMenuNumbering {
+                    
+                }
             } header: {
                 Text("Item name")
             } footer: {
@@ -184,5 +189,6 @@ struct MenuItemEditorView_Previews: PreviewProvider {
     static var previews: some View {
         MenuItemEditorView()
             .environmentObject(MenuItemStore())
+            .environmentObject(SettingsStore())
     }
 }

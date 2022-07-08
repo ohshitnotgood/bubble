@@ -13,7 +13,7 @@ import SwiftUI
 struct EditMenuView: View {
     // Since update is called in SettingsView, data is upto date.
     @EnvironmentObject var menuItemStore: MenuItemStore
-    @EnvironmentObject var setttings    : SettingsStore
+    @EnvironmentObject var settingsStore: SettingsStore
     
     // Data is shown from this array
     @State private var dataDidFinishLoading = true
@@ -34,7 +34,7 @@ struct EditMenuView: View {
             List {
                 ForEach(menuItemStore.items, id: \.self) { each_item in
                     // MARK: NavigationLink
-                    NavigationLink(destination: { MenuItemEditorView(inEditMode: each_item).environmentObject(menuItemStore)}, label: {
+                    NavigationLink(destination: { MenuItemEditorView(inEditMode: each_item).environmentObject(menuItemStore).environmentObject(settingsStore)}, label: {
                         Text(each_item.itemName)
                     }).buttonStyle(.plain)
                 }
