@@ -23,7 +23,9 @@ struct WarningsEditorView: View {
                                 .foregroundColor(.sensiBlack)
                         }.onDelete { indexSet in
                             menuItemStore.warnings.remove(atOffsets: indexSet)
-                            menuItemStore.saveWarnings()
+                            Task {
+                                try await menuItemStore.saveWarnings()
+                            }
                         }
                     }
                 }

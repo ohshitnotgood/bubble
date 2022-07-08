@@ -40,21 +40,24 @@ struct ContentView: View {
                 })
                 .onAppear {
                     // MARK: onAppear
-                    menuItemStore.loadItems()
-                    menuItemStore.loadCategories()
-                    menuItemStore.loadIngredients()
-                    settingsStore.load()
-                    orderStore.load()
-                    
+                    Task {
+                        try await menuItemStore.loadItems()
+                        try await menuItemStore.loadCategories()
+                        try await menuItemStore.loadIngredients()
+                        try await settingsStore.load()
+                        try await orderStore.load()
+                    }
                 }
                 .toolbar {
                     // MARK: Toolbar
                     ToolbarItem(placement: .bottomBar, content: {
                         Button(action: {
-                            withAnimation {
-                                orderStore.current.removeAll()
+                            Task {
+                                withAnimation {
+                                    orderStore.current.removeAll()
+                                }
+                                try await orderStore.save()
                             }
-                            orderStore.save()
                             
                         }) {
                             Image(systemName: "trash")

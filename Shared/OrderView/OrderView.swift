@@ -19,7 +19,9 @@ struct OrderView: View {
             }
         }.listStyle(.inset)
             .onAppear {
-                orderStore.load()
+                Task {
+                    try await orderStore.load()
+                }
             }
     }
 }

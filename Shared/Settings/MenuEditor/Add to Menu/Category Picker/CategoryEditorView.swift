@@ -68,10 +68,10 @@ struct CategoryEditorView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") {
+                    Button("Save") { Task {
                         menuItemStore.categories.sort()
-                        menuItemStore.saveCategories()
-                    }
+                        try await menuItemStore.saveCategories()
+                    }}
                 }
             }
     }

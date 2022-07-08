@@ -27,7 +27,7 @@ class MenuItemStore: ObservableObject {
     }
     
     /// Loads `MenuItem`s from device storage onto ``MenuItemStore.items``.
-    func loadItems() { Task {
+    func loadItems() async throws {
         let fileURL = try FileManager.default.getURL(for: .items)
         guard let file = try? FileHandle(forReadingFrom: fileURL) else {
             return
@@ -38,20 +38,20 @@ class MenuItemStore: ObservableObject {
             }
             
         }
-    }}
+    }
     
     /// Saves ``MenuItemStore.items`` into device storage.
-    func saveItems() { Task {
+    func saveItems() async throws {
         let outfile = try FileManager.default.getURL(for: .items)
         let data = try JSONEncoder().encode(items)
         try data.write(to: outfile, options: .completeFileProtection)
         items.sort {
             $0.itemName < $1.itemName
         }
-    }}
+    }
     
     /// Loads *categories* from device storage into ``MenuItemStore.categories``.
-    func loadCategories() { Task {
+    func loadCategories() async throws {
         let fileURL = try FileManager.default.getURL(for: .categories)
         guard let file = try? FileHandle(forReadingFrom: fileURL) else {
             return
@@ -61,20 +61,22 @@ class MenuItemStore: ObservableObject {
                 $0 < $1
             }
         }
-    }}
+        
+    }
     
     
     /// Saves data stored in ``MenuItemStore.categories`` to local device.
-    func saveCategories() { Task {
+    func saveCategories() async throws {
         let data = try JSONEncoder().encode(categories)
         let outfile = try FileManager.default.getURL(for: .categories)
         try data.write(to: outfile, options: .completeFileProtection)
         categories.sort {
             $0 < $1
         }
-    }}
+        
+    }
     
-    func saveIngredient() { Task {
+    func saveIngredient() async throws {
         loadIngredientsFromItems()
         let data = try JSONEncoder().encode(ingredients)
         let outfile = try FileManager.default.getURL(for: .ingredients)
@@ -82,9 +84,9 @@ class MenuItemStore: ObservableObject {
         ingredients.sort {
             $0 < $1
         }
-    }}
+    }
     
-    func loadIngredients() { Task {
+    func loadIngredients() async throws {
         let fileURL = try FileManager.default.getURL(for: .ingredients)
         guard let file = try? FileHandle(forReadingFrom: fileURL) else {
             return
@@ -95,7 +97,7 @@ class MenuItemStore: ObservableObject {
             }
         }
         loadIngredientsFromItems()
-    }}
+    }
     
     func loadIngredientsFromItems() {
         items.forEach { each_item in
@@ -109,16 +111,16 @@ class MenuItemStore: ObservableObject {
         }
     }
     
-    func saveWarnings() { Task {
+    func saveWarnings() async throws {
         let data = try JSONEncoder().encode(warnings)
         let outfile = try FileManager.default.getURL(for: .warnings)
         try data.write(to: outfile, options: .completeFileProtection)
         warnings.sort {
             $0 < $1
         }
-    }}
+    }
     
-    func loadWarnings() { Task {
+    func loadWarnings() async throws {
         let fileURL = try FileManager.default.getURL(for: .warnings)
         guard let file = try? FileHandle(forReadingFrom: fileURL) else {
             return
@@ -128,20 +130,20 @@ class MenuItemStore: ObservableObject {
                 $0 < $1
             }
         }
-    }}
-    
-    func loadAll() {
-        loadItems()
-        loadCategories()
-        loadIngredients()
-        loadWarnings()
     }
     
-    func saveAll() {
-        saveItems()
-        saveCategories()
-        saveIngredient()
-        saveWarnings()
+    func loadAll() async throws {
+        try await loadItems()
+        try await loadCategories()
+        try await loadIngredients()
+        try await loadWarnings()
+    }
+    
+    func saveAll() async throws {
+        try await saveItems()
+        try await saveCategories()
+        try await saveIngredient()
+        try await saveWarnings()
     }
 }
 

@@ -78,14 +78,16 @@ struct OrderCustomizerView: View {
     
     func addToOrder() {
         orderStore.current.append(vm.order)
-        orderStore.save()
+        Task { try await orderStore.save() }
     }
     
     func saveOrder() {
-        if let index = orderStore.current.firstIndex(where: { $0.orderId == vm.order.orderId }) {
-            orderStore.current[index] = vm.order
+        Task {
+            if let index = orderStore.current.firstIndex(where: { $0.orderId == vm.order.orderId }) {
+                orderStore.current[index] = vm.order
+            }
+            try await orderStore.save()
         }
-        orderStore.save()
     }
 }
 
