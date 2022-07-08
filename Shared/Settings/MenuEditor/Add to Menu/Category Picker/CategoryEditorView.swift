@@ -17,10 +17,9 @@ struct CategoryEditorView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var menuItemStore: MenuItemStore
     
-    
     @State private var text: String = ""
     @State private var showNewTextField = false
-
+    
     
     func onKeyboardSubmit() {
         menuItemStore.categories.appendIfNotContains(text)
@@ -33,8 +32,12 @@ struct CategoryEditorView: View {
                 ForEach(menuItemStore.categories.indices, id: \.self) {
                     TextField("", text: $menuItemStore.categories[$0])
                         .onTapGesture {
-                            showNewTextField = false
+                            withAnimation {
+                                showNewTextField = false
+                            }
                         }
+                }.onDelete { index_set in
+                    menuItemStore.categories.remove(atOffsets: index_set)
                 }
                 
                 
@@ -63,18 +66,14 @@ struct CategoryEditorView: View {
             
         }.navigationTitle("Edit Categories")
             .navigationBarTitleDisplayMode(.inline)
-            .onDisappear {
-                Task {
-                    try await menuItemStore.saveCategories()
-                    menuItemStore.categories.sort {
-                        $0 < $1
-                    }
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save") { Task {
+                        menuItemStore.categories.sort()
+                        try await menuItemStore.saveCategories()
+                    }}
                 }
             }
-        // There is no need to load categories from device as categories are being passed as an
-        // environment object.
-        // Every time a new category is added, it is saved to device through menuItemStore.saveCategories().
-        // Hence, there is no need to reload categories from device.
     }
 }
 
