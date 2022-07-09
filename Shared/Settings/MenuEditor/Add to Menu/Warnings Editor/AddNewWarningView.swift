@@ -16,14 +16,17 @@ struct AddNewWarningView: View {
     // Checks if new name is empty and if it isn't,
     // adds new category to list, saves it to local device and
     // dismisses view.
-    func save_data() {
-        if !text.isEmpty {
-            Task {
-                menuItemStore.warnings.appendIfNotContains(text)
-                try await menuItemStore.saveWarnings()
-            }
+    func saveDataAndDismiss() {
+        if text.isEmpty {
+            dismiss()
+            return
         }
-        dismiss()
+        
+        Task {
+            menuItemStore.warnings.appendIfNotContains(text)
+            try menuItemStore.saveWarnings()
+            dismiss()
+        }
     }
     
     var body: some View {
@@ -32,7 +35,7 @@ struct AddNewWarningView: View {
                 Section {
                     TextField("Name", text: $text)
                         .submitLabel(.done)
-                        .onSubmit(save_data)
+                        .onSubmit(saveDataAndDismiss)
                         .introspectTextField { tf in
                             tf.becomeFirstResponder()
                         }.textInputAutocapitalization(.words)
@@ -44,7 +47,7 @@ struct AddNewWarningView: View {
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction, content: {
                         Button("Save") {
-                            save_data()
+                            saveDataAndDismiss()
                         }.disabled(text.isEmpty)
                     })
                     

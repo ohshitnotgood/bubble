@@ -18,12 +18,14 @@ struct AddNewCategoryView: View {
     // adds new category to list, saves it to local device and
     // dismisses view.
     func saveDataAndDismiss() {
-        if !text.isEmpty {
-            Task {
-                menuItemStore.categories.appendIfNotContains(text.trimmingCharacters(in: .whitespacesAndNewlines))
-                try await menuItemStore.saveCategories()
-                dismiss()
-            }
+        if text.isEmpty {
+            dismiss()
+            return
+        }
+        Task {
+            menuItemStore.categories.appendIfNotContains(text.trimmingCharacters(in: .whitespacesAndNewlines))
+            try menuItemStore.saveCategories()
+            dismiss()
         }
     }
     
@@ -63,7 +65,7 @@ struct AddNewCategoryView: View {
                             dismiss()
                         }
                     })
-            }
+                }
         }
     }
 }

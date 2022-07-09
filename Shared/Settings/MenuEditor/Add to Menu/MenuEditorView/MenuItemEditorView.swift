@@ -9,26 +9,40 @@ import SwiftUI
 
 /// View that allows users to add a new or edit an existing item on the menu.
 ///
-/// There are `NavigationLinks` to the following views:
 ///
-/// - ``IngredientSelector``: when the user clicks on **Edit Ingredients...** adding/editing regular and extra ingredients.
+/// Provides text fields and buttons to add/edit the name, number on the menu, ingredients, category and
+/// poosible warnings of the item.
+///
+/// **NavigationLinks**
+///
+/// - ``IngredientSelector``: when the user clicks on **Edit Ingredients** adding/editing regular and extra ingredients.
 ///
 /// - ``CategoryPickerView``: for picking a category
 ///
 /// - ``WarningsEditorView``: for editing warnings
 ///
 ///
-/// This view references ``MenuItemEditorViewModel`` to store state information.
+/// **ViewModel**
 ///
-/// Item is only added to/saved in the menu when the **Save** button is clicked from the toolbar which calls ``saveData()`` function.
+/// ``MenuItemEditorViewModel`` to `MenuItem` and sheet view presence flags`.
 ///
-/// A `confirmationDialog` is shown if no **regular ingredients** has been added which then allows the user to *keep editing* or
-/// *save anyway*.
 ///
-/// There isn't a `WarningPickerView` since **warnings are selected directly in this view**. Only the ingredients and the category
-/// are picked in separate `sheet`s.
+/// **Validations**
 ///
-/// *Last updated on June 8, 2022 at 22:40*
+/// - `itemName` is checked so it's unique on the menu. Check is done inside an `onChange` block
+/// attached to it's text field.
+///
+/// - A `confirmationDialog` is shown if no **regular ingredients** has been added.
+///
+/// **Additional information**
+///
+/// Unlike the case for `Categories` and `Ingredients`, there isn't a `WarningPickerView` since **warnings are selected
+/// directly in this view**.
+///
+/// Item are not auto-saved. Users need to click **Save** from the toolbar.
+///
+///
+/// *Last updated on June 9, 2022 at 23:25*
 struct MenuItemEditorView: View {
     @EnvironmentObject var menuItemStore: MenuItemStore
     @EnvironmentObject var settingsStore: SettingsStore
@@ -47,7 +61,9 @@ struct MenuItemEditorView: View {
         _vm = StateObject(wrappedValue: MenuItemEditorViewModel(inEditMode: menuItem))
     }
     
-    func saveData() {
+    
+    // MARK: func saveData()
+    func saveData() async throws {
         if vm.item_editing_mode {
             if let index = menuItemStore.items.firstIndex(where: { $0.id == vm.newItem.id }) {
                 menuItemStore.items.remove(at: index)
@@ -56,9 +72,7 @@ struct MenuItemEditorView: View {
         } else {
             menuItemStore.items.append(vm.newItem)
         }
-        Task {
-            try await menuItemStore.saveItems()
-        }
+        try menuItemStore.saveItems()
     }
     
     var body: some View {
@@ -161,11 +175,10 @@ struct MenuItemEditorView: View {
             Section {
                 if vm.item_editing_mode {
                     Button("Delete", role: .destructive) {
-                        if let index = menuItemStore.items.firstIndex(where: { $0.id == vm.newItem.id
-                        }) {
-                            menuItemStore.items.remove(at: index)
+                        if let index = menuItemStore.items.firstIndex(where: { $0.id == vm.newItem.id }) {
                             Task {
-                                try await menuItemStore.saveItems()
+                                menuItemStore.items.remove(at: index)
+                                try menuItemStore.saveItems()
                             }
                         }
                         dismiss()
@@ -182,12 +195,13 @@ struct MenuItemEditorView: View {
                     Button("Save") { Task {
                         vm.updateConfirmationDialogFlag()
                         if !vm.showConfirmationDialog {
-                            saveData()
+                            try await saveData()
                             dismiss()
                         }
                     }}.disabled(vm.newItem.itemName.isEmpty || vm.newItem.category.isEmpty || vm.itemAlreadyExists)
                 }
             }
+        // MARK: Sheets
             .sheet(isPresented: $vm.showRegularsPicker, content: {
                 IngredientSelector(saveSelectedIngredientsIn: $vm.newItem.regularIngredients, loadSavedIngredientsFrom: menuItemStore.ingredients)
             })
@@ -203,13 +217,14 @@ struct MenuItemEditorView: View {
                     .environmentObject(menuItemStore)
             }
             .confirmationDialog("", isPresented: $vm.showConfirmationDialog, actions: {
-                Button("Keep Editing", role: .cancel) {
-                }
+                Button("Keep Editing", role: .cancel) {}
                 
-                Button("Save Anyway") { Task {
-                    saveData()
-                    dismiss()
-                }}
+                Button("Save Anyway") {
+                    Task {
+                        try await saveData()
+                        dismiss()
+                    }
+                }
             }, message: {
                 Text("Are you sure you want to save this item without any ingredients?")
             })

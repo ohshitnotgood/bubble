@@ -87,3 +87,7 @@ extension Array where Element == MenuItem {
     }
 }
 
+enum MenuItemListSortMethod {
+    case alphabetical
+    case itemNumber
+}

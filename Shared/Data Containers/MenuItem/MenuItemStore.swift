@@ -8,31 +8,24 @@
 
 import SwiftUI
 
-
-
 /// Stores information about the items on the menu and provides with functions to save and restore data from device storage.
 ///
 /// Information about the items are encapsulated inside ``MenuItem`` objects.
 ///
+/// `MenuItemStore` has access to data stored on device and is the abstraction to loading and save data about the *menu*.
+///
 /// In this app, `MenuItemStore` is passed from view to view as an `EnvironmentObject`. By doing so this way, every view has access to
 /// only a single source of truth. For this reason, `MenuItemStore` is only declared in ``BubbleApp.swift``.
 ///
-/// `MenuItemStore` exposes the following lists as members:
-/// - `items: [MenuItem]`
-/// - `categories: String`
-/// - `ingredients: String`
-/// - `warnings: String`
+/// **Important note**
 ///
-/// Alongside these members are exposed a pair of save and load functions (e.g. `loadItems()`, `saveItems()`. All such functions are `async` and are called everywhere inside a `Task` block.
+/// All functions have been are now **synchronous** and  are no longer marked with `async`.
 ///
-/// Data is not auto-saved to device and hence the corresponding *save* function must be called inorder to retain persistence. In a future release, data will be made to autosave upon any change.
+/// Function must therefore be called inside a `Task` block. Otherwise, there is a risk of them blocking the UI thread.
 ///
+/// An exception to this change is ``loadAll()`` and ``saveAll()`` which are still marked as `async`.
 ///
-/// ``MenuItemEditorView`` has permission to make changes to the data inside this object, although this restriction is not programmatically strict.
-///
-/// ``MenuItemStore``, alongwith ``OrderStore`` and ``SettingsStore`` are the three `EnvironmentObject`s used in this app.
-///
-/// *Last updated: July 8, 2022 at 20:13*
+/// *Last updated: July 9, 2022 at 23:48*
 class MenuItemStore: ObservableObject {
     
     /// List of all items on the menu, **sorted by** `itemName`
@@ -90,8 +83,7 @@ class MenuItemStore: ObservableObject {
     /// On a future release, this function will be made `private` and ``items`` will autosave inside a `didSet` block.
     ///
     /// *Last updated: July 8, 2022 at 22:16*
-    @available(iOS, deprecated, message: "items will auto-save in future releases of the app.")
-    func saveItems() async throws {
+    func saveItems() throws {
         let outfile = try FileManager.default.getURL(for: .items)
         let data = try JSONEncoder().encode(items)
         try data.writeAsync(to: outfile, options: .completeFileProtection)
@@ -102,7 +94,7 @@ class MenuItemStore: ObservableObject {
     /// Refreshes ``categories`` with data from device.
     ///
     /// *Last updated: July 8, 2022 at 22:16*
-    func loadCategories() async throws {
+    func loadCategories() throws {
         let fileURL = try FileManager.default.getURL(for: .categories)
         guard let file = try? FileHandle(forReadingFrom: fileURL) else {
             return
@@ -126,7 +118,7 @@ class MenuItemStore: ObservableObject {
     /// from ``MenuItemEditorView``, newly added categories are saved to storage before the item itself.
     ///
     /// *Last updated: July 8, 2022 at 22:18*
-    func saveCategories() async throws {
+    func saveCategories() throws {
         let data = try JSONEncoder().encode(categories)
         let outfile = try FileManager.default.getURL(for: .categories)
         try data.write(to: outfile, options: .completeFileProtection)
@@ -137,7 +129,7 @@ class MenuItemStore: ObservableObject {
     }
     
     // MARK: SaveIngredients()
-    func saveIngredient() async throws {
+    func saveIngredient() throws {
         loadIngredientsFromItems()
         let data = try JSONEncoder().encode(ingredients)
         let outfile = try FileManager.default.getURL(for: .ingredients)
@@ -149,7 +141,7 @@ class MenuItemStore: ObservableObject {
     
     
     // MARK: LoadIngredients()
-    func loadIngredients() async throws {
+    func loadIngredients() throws {
         let fileURL = try FileManager.default.getURL(for: .ingredients)
         guard let file = try? FileHandle(forReadingFrom: fileURL) else {
             return
@@ -177,7 +169,7 @@ class MenuItemStore: ObservableObject {
     }
     
     // MARK: saveWarnings
-    func saveWarnings() async throws {
+    func saveWarnings() throws {
         let data = try JSONEncoder().encode(warnings)
         let outfile = try FileManager.default.getURL(for: .warnings)
         try data.write(to: outfile, options: .completeFileProtection)
@@ -188,35 +180,32 @@ class MenuItemStore: ObservableObject {
     
     
     // MARK: loadWarnings
-    func loadWarnings() async throws {
+    func loadWarnings() throws {
         let fileURL = try FileManager.default.getURL(for: .warnings)
         guard let file = try? FileHandle(forReadingFrom: fileURL) else {
             return
         }
-        try withAnimation {
             warnings = (try JSONDecoder().decode([String].self, from: file.availableData)).sorted {
                 $0 < $1
             }
-        }
     }
     
     
     // MARK: loadAll()
     func loadAll() async throws {
-        try await loadItems()
-        try await loadCategories()
-        try await loadIngredients()
-        try await loadWarnings()
+        try loadItems()
+        try loadCategories()
+        try loadIngredients()
+        try loadWarnings()
     }
     
     
     // MARK: saveAll()
-    @available(iOS, deprecated, message: "All data will auto-save in future releases of the app.")
     func saveAll() async throws {
-        try await saveItems()
-        try await saveCategories()
-        try await saveIngredient()
-        try await saveWarnings()
+        try saveItems()
+        try saveCategories()
+        try saveIngredient()
+        try saveWarnings()
     }
     
     // MARK: purgeItems()
@@ -253,18 +242,7 @@ class MenuItemStore: ObservableObject {
     }
 }
 
-enum MenuItemListSortMethod {
-    case alphabetical
-    case itemNumber
-}
 
-
-fileprivate enum FileURLSaveType: String {
-    case item       = "menuItems.data"
-    case ingredient = "menuIngredients.data"
-    case category   = "menuCategory.data"
-    case warnings   = "menuWarnings.data"
-}
 
 extension Data {
     func writeAsync(to url: URL, options writingOptions: WritingOptions) throws {

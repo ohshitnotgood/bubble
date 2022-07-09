@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
-
+import Introspect
 
 // Listed bugs
 //
-// Swipe to delete doesn't work
 // Renaming an item to an empty string should remove the item from the list but it doesn't.
+// Solution: Create a purge function that removes empty items from the list.
 @available(iOS, deprecated, message: "Use CategoryPickerView instead.")
 struct CategoryEditorView: View {
     @Environment(\.dismiss) var dismiss
@@ -68,10 +68,13 @@ struct CategoryEditorView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") { Task {
-                        menuItemStore.categories.sort()
-                        try await menuItemStore.saveCategories()
-                    }}
+                    Button("Save") {
+                        Task {
+                            menuItemStore.categories.sort()
+                            try menuItemStore.saveCategories()
+                            dismiss()
+                        }
+                    }
                 }
             }
     }
