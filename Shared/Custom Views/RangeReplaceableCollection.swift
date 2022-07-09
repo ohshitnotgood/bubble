@@ -13,11 +13,11 @@ extension RangeReplaceableCollection where Element: Equatable {
         if !self.contains(element) {
             self.append(element)
         }
-//        if let index = firstIndex(of: element) {
-//            self.remove(at: index)
-//        } else {
-//            self.append(element)
-//        }
+        //        if let index = firstIndex(of: element) {
+        //            self.remove(at: index)
+        //        } else {
+        //            self.append(element)
+        //        }
     }
     
     /// Removes provided element from the list if the element is already in there. Otherwise, the element is appended to the list.
@@ -55,3 +55,35 @@ extension Array where Element == String {
         }
     }
 }
+
+extension Array where Element == MenuItem {
+    mutating func sort(by: MenuItemListSortMethod) {
+        switch by {
+            case .itemNumber:
+                self.sort {
+                    $0.itemNumber < $1.itemNumber
+                }
+            case .alphabetical:
+                self.sort {
+                    $0.itemName < $1.itemName
+                }
+        }
+    }
+    
+    func sorted(by: MenuItemListSortMethod) -> [MenuItem] {
+        var r: [MenuItem] = []
+        switch by {
+            case .itemNumber:
+                r = self.sorted {
+                    $0.itemNumber < $1.itemNumber
+                }
+            case .alphabetical:
+                r = self.sorted {
+                    $0.itemName < $1.itemName
+                }
+        }
+        
+        return r
+    }
+}
+
