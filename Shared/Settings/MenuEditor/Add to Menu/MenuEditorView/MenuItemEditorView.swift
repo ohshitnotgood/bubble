@@ -39,8 +39,12 @@ import SwiftUI
 /// Unlike the case for `Categories` and `Ingredients`, there isn't a `WarningPickerView` since **warnings are selected
 /// directly in this view**.
 ///
-/// Item are not auto-saved. Users need to click **Save** from the toolbar.
+/// Item are not auto-saved. Users need to click *Save* from the toolbar.
 ///
+/// **Important**
+///
+/// item number is updated passively inside the `onAppear` block as a workaround.
+/// *Missing: mention the problem this workaround fixes.*
 ///
 /// *Last updated on June 9, 2022 at 23:25*
 struct MenuItemEditorView: View {
@@ -101,6 +105,8 @@ struct MenuItemEditorView: View {
                     .opacity(vm.itemAlreadyExists ? 1 : 0)
             }
             
+            
+            
             // MARK: Regular section
             Section {
                 ForEach(vm.newItem.regularIngredients, id: \.self) {
@@ -126,6 +132,8 @@ struct MenuItemEditorView: View {
             } header: {
                 Text("Extra Ingredients")
             }
+            
+            
             
             // MARK: Warnings
             Section {
@@ -154,6 +162,8 @@ struct MenuItemEditorView: View {
             }
             
             
+            
+            
             // MARK: Categories
             Section {
                 Button {
@@ -170,6 +180,8 @@ struct MenuItemEditorView: View {
                     }
                 }
             }
+            
+            
             
             // MARK: Delete button
             Section {
@@ -215,6 +227,9 @@ struct MenuItemEditorView: View {
             .sheet(isPresented: $vm.showCategoryPickerView) {
                 CategoryPickerView(selection: $vm.newItem.category)
                     .environmentObject(menuItemStore)
+            }
+            .onAppear {
+                vm.newItem.itemNumber = menuItemStore.largestItemNumber + 1
             }
             .confirmationDialog("", isPresented: $vm.showConfirmationDialog, actions: {
                 Button("Keep Editing", role: .cancel) {}

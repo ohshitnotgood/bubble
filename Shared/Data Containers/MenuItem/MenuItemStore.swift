@@ -45,11 +45,9 @@ class MenuItemStore: ObservableObject {
         if items.isEmpty {
             return 0
         }
-        
         guard let last = items.sorted(by: .itemNumber).last else {
             return 0
         }
-        
         return last.itemNumber
     }
     
@@ -185,9 +183,9 @@ class MenuItemStore: ObservableObject {
         guard let file = try? FileHandle(forReadingFrom: fileURL) else {
             return
         }
-            warnings = (try JSONDecoder().decode([String].self, from: file.availableData)).sorted {
-                $0 < $1
-            }
+        warnings = (try JSONDecoder().decode([String].self, from: file.availableData)).sorted {
+            $0 < $1
+        }
     }
     
     
@@ -231,14 +229,6 @@ class MenuItemStore: ObservableObject {
             items[idx + 1].itemNumber = items[idx].itemNumber + 1
         }
         items.sort(by: .alphabetical)
-    }
-    
-    func newItem() -> MenuItem {
-        return MenuItem()
-    }
-    
-    var new: MenuItem {
-        return MenuItem()
     }
 }
 

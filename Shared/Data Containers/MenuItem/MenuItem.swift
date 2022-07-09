@@ -58,15 +58,14 @@ struct MenuItem: Hashable, Codable {
     /// Should only be instantited this way when editing an item already on the list.
     ///
     /// *Last updated: 8 June 2022 at 22:11*
-    private init(itemName: String, regularIngredients: [String], warnings: [String], extraIngredients: [String], category: String) {
+    private init(itemName: String, itemNumber: Int, regularIngredients: [String], warnings: [String], extraIngredients: [String], category: String) {
         self.itemName = itemName
         self.itemNumber = 0
         self.regularIngredients = regularIngredients
         self.warnings = warnings
         self.extraIngredients = extraIngredients
         self.category = category
-        self.itemNumber = MenuItemStore().largestItemNumber
-        
+        self.itemNumber = itemNumber
     }
     
     /// Creates a new empty instance of ``MenuItem`` with empty string and empty lists.
@@ -74,9 +73,7 @@ struct MenuItem: Hashable, Codable {
     ///
     /// Should only be instantiated this way when adding a new item in the menu.
     ///
-    /// Creating an instance of `MenuItem` like this is unsafe since checks are implemented only in the view to ensure to
-    /// empty items are wrongly added to the menu.
-    ///
+    /// sas
     ///
     /// *Last updated: 8 June 2022 at 22:10*
     init() {
@@ -85,18 +82,11 @@ struct MenuItem: Hashable, Codable {
         self.extraIngredients = []
         self.warnings = []
         self.category = ""
-        
-        do {
-            let mis = MenuItemStore()
-            try mis.loadItems()
-            self.itemNumber = mis.largestItemNumber
-        } catch {
-            self.itemNumber = 0
-        }
+        self.itemNumber = -1
     }
     
-    static let pizza = MenuItem(itemName: "Pizza", regularIngredients: ["Tomato Sauce", "Mozzarella Cheese", "Chicken"], warnings: ["Gluten", "Lactose", "Non-veg/non-vegan"], extraIngredients: ["Pesto Sauce", "Sausages", "Ham", "Bacon"], category: "Pizzas")
+    static let pizza = MenuItem(itemName: "Pizza", itemNumber: 1, regularIngredients: ["Tomato Sauce", "Mozzarella Cheese", "Chicken"], warnings: ["Gluten", "Lactose", "Non-veg/non-vegan"], extraIngredients: ["Pesto Sauce", "Sausages", "Ham", "Bacon"], category: "Pizzas")
     
-    static let pasta = MenuItem(itemName: "Pasta", regularIngredients: ["Tomato Sauce", "Carbonara Cream", "Chicken"], warnings: ["Gluten", "Lactose", "Non-veg/non-vegan"], extraIngredients: ["Parmesan Cheese", "Cheddar Cheese", "Sausages", "Olives"], category: "Pastas")
-
+    static let pasta = MenuItem(itemName: "Pasta", itemNumber: 2, regularIngredients: ["Tomato Sauce", "Carbonara Cream", "Chicken"], warnings: ["Gluten", "Lactose", "Non-veg/non-vegan"], extraIngredients: ["Parmesan Cheese", "Cheddar Cheese", "Sausages", "Olives"], category: "Pastas")
+    
 }
