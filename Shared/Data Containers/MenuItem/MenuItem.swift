@@ -58,9 +58,9 @@ struct MenuItem: Hashable, Codable {
     /// Should only be instantited this way when editing an item already on the list.
     ///
     /// *Last updated: 8 June 2022 at 22:11*
-    init(itemName: String, regularIngredients: [String], warnings: [String], extraIngredients: [String], category: String) {
+    private init(itemName: String, regularIngredients: [String], warnings: [String], extraIngredients: [String], category: String) {
         self.itemName = itemName
-        self.itemNumber = UserDefaults().integer(forKey: "next_increment")
+        self.itemNumber = 0
         self.regularIngredients = regularIngredients
         self.warnings = warnings
         self.extraIngredients = extraIngredients
@@ -68,7 +68,6 @@ struct MenuItem: Hashable, Codable {
         self.itemNumber = MenuItemStore().largestItemNumber
         
     }
-    
     
     /// Creates a new empty instance of ``MenuItem`` with empty string and empty lists.
     ///
@@ -81,12 +80,19 @@ struct MenuItem: Hashable, Codable {
     ///
     /// *Last updated: 8 June 2022 at 22:10*
     init() {
-        self.itemNumber = 0
         self.itemName = ""
         self.regularIngredients = []
         self.extraIngredients = []
         self.warnings = []
         self.category = ""
+        
+        do {
+            let mis = MenuItemStore()
+            try mis.loadItems()
+            self.itemNumber = mis.largestItemNumber
+        } catch {
+            self.itemNumber = 0
+        }
     }
     
     static let pizza = MenuItem(itemName: "Pizza", regularIngredients: ["Tomato Sauce", "Mozzarella Cheese", "Chicken"], warnings: ["Gluten", "Lactose", "Non-veg/non-vegan"], extraIngredients: ["Pesto Sauce", "Sausages", "Ham", "Bacon"], category: "Pizzas")

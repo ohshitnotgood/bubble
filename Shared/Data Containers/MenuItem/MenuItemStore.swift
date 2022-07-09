@@ -34,12 +34,20 @@ import SwiftUI
 ///
 /// *Last updated: July 8, 2022 at 20:13*
 class MenuItemStore: ObservableObject {
+    
     /// List of all items on the menu, **sorted by** `itemName`
+    ///
+    /// In a future version, updating this variable will auto-save data to local device.
+    ///
+    /// *Last updated on July 9, 2022 at 13:03*
     @Published var items: [MenuItem] = []
+    
     @Published var categories: [String] = []
     @Published var ingredients: [String] = []
     @Published var warnings: [String] = ["Gluten", "Dairy", "Lactose"]
     
+    // MARK: largestItemNumber
+    /// Scans through ``items`` and returns the largest item number, **but not the item itself**.
     var largestItemNumber: Int {
         if items.isEmpty {
             return 0
@@ -61,10 +69,11 @@ class MenuItemStore: ObservableObject {
     ///
     ///
     /// *Last updated: July 8, 2022 at 22:16*
-    func loadItems() async throws {
+    @discardableResult
+    func loadItems() throws -> [MenuItem] {
         let fileURL = try FileManager.default.getURL(for: .items)
         guard let file = try? FileHandle(forReadingFrom: fileURL) else {
-            return
+            return []
         }
         try withAnimation {
             items = (try JSONDecoder().decode([MenuItem].self, from: file.availableData)).sorted {
@@ -72,6 +81,7 @@ class MenuItemStore: ObservableObject {
             }
             
         }
+        return items
     }
     
     // MARK: saveItems()
@@ -80,10 +90,11 @@ class MenuItemStore: ObservableObject {
     /// On a future release, this function will be made `private` and ``items`` will autosave inside a `didSet` block.
     ///
     /// *Last updated: July 8, 2022 at 22:16*
+    @available(iOS, deprecated, message: "items will auto-save in future releases of the app.")
     func saveItems() async throws {
         let outfile = try FileManager.default.getURL(for: .items)
         let data = try JSONEncoder().encode(items)
-        try data.write(to: outfile, options: .completeFileProtection)
+        try data.writeAsync(to: outfile, options: .completeFileProtection)
         items.sort(by: .alphabetical)
     }
     
@@ -125,6 +136,7 @@ class MenuItemStore: ObservableObject {
         
     }
     
+    // MARK: SaveIngredients()
     func saveIngredient() async throws {
         loadIngredientsFromItems()
         let data = try JSONEncoder().encode(ingredients)
@@ -135,6 +147,8 @@ class MenuItemStore: ObservableObject {
         }
     }
     
+    
+    // MARK: LoadIngredients()
     func loadIngredients() async throws {
         let fileURL = try FileManager.default.getURL(for: .ingredients)
         guard let file = try? FileHandle(forReadingFrom: fileURL) else {
@@ -148,6 +162,8 @@ class MenuItemStore: ObservableObject {
         loadIngredientsFromItems()
     }
     
+    
+    // MARK: loadIngredientsFromItems
     func loadIngredientsFromItems() {
         items.forEach { each_item in
             each_item.regularIngredients.forEach {
@@ -160,6 +176,7 @@ class MenuItemStore: ObservableObject {
         }
     }
     
+    // MARK: saveWarnings
     func saveWarnings() async throws {
         let data = try JSONEncoder().encode(warnings)
         let outfile = try FileManager.default.getURL(for: .warnings)
@@ -169,6 +186,8 @@ class MenuItemStore: ObservableObject {
         }
     }
     
+    
+    // MARK: loadWarnings
     func loadWarnings() async throws {
         let fileURL = try FileManager.default.getURL(for: .warnings)
         guard let file = try? FileHandle(forReadingFrom: fileURL) else {
@@ -181,6 +200,8 @@ class MenuItemStore: ObservableObject {
         }
     }
     
+    
+    // MARK: loadAll()
     func loadAll() async throws {
         try await loadItems()
         try await loadCategories()
@@ -188,6 +209,9 @@ class MenuItemStore: ObservableObject {
         try await loadWarnings()
     }
     
+    
+    // MARK: saveAll()
+    @available(iOS, deprecated, message: "All data will auto-save in future releases of the app.")
     func saveAll() async throws {
         try await saveItems()
         try await saveCategories()
@@ -220,6 +244,13 @@ class MenuItemStore: ObservableObject {
         items.sort(by: .alphabetical)
     }
     
+    func newItem() -> MenuItem {
+        return MenuItem()
+    }
+    
+    var new: MenuItem {
+        return MenuItem()
+    }
 }
 
 enum MenuItemListSortMethod {
@@ -233,4 +264,12 @@ fileprivate enum FileURLSaveType: String {
     case ingredient = "menuIngredients.data"
     case category   = "menuCategory.data"
     case warnings   = "menuWarnings.data"
+}
+
+extension Data {
+    func writeAsync(to url: URL, options writingOptions: WritingOptions) throws {
+        DispatchQueue.main.async {
+            try? self.write(to: url, options: writingOptions)
+        }
+    }
 }

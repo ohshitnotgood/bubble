@@ -202,9 +202,6 @@ struct MenuItemEditorView: View {
                 CategoryPickerView(selection: $vm.newItem.category)
                     .environmentObject(menuItemStore)
             }
-            .onAppear {
-                vm.setItemNumber(menuItemStore.largestItemNumber + 1)
-            }
             .confirmationDialog("", isPresented: $vm.showConfirmationDialog, actions: {
                 Button("Keep Editing", role: .cancel) {
                 }
