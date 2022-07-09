@@ -36,7 +36,7 @@ struct MenuItem: Hashable, Codable {
     var id = UUID().uuidString
     
     /// Index of the dish on the restaurant menu.
-    var itemNumber: Int?
+    var itemNumber: Int
     
     /// Name of the dish.
     var itemName: String
@@ -60,10 +60,13 @@ struct MenuItem: Hashable, Codable {
     /// *Last updated: 8 June 2022 at 22:11*
     init(itemName: String, regularIngredients: [String], warnings: [String], extraIngredients: [String], category: String) {
         self.itemName = itemName
+        self.itemNumber = UserDefaults().integer(forKey: "next_increment")
         self.regularIngredients = regularIngredients
         self.warnings = warnings
         self.extraIngredients = extraIngredients
         self.category = category
+        self.itemNumber = MenuItemStore().largestItemNumber
+        
     }
     
     
@@ -78,6 +81,7 @@ struct MenuItem: Hashable, Codable {
     ///
     /// *Last updated: 8 June 2022 at 22:10*
     init() {
+        self.itemNumber = 0
         self.itemName = ""
         self.regularIngredients = []
         self.extraIngredients = []

@@ -45,4 +45,10 @@ class MenuItemEditorViewModel: ObservableObject {
     func updateConfirmationDialogFlag() {
         showConfirmationDialog = newItem.regularIngredients.count <= 0
     }
+    
+    func setItemNumber(_ number: Int) {
+        if !item_editing_mode {
+            self.newItem.itemNumber = number
+        }
+    }
 }

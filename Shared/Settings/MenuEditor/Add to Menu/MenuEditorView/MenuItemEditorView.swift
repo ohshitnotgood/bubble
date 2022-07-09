@@ -48,7 +48,6 @@ struct MenuItemEditorView: View {
     }
     
     func saveData() {
-        vm.newItem.itemNumber = menuItemStore.items.count + 1
         if vm.item_editing_mode {
             if let index = menuItemStore.items.firstIndex(where: { $0.id == vm.newItem.id }) {
                 menuItemStore.items.remove(at: index)
@@ -72,7 +71,13 @@ struct MenuItemEditorView: View {
                         vm.checkItemExist(in: menuItemStore.items)
                     })
                 if settingsStore.data.enableMenuNumbering {
-                    
+                    HStack {
+                        Text("Item number")
+                            .foregroundStyle(.secondary)
+                        Divider()
+                        TextField("Item number", value: $vm.newItem.itemNumber, formatter: NumberFormatter())
+                            .keyboardType(.numberPad)
+                    }
                 }
             } header: {
                 Text("Item name")
@@ -196,6 +201,9 @@ struct MenuItemEditorView: View {
             .sheet(isPresented: $vm.showCategoryPickerView) {
                 CategoryPickerView(selection: $vm.newItem.category)
                     .environmentObject(menuItemStore)
+            }
+            .onAppear {
+                vm.setItemNumber(menuItemStore.largestItemNumber + 1)
             }
             .confirmationDialog("", isPresented: $vm.showConfirmationDialog, actions: {
                 Button("Keep Editing", role: .cancel) {

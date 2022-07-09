@@ -40,6 +40,19 @@ class MenuItemStore: ObservableObject {
     @Published var ingredients: [String] = []
     @Published var warnings: [String] = ["Gluten", "Dairy", "Lactose"]
     
+    var largestItemNumber: Int {
+        if items.isEmpty {
+            return 0
+        }
+        
+        guard let last = items.sorted(by: .itemNumber).last else {
+            return 0
+        }
+        
+        return last.itemNumber
+    }
+    
+    // MARK: loadItems()
     /// Refreshes ``items`` with data from device.
     ///
     /// Throughout the app's lifecycle, this function is called from ``ContentView`` inside `.onAppear` block.
@@ -61,6 +74,7 @@ class MenuItemStore: ObservableObject {
         }
     }
     
+    // MARK: saveItems()
     /// Saves ``items`` into device storage and sorts list alphabetically to `itemName`.
     ///
     /// On a future release, this function will be made `private` and ``items`` will autosave inside a `didSet` block.
@@ -70,11 +84,10 @@ class MenuItemStore: ObservableObject {
         let outfile = try FileManager.default.getURL(for: .items)
         let data = try JSONEncoder().encode(items)
         try data.write(to: outfile, options: .completeFileProtection)
-        items.sort {
-            $0.itemName < $1.itemName
-        }
+        items.sort(by: .alphabetical)
     }
     
+    // MARK: loadCategories()
     /// Refreshes ``categories`` with data from device.
     ///
     /// *Last updated: July 8, 2022 at 22:16*
@@ -92,6 +105,7 @@ class MenuItemStore: ObservableObject {
     }
     
     
+    // MARK: saveCategories()
     /// Saves data stored in ``categories`` to local device.
     ///
     /// There isn't any methods to refresh the list of categores (from ``items``). This is because ``categories``
@@ -181,10 +195,29 @@ class MenuItemStore: ObservableObject {
         try await saveWarnings()
     }
     
-    static func incrementMenuNumber() async throws -> Int {
-        let store = MenuItemStore()
-        try await store.loadItems()
-        return store.items.count + 1
+    // MARK: purgeItems()
+    /// Resets `itemNumber` in every item such that every succeeding `itemNumber` is
+    /// an increment of 1.
+    ///
+    /// As of now, the app expects ``items`` to be sorted **alphabetically**. Hence, this method
+    /// first sorts items by acsending `itemNumber`, sets `itemNumber` for the next item to an
+    /// increment of 1, and then re-sorts back to alphabetical.`
+    ///
+    /// *Last updated on July 8, 2022 at 23:57*
+    private func purgeItems() {
+        items.sort(by: .itemNumber)
+        items.indices.forEach { idx in
+            if items.isEmpty {
+                return
+            }
+            if items.last == items[idx] {
+                return
+            }
+            items[0].itemNumber = 1
+            
+            items[idx + 1].itemNumber = items[idx].itemNumber + 1
+        }
+        items.sort(by: .alphabetical)
     }
     
 }
