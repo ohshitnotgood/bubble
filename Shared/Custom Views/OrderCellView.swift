@@ -15,55 +15,66 @@ struct OrderCellView: View {
     }
     
     var body: some View {
-        NavigationLink {
-            OrderCustomizerView(inEditMode: order)
-        } label: {
-            HStack {
-                Text("x \(Int(order.quantity))")
-                    .font(.system(.title3, design: .rounded).weight(.semibold))
-                    .foregroundStyle(.tertiary)
-                    .frame(maxWidth: 35, maxHeight: .infinity, alignment: .leading)
-                
-                VStack (alignment: .leading) {
-                    Text(order.menuItem.itemName)
-                        .bold()
-                    
-                    VStack (alignment: .leading) {
-                        ForEach(order.regularIngredients, id: \.self) {
-                            Text($0.trimmingCharacters(in: .whitespacesAndNewlines))
-                                .bold()
-                                .font(.subheadline)
-                        }
-                    }.foregroundStyle(.primary)
-                        .padding(5)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(.quaternary)
-                        .cornerRadius(10)
-                    
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundStyle(.quaternary)
-                    
-                    
-                    if order.notes.isNotEmpty {
-                        Text("**Notes**: \(order.notes)")
-                    }
-                }
-            }.padding(.vertical, 5)
-        }
+        //        NavigationLink {
+        //            NavigationLink {
+        //                OrderCustomizerView(inEditMode: order)
+        //            } label: {
+        //                EmptyView()
+        //            }
         
+        HStack (alignment: .center) {
+            VStack (alignment: .leading, spacing: 2) {
+                HStack (spacing: 5) {
+                    Text(order.name)
+                        .bold()
+                    Spacer()
+                    Text("\(Int(order.quantity)) person")
+                        .foregroundColor(.secondary)
+                        .font(.subheadline)
+                    
+                    Image(systemName: "chevron.right")
+                        .font(.caption.weight(.bold))
+                        .foregroundStyle(.tertiary)
+                }
+                
+                
+                Text(order.regularIngredients.sorted().joined(separator: ", "))
+                    .font(.callout)
+                
+                if order.notes.isNotEmpty {
+                    Text("Notes: \(order.notes)")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                } else {
+                    Text(" ")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }.padding(.vertical, 5)
+            .overlay {
+                NavigationLink {
+                    OrderCustomizerView(inEditMode: order)
+                } label: {
+                    EmptyView()
+                }.opacity(0)
+            }
+        //        }
     }
 }
 
 struct OrderViewCell_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            List {
-                OrderCellView(Order.pasta)
-                OrderCellView(Order.pizza)
-                OrderCellView(Order.spagghetti)
-            }.listStyle(.inset)
-                .navigationTitle("Orders")
+        Group {
+            NavigationView {
+                List {
+                    OrderCellView(Order.pasta)
+                    OrderCellView(Order.pizza)
+                    OrderCellView(Order.spagghetti)
+                }.listStyle(.inset)
+                    .navigationTitle("Orders")
+                    .listRowBackground(Color.white)
+            }
         }
-        .preferredColorScheme(.dark)
     }
 }
