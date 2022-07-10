@@ -17,26 +17,30 @@ struct ItemsView: View {
     @State private var selection: ItemViewType = .nil
     
     var body: some View {
-        VStack {
-            if selection == .categoric {
-                CategoryItemsView()
-                    .environmentObject(menuItemStore)
-                    .environmentObject(settingsStore)
-                    .environmentObject(orderStore)
-                
-            } else if selection == .ingredients {
-                IngredientsItemsView()
-                    .environmentObject(menuItemStore)
-                    .environmentObject(settingsStore)
-                    .environmentObject(orderStore)
-                
+        Group {
+            if menuItemStore.items.count == 0 {
+                Text("No items saved in the menu.")
+                    .foregroundColor(.secondary)
             } else {
-                AlphabeticItemsView()
-                    .environmentObject(menuItemStore)
-                    .environmentObject(settingsStore)
-                    .environmentObject(orderStore)
-                
-                
+                if selection == .categoric {
+                    CategoryItemsView()
+                        .environmentObject(menuItemStore)
+                        .environmentObject(settingsStore)
+                        .environmentObject(orderStore)
+                    
+                } else if selection == .ingredients {
+                    IngredientsItemsView()
+                        .environmentObject(menuItemStore)
+                        .environmentObject(settingsStore)
+                        .environmentObject(orderStore)
+                    
+                } else {
+                    AlphabeticItemsView()
+                        .environmentObject(menuItemStore)
+                        .environmentObject(settingsStore)
+                        .environmentObject(orderStore)
+                    
+                }
             }
         }
         .toolbar {
