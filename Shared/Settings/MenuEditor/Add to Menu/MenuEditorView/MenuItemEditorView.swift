@@ -229,7 +229,7 @@ struct MenuItemEditorView: View {
                     .environmentObject(menuItemStore)
             }
             .onAppear {
-                vm.newItem.itemNumber = menuItemStore.largestItemNumber + 1
+                vm.setItemNumber(menuItemStore.largestItemNumber + 1)
             }
             .confirmationDialog("", isPresented: $vm.showConfirmationDialog, actions: {
                 Button("Keep Editing", role: .cancel) {}

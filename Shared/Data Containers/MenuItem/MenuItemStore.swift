@@ -42,6 +42,7 @@ class MenuItemStore: ObservableObject {
     // MARK: largestItemNumber
     /// Scans through ``items`` and returns the largest item number, **but not the item itself**.
     var largestItemNumber: Int {
+        let items = items.sorted(by: .itemNumber)
         if items.isEmpty {
             return 0
         }
