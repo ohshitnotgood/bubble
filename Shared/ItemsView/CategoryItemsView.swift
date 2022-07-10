@@ -16,6 +16,10 @@ struct CategoryItemsView: View {
     
     @State private var categories: [String] = []
     
+    init() {
+        UITableView.appearance().showsVerticalScrollIndicator = true
+    }
+    
     private func makeCategoriesList() {
         for each_item in menuItemStore.items {
             if !categories.contains(each_item.category) {
@@ -29,8 +33,7 @@ struct CategoryItemsView: View {
             ForEach(categories, id: \.self) { category in
                 Section(content: {
                     ForEach(menuItemStore.items.filter { $0.category == category }, id: \.self) { menuItem in
-                        ListItemCellView(menuItem)
-                            .id(menuItem)
+                        ListItemCellView(menuItem, showItemNumber: settingsStore.data.enableMenuNumbering)
                     }
                 }, header: { Text(category) }).id(category)
             }
