@@ -33,8 +33,8 @@ struct OrderCustomizerView: View {
             }
             
             Section(content: {
-                ForEach(vm.order.menuItem.regularIngredients.indices, id: \.self) {
-                    Toggle(vm.order.menuItem.regularIngredients[$0], isOn: $vm.regularIngredientToggleValues[$0].isOn)
+                ForEach(vm.order.regularIngredients.indices, id: \.self) {
+                    Toggle(vm.order.regularIngredients[$0], isOn: $vm.regularIngredientToggleValues[$0].isOn)
                 }
                 
                 
@@ -42,10 +42,10 @@ struct OrderCustomizerView: View {
                 Text("Regular Ingredients")
             })
             
-            if vm.order.menuItem.extraIngredients.count > 0 {
+            if vm.order.extraIngredients.count > 0 {
                 Section(content: {
-                    ForEach(vm.order.menuItem.extraIngredients.indices, id: \.self) {
-                        Toggle(vm.order.menuItem.extraIngredients[$0], isOn: $vm.extraIngredientsToggleValues[$0].isOn)
+                    ForEach(vm.order.extraIngredients.indices, id: \.self) {
+                        Toggle(vm.order.extraIngredients[$0], isOn: $vm.extraIngredientsToggleValues[$0].isOn)
                     }
                 }, header: {
                     Text("Extra Ingredients")
@@ -60,7 +60,7 @@ struct OrderCustomizerView: View {
             }, footer: {
                 Text("This item should take around 15 minutes to prepare.")
             })
-        }.navigationTitle(vm.order.menuItem.itemName)
+        }.navigationTitle(vm.order.name)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction, content: {

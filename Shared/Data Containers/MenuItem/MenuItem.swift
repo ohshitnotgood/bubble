@@ -60,7 +60,6 @@ struct MenuItem: Hashable, Codable {
     /// *Last updated: 8 June 2022 at 22:11*
     private init(itemName: String, itemNumber: Int, regularIngredients: [String], warnings: [String], extraIngredients: [String], category: String) {
         self.itemName = itemName
-        self.itemNumber = 0
         self.regularIngredients = regularIngredients
         self.warnings = warnings
         self.extraIngredients = extraIngredients
@@ -88,5 +87,9 @@ struct MenuItem: Hashable, Codable {
     static let pizza = MenuItem(itemName: "Pizza", itemNumber: 1, regularIngredients: ["Tomato Sauce", "Mozzarella Cheese", "Chicken"], warnings: ["Gluten", "Lactose", "Non-veg/non-vegan"], extraIngredients: ["Pesto Sauce", "Sausages", "Ham", "Bacon"], category: "Pizzas")
     
     static let pasta = MenuItem(itemName: "Pasta", itemNumber: 2, regularIngredients: ["Tomato Sauce", "Carbonara Cream", "Chicken"], warnings: ["Gluten", "Lactose", "Non-veg/non-vegan"], extraIngredients: ["Parmesan Cheese", "Cheddar Cheese", "Sausages", "Olives"], category: "Pastas")
+    
+    
+    static let spaghetti = MenuItem(itemName: "Pasta", itemNumber: 3, regularIngredients: ["Tomato Sauce", "Carbonara Cream", "Chicken"], warnings: ["Gluten", "Lactose", "Non-veg/non-vegan"], extraIngredients: ["Parmesan Cheese", "Cheddar Cheese", "Sausages", "Olives"], category: "Pastas")
+    
     
 }
