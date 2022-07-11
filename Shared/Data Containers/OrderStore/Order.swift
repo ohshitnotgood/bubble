@@ -17,13 +17,13 @@ struct Order: Codable, Hashable {
     var notes: String
     var quantity: Double
     
-    private var menuItem: MenuItem
+    var menuItem: MenuItem
     
     /// Creates an ``Order`` object when adding a new item to the order.
     init(menuItem: MenuItem) {
         self.name = menuItem.itemName
-        self.regularIngredients = menuItem.regularIngredients
-        self.extraIngredients = menuItem.extraIngredients
+        self.regularIngredients = []
+        self.extraIngredients = []
         self.notes = ""
         self.quantity = 0.0
         self.menuItem = menuItem
@@ -40,18 +40,18 @@ struct Order: Codable, Hashable {
     ///   - notes: Notes can be added for extra additional information
     ///   - quantity: Number of people who ordered the exact same item.
     ///   - menuItem: Corresponding ``MenuItem``. This ``MenuItem``object stores information about ingredients available
-    init(menuItem: MenuItem, notes: String, quantity: Double) {
+    init(menuItem: MenuItem, regularIngredients: [String], extraIngredients: [String], notes: String, quantity: Double) {
         self.name = menuItem.itemName
-        self.regularIngredients = menuItem.regularIngredients
-        self.extraIngredients = menuItem.extraIngredients
+        self.regularIngredients = regularIngredients
+        self.extraIngredients = regularIngredients
         self.notes = notes
         self.quantity = quantity
         self.menuItem = menuItem
     }
     
-    static let pizza = Order(menuItem: MenuItem.pizza, notes: "Extra cheese", quantity: 1.0)
+    static let pizza = Order(menuItem: MenuItem.pizza, regularIngredients: [], extraIngredients: [], notes: "Extra cheese", quantity: 1.0)
     
-    static let pasta = Order(menuItem: MenuItem.pasta, notes: "", quantity: 2.0)
+    static let pasta = Order(menuItem: MenuItem.pasta, regularIngredients: [], extraIngredients: [], notes: "", quantity: 2.0)
 
-    static let spagghetti = Order(menuItem: MenuItem.spaghetti, notes: "Extra cheese", quantity: 1.0)
+    static let spagghetti = Order(menuItem: MenuItem.spaghetti, regularIngredients: [], extraIngredients: [], notes: "Extra cheese", quantity: 1.0)
 }

@@ -46,7 +46,7 @@ class MenuItemStore: ObservableObject {
         if items.isEmpty {
             return 0
         }
-        guard let last = items.sorted(by: .itemNumber).last else {
+        guard let last = items.last else {
             return 0
         }
         return last.itemNumber
@@ -118,6 +118,7 @@ class MenuItemStore: ObservableObject {
     ///
     /// *Last updated: July 8, 2022 at 22:18*
     func saveCategories() throws {
+        loadCategoriesFromItemsList()
         let data = try JSONEncoder().encode(categories)
         let outfile = try FileManager.default.getURL(for: .categories)
         try data.write(to: outfile, options: .completeFileProtection)
@@ -125,6 +126,12 @@ class MenuItemStore: ObservableObject {
             $0 < $1
         }
         
+    }
+    
+    func loadCategoriesFromItemsList() {
+        items.forEach { each_item in
+            categories.appendIfNotContains(each_item.category)
+        }
     }
     
     // MARK: SaveIngredients()

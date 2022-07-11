@@ -34,6 +34,11 @@ struct ItemsView: View {
                         .environmentObject(settingsStore)
                         .environmentObject(orderStore)
                     
+                } else if settingsStore.data.enableMenuNumbering && selection == .numeric {
+                    NumericItemsView()
+                        .environmentObject(menuItemStore)
+                        .environmentObject(settingsStore)
+                        .environmentObject(orderStore)
                 } else {
                     AlphabeticItemsView()
                         .environmentObject(menuItemStore)
@@ -50,6 +55,9 @@ struct ItemsView: View {
                         Text("Alphabetic").tag(ItemViewType.alphabetical)
                         Text("Categoric").tag(ItemViewType.categoric)
                         Text("Ingredients").tag(ItemViewType.ingredients)
+                        if settingsStore.data.enableMenuNumbering {
+                            Text("Numeric").tag(ItemViewType.numeric)
+                        }
                     }
                 } label: {
                     if selection == .nil {
@@ -118,5 +126,6 @@ enum ItemViewType: String, Equatable, CaseIterable {
     case alphabetical   = "Alphabetic"
     case categoric      = "Categoric"
     case ingredients    = "Ingredients"
+    case numeric        = "Numeric"
     case `nil`          = ""
 }

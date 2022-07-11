@@ -43,8 +43,8 @@ struct AlphabeticItemsView: View {
                 List {
                     ForEach(alphabets, id: \.self) { alphabet in
                         Section(header: Text(alphabet), content: {
-                            ForEach(menuItemStore.items.filter { $0.itemName.hasPrefix(alphabet)}, id: \.self) { menuItem in
-                                ListItemCellView(menuItem)
+                            ForEach(menuItemStore.items.filter { $0.itemName.hasPrefix(alphabet)}, id: \.self) {
+                                ListItemCellView($0)
                             }
                         }).id(alphabet)
                     }

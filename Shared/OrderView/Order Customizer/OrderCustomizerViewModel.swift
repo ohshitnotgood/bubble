@@ -37,16 +37,16 @@ class OrderCustomizerViewModel: ObservableObject {
         self.order = Order(menuItem: menuItem)
 //        self.menuItem = menuItem
         self.edit_mode = false
-        menuItem.regularIngredients.forEach { regularIngredientToggleValues.append((isOn: true, value: $0)) }
-        menuItem.extraIngredients.forEach { extraIngredientsToggleValues.append((isOn: false, value: $0)) }
+        order.menuItem.regularIngredients.forEach { regularIngredientToggleValues.append((isOn: true, value: $0)) }
+        order.menuItem.extraIngredients.forEach { extraIngredientsToggleValues.append((isOn: false, value: $0)) }
     }
     
     
     init(inEditModeWith order: Order) {
         self.order = order
         self.edit_mode = true
-        order.regularIngredients.forEach { regularIngredientToggleValues.append((isOn: true, value: $0)) }
-        order.extraIngredients.forEach { extraIngredientsToggleValues.append((isOn: false, value: $0)) }
+        order.menuItem.regularIngredients.forEach { regularIngredientToggleValues.append((isOn: order.regularIngredients.contains($0), value: $0)) }
+        order.menuItem.extraIngredients.forEach { extraIngredientsToggleValues.append((isOn: order.extraIngredients.contains($0), value: $0)) }
     }
     
     
