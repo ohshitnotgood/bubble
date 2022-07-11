@@ -22,6 +22,20 @@ struct AlphabeticItemsView: View {
     
     @State private var alphabets: [String] = []
     
+    var searchResults: [MenuItem] {
+        if searchText.isEmpty {
+            return menuItemStore.items
+        } else {
+            return menuItemStore.items.filter {
+                $0.itemName.localizedCaseInsensitiveContains(searchText) || $0.regularIngredients.contains(where: {
+                    $0.localizedCaseInsensitiveContains(searchText)
+                }) || $0.extraIngredients.contains(where: {
+                    $0.localizedCaseInsensitiveContains(searchText)
+                }) || String($0.itemNumber).localizedCaseInsensitiveContains(searchText)
+            }
+        }
+    }
+    
     init() {
         UITableView.appearance().showsVerticalScrollIndicator = false
     }
@@ -53,7 +67,13 @@ struct AlphabeticItemsView: View {
             }
         }
             .listStyle(.plain)
-            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), suggestions: {
+                if searchText.isNotEmpty {
+                    ForEach(searchResults, id: \.self) {
+                        ListItemCellView($0)
+                    }
+                }
+            })
             .onAppear(perform: makeAlphabetsList)
     }
 }

@@ -16,6 +16,24 @@ struct IngredientsItemsView: View {
     
     @State private var ingredients: [String] = []
     
+    init() {
+        UITableView.appearance().showsVerticalScrollIndicator = true
+    }
+    
+    var searchResults: [MenuItem] {
+        if searchText.isEmpty {
+            return menuItemStore.items
+        } else {
+            return menuItemStore.items.filter {
+                $0.itemName.localizedCaseInsensitiveContains(searchText) || $0.regularIngredients.contains(where: {
+                    $0.localizedCaseInsensitiveContains(searchText)
+                }) || $0.extraIngredients.contains(where: {
+                    $0.localizedCaseInsensitiveContains(searchText)
+                }) || String($0.itemNumber).localizedCaseInsensitiveContains(searchText)
+            }
+        }
+    }
+    
     private func makeIngredientsList() {
         menuItemStore.items.forEach { each_item in
             each_item.regularIngredients.forEach { each_ingredient in
@@ -42,7 +60,13 @@ struct IngredientsItemsView: View {
 
             }
         }.listStyle(.inset)
-            .searchable(text: $searchText)
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), suggestions: {
+                if searchText.isNotEmpty {
+                    ForEach(searchResults, id: \.self) {
+                        ListItemCellView($0)
+                    }
+                }
+            })
             .onAppear(perform: makeIngredientsList)
     }
 }

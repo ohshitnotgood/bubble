@@ -20,6 +20,20 @@ struct CategoryItemsView: View {
         UITableView.appearance().showsVerticalScrollIndicator = true
     }
     
+    var searchResults: [MenuItem] {
+        if searchText.isEmpty {
+            return menuItemStore.items
+        } else {
+            return menuItemStore.items.filter {
+                $0.itemName.localizedCaseInsensitiveContains(searchText) || $0.regularIngredients.contains(where: {
+                    $0.localizedCaseInsensitiveContains(searchText)
+                }) || $0.extraIngredients.contains(where: {
+                    $0.localizedCaseInsensitiveContains(searchText)
+                }) || String($0.itemNumber).localizedCaseInsensitiveContains(searchText)
+            }
+        }
+    }
+    
     private func makeCategoriesList() {
         for each_item in menuItemStore.items {
             if !categories.contains(each_item.category) {
@@ -39,7 +53,13 @@ struct CategoryItemsView: View {
             }
         }.interactiveDismissDisabled()
             .listStyle(.inset)
-            .searchable(text: $searchText)
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), suggestions: {
+                if searchText.isNotEmpty {
+                    ForEach(searchResults, id: \.self) {
+                        ListItemCellView($0)
+                    }
+                }
+            })
             .onAppear(perform: makeCategoriesList)
     }
 }

@@ -23,8 +23,9 @@ struct ContentView: View {
                 } else {
                     ScrollView {
                         Text("No orders")
-                            .padding(.top, UIScreen.screenHeight / 3)
                             .foregroundStyle(.secondary)
+                            .background(.background)
+                            .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 3 / 4)
                     }.onTapGesture {
                         showItemsView = true
                     }
