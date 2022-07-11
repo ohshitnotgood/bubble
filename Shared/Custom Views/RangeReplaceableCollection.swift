@@ -13,11 +13,6 @@ extension RangeReplaceableCollection where Element: Equatable {
         if !self.contains(element) {
             self.append(element)
         }
-        //        if let index = firstIndex(of: element) {
-        //            self.remove(at: index)
-        //        } else {
-        //            self.append(element)
-        //        }
     }
     
     /// Removes provided element from the list if the element is already in there. Otherwise, the element is appended to the list.
@@ -53,6 +48,11 @@ extension Array where Element == String {
         if let index = self.firstIndex(of: string) {
             self.remove(at: index)
         }
+    }
+    
+    
+    func containsCaseInsensitive(_ comparator: String) -> Bool {
+        return self.contains(where: { $0.caseInsensitiveCompare(comparator.trimmingCharacters(in: .whitespacesAndNewlines)) == .orderedSame })
     }
 }
 

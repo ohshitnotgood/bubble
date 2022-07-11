@@ -215,10 +215,12 @@ struct MenuItemEditorView: View {
             }
         // MARK: Sheets
             .sheet(isPresented: $vm.showRegularsPicker, content: {
-                IngredientSelector(saveSelectedIngredientsIn: $vm.newItem.regularIngredients, loadSavedIngredientsFrom: menuItemStore.ingredients)
+                IngredientSelector(saveIn: $vm.newItem.regularIngredients, menuItem: vm.newItem, pickFor: .regular)
+                    .environmentObject(menuItemStore)
             })
             .sheet(isPresented: $vm.showExtrasPicker) {
-                IngredientSelector(saveSelectedIngredientsIn: $vm.newItem.extraIngredients, loadSavedIngredientsFrom: menuItemStore.ingredients)
+                IngredientSelector(saveIn: $vm.newItem.extraIngredients, menuItem: vm.newItem, pickFor: .extra)
+                    .environmentObject(menuItemStore)
             }
             .sheet(isPresented: $vm.showWarningEditor) {
                 WarningsEditorView()
