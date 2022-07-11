@@ -11,9 +11,9 @@ struct ContentView: View {
     @State private var showItemsView    : Bool   = false
     @State private var showSettingsView : Bool   = false
     
+    @EnvironmentObject var orderStore: OrderStore
     @EnvironmentObject var menuItemStore: MenuItemStore
     @EnvironmentObject var settingsStore: SettingsStore
-    @EnvironmentObject var orderStore   : OrderStore
     
     var body: some View {
         NavigationView {
@@ -33,10 +33,6 @@ struct ContentView: View {
             }.navigationTitle("Orders")
                 .sheet(isPresented: $showSettingsView, content: {
                     SettingsView()
-                        .environmentObject(menuItemStore)
-                        .environmentObject(settingsStore)
-                        .environmentObject(orderStore)
-                    
                 })
                 .onAppear {
                     // MARK: onAppear
@@ -72,9 +68,6 @@ struct ContentView: View {
                     ToolbarItem(placement: .bottomBar, content: {
                         NavigationLink(isActive: $showItemsView) {
                             ItemsView()
-                                .environmentObject(menuItemStore)
-                                .environmentObject(settingsStore)
-                                .environmentObject(orderStore)
                         } label: {
                             Image(systemName: "plus.circle")
                         }.available(in: .phone)
@@ -89,8 +82,10 @@ struct ContentView: View {
                         }
                     })
                 }
-            
         }
+        .environmentObject(menuItemStore)
+        .environmentObject(settingsStore)
+        .environmentObject(orderStore)
     }
 }
 

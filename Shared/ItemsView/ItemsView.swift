@@ -24,27 +24,12 @@ struct ItemsView: View {
             } else {
                 if selection == .categoric {
                     CategoryItemsView()
-                        .environmentObject(menuItemStore)
-                        .environmentObject(settingsStore)
-                        .environmentObject(orderStore)
-                    
                 } else if selection == .ingredients {
                     IngredientsItemsView()
-                        .environmentObject(menuItemStore)
-                        .environmentObject(settingsStore)
-                        .environmentObject(orderStore)
-                    
                 } else if settingsStore.data.enableMenuNumbering && selection == .numeric {
                     NumericItemsView()
-                        .environmentObject(menuItemStore)
-                        .environmentObject(settingsStore)
-                        .environmentObject(orderStore)
                 } else {
                     AlphabeticItemsView()
-                        .environmentObject(menuItemStore)
-                        .environmentObject(settingsStore)
-                        .environmentObject(orderStore)
-                    
                 }
             }
         }

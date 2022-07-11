@@ -18,24 +18,23 @@ import SwiftUI
  */
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject var menuItemStore: MenuItemStore
     @EnvironmentObject var settings     : SettingsStore
-    @EnvironmentObject var orderStore   : OrderStore
+    @EnvironmentObject var menuItemStore: MenuItemStore
     
     var body: some View {
         NavigationView {
             Form {
                 Section {
-                    NavigationLink(destination: EditMenuView().environmentObject(menuItemStore)) {
+                    NavigationLink(destination: EditMenuView()) {
                         SettingsLabel("Edit Menu", systemImage: "menucard.fill", color: .green)
                     }.buttonStyle(.plain)
                     
                     
-                    NavigationLink(destination: CategoryEditorView().environmentObject(menuItemStore)) {
+                    NavigationLink(destination: CategoryEditorView()) {
                         SettingsLabel("Edit Saved Categories", systemImage: "filemenu.and.selection", color: .pink)
                     }.buttonStyle(.plain)
                     
-                    NavigationLink(destination: EditMenuView().environmentObject(menuItemStore)) {
+                    NavigationLink(destination: EditMenuView()) {
                         SettingsLabel("Edit Saved Ingredients", systemImage: "filemenu.and.selection", color: .accentColor)
                     }.buttonStyle(.plain)
                     
@@ -44,7 +43,7 @@ struct SettingsView: View {
                 }
                 
                 Section {
-                    NavigationLink(destination: HistoryView().environmentObject(menuItemStore)) {
+                    NavigationLink(destination: HistoryView()) {
                         SettingsLabel("Order History", systemImage: "clock.arrow.circlepath", color: .orange)
                     }.buttonStyle(.plain)
                 }

@@ -21,13 +21,6 @@ struct OrderCellView: View {
     }
     
     var body: some View {
-        //        NavigationLink {
-        //            NavigationLink {
-        //                OrderCustomizerView(inEditMode: order)
-        //            } label: {
-        //                EmptyView()
-        //            }
-        
         HStack (alignment: .center) {
             VStack (alignment: .leading, spacing: 2) {
                 HStack (spacing: 5) {

@@ -11,9 +11,7 @@ import SwiftUI
  Displays a list of current items on the menu and provides buttons to add or edit an item on the menu.
 */
 struct EditMenuView: View {
-    // Since update is called in SettingsView, data is upto date.
     @EnvironmentObject var menuItemStore: MenuItemStore
-    @EnvironmentObject var settingsStore: SettingsStore
     
     // Data is shown from this array
     @State private var dataDidFinishLoading = true
@@ -33,7 +31,7 @@ struct EditMenuView: View {
             if menuItemStore.items.count > 0 {
             List {
                 ForEach(menuItemStore.items, id: \.self) { each_item in
-                    NavigationLink(destination: { MenuItemEditorView(inEditMode: each_item).environmentObject(menuItemStore).environmentObject(settingsStore)}, label: {
+                    NavigationLink(destination: { MenuItemEditorView(inEditMode: each_item)}, label: {
                         Text(each_item.itemName)
                     }).buttonStyle(.plain)
                 }
@@ -46,7 +44,7 @@ struct EditMenuView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: MenuItemEditorView().environmentObject(menuItemStore), label: {
+                    NavigationLink(destination: MenuItemEditorView(), label: {
                         Text("Add New Item")
                     })
                 }

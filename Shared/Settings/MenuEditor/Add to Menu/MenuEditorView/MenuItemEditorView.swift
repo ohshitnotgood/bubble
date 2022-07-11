@@ -216,19 +216,15 @@ struct MenuItemEditorView: View {
         // MARK: Sheets
             .sheet(isPresented: $vm.showRegularsPicker, content: {
                 IngredientSelector(saveIn: $vm.newItem.regularIngredients, menuItem: vm.newItem, pickFor: .regular)
-                    .environmentObject(menuItemStore)
             })
             .sheet(isPresented: $vm.showExtrasPicker) {
                 IngredientSelector(saveIn: $vm.newItem.extraIngredients, menuItem: vm.newItem, pickFor: .extra)
-                    .environmentObject(menuItemStore)
             }
             .sheet(isPresented: $vm.showWarningEditor) {
                 WarningsEditorView()
-                    .environmentObject(menuItemStore)
             }
             .sheet(isPresented: $vm.showCategoryPickerView) {
                 CategoryPickerView(selection: $vm.newItem.category)
-                    .environmentObject(menuItemStore)
             }
             .onAppear {
                 vm.setItemNumber(menuItemStore.largestItemNumber + 1)
