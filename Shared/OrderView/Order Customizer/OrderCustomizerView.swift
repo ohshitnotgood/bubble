@@ -57,9 +57,17 @@ struct OrderCustomizerView: View {
                     .frame(minHeight: 100)
             }, header: {
                 Text("Notes")
-            }, footer: {
-                Text("This item should take around 15 minutes to prepare.")
             })
+            
+            if vm.order.menuItem != MenuItemStore.findItemBy(id: vm.order.menuItem.id)! {
+                Section {
+                    
+                } footer: {
+                    Text("*This dish was modified after the order was recorded.*")
+                        .multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+            }
         }.navigationTitle(vm.order.name)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

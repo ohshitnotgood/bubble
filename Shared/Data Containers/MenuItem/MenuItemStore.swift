@@ -238,6 +238,18 @@ class MenuItemStore: ObservableObject {
         }
         items.sort(by: .alphabetical)
     }
+    
+    static func findItemBy(id: String) -> MenuItem? {
+        let store = MenuItemStore()
+        var ret: MenuItem?
+        do {
+            let items = try store.loadItems()
+            ret = items.filter({ $0.id == id }).first
+        } catch {
+            ret = nil
+        }
+        return ret
+    }
 }
 
 
