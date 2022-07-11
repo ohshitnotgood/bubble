@@ -13,6 +13,8 @@ struct OrderCustomizerView: View {
     @ObservedObject var vm: OrderCustomizerViewModel
     @EnvironmentObject var orderStore: OrderStore
     
+    private var view_mode = false
+    
     /// Displays ``OrderCustomizerView`` in **create mode**.
     init(inCreateMode menuItem: MenuItem) {
         self.vm = OrderCustomizerViewModel(inCreateModeWith: menuItem)
@@ -23,10 +25,25 @@ struct OrderCustomizerView: View {
         self.vm = OrderCustomizerViewModel(inEditModeWith: order)
     }
     
+    init(inViewMode order: Order) {
+        self.vm = OrderCustomizerViewModel(inEditModeWith: order)
+        view_mode = true
+    }
+    
     var body: some View {
         List {
             Section {
+                if view_mode {
+                    HStack {
+                        Text("Date")
+                        Spacer()
+                        Text(vm.order.dateTime.formatted(date: .abbreviated, time: .shortened))
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+                }
                 Stepper("Servings size", value: $vm.order.quantity)
+                    .disabled(view_mode)
             } footer: {
                 Text("**\(Int(vm.order.quantity)) people**")
                     .frame(maxWidth: .infinity, alignment: .trailing)
@@ -35,6 +52,7 @@ struct OrderCustomizerView: View {
             Section(content: {
                 ForEach(vm.order.menuItem.regularIngredients.indices, id: \.self) {
                     Toggle(vm.order.menuItem.regularIngredients[$0], isOn: $vm.regularIngredientToggleValues[$0].isOn)
+                        .disabled(view_mode)
                 }
                 
                 
@@ -46,6 +64,7 @@ struct OrderCustomizerView: View {
                 Section(content: {
                     ForEach(vm.order.menuItem.extraIngredients.indices, id: \.self) {
                         Toggle(vm.order.menuItem.extraIngredients[$0], isOn: $vm.extraIngredientsToggleValues[$0].isOn)
+                            .disabled(view_mode)
                     }
                 }, header: {
                     Text("Extra Ingredients")
@@ -55,6 +74,7 @@ struct OrderCustomizerView: View {
             Section (content: {
                 TextEditor(text: $vm.order.notes)
                     .frame(minHeight: 100)
+                    .disabled(view_mode)
             }, header: {
                 Text("Notes")
             })
@@ -72,14 +92,16 @@ struct OrderCustomizerView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction, content: {
-                    Button(vm.edit_mode ? "Save" : "Add") {
-                        if vm.edit_mode {
-                            saveOrder()
-                            dismiss()
-                        } else {
-                            addToOrder()
-                        }
-                    }.disabled(!vm.isOrderComplete)
+                    if !view_mode {
+                        Button(vm.edit_mode ? "Save" : "Add") {
+                            if vm.edit_mode {
+                                saveOrder()
+                                dismiss()
+                            } else {
+                                addToOrder()
+                            }
+                        }.disabled(!vm.isOrderComplete)
+                    }
                 })
             }
     }

@@ -9,9 +9,15 @@ import SwiftUI
 
 struct OrderCellView: View {
     @State private var order: Order
+    private var view_mode = false
     
     init(_ order: Order) {
         self._order = State(initialValue: order)
+    }
+    
+    init(_ order: Order, viewMode: Bool) {
+        self._order = State(initialValue: order)
+        self.view_mode = true
     }
     
     var body: some View {
@@ -54,7 +60,11 @@ struct OrderCellView: View {
         }.padding(.vertical, 5)
             .overlay {
                 NavigationLink {
-                    OrderCustomizerView(inEditMode: order)
+                    if view_mode {
+                        OrderCustomizerView(inViewMode: order)
+                    } else {
+                        OrderCustomizerView(inEditMode: order)
+                    }
                 } label: {
                     EmptyView()
                 }.opacity(0)

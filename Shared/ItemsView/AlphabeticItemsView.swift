@@ -62,7 +62,7 @@ struct AlphabetsScrollBar: View {
     var alphabets = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
     var reader: ScrollViewProxy
     var alphabetsInView: [String]
-    let generator = UINotificationFeedbackGenerator()
+    let generator = UISelectionFeedbackGenerator()
     
     @GestureState private var dragLocation: CGPoint = .zero
     
@@ -79,7 +79,7 @@ struct AlphabetsScrollBar: View {
                     Text(each_a).onTapGesture {
                         reader.scrollTo(each_a)
                         if alphabets.contains(each_a) {
-                            generator.notificationOccurred(.warning)
+                            generator.selectionChanged()
                         }
                     }.padding(.leading)
                 }
@@ -108,8 +108,8 @@ struct AlphabetsScrollBar: View {
         if geometry.frame(in: .global).contains(dragLocation) {
             DispatchQueue.main.async {
                 print("Scrolling to on drag")
-                generator.notificationOccurred(.success)
-                reader.scrollTo(scrollTo, anchor: .center)
+                generator.selectionChanged()
+                reader.scrollTo(scrollTo, anchor: .top)
             }
         }
         return Rectangle().foregroundStyle(.background)

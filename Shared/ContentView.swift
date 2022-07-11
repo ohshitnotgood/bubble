@@ -55,6 +55,9 @@ struct ContentView: View {
                         Button(action: {
                             Task {
                                 withAnimation {
+                                    orderStore.current.forEach {
+                                        orderStore.history.insert($0, at: 0)
+                                    }
                                     orderStore.current.removeAll()
                                 }
                                 try await orderStore.save()
