@@ -137,6 +137,7 @@ class MenuItemStore: ObservableObject {
     // MARK: SaveIngredients()
     func saveIngredient() throws {
         loadIngredientsFromItems()
+        ingredients.stripAll()
         let data = try JSONEncoder().encode(ingredients)
         let outfile = try FileManager.default.getURL(for: .ingredients)
         try data.write(to: outfile, options: .completeFileProtection)
@@ -163,6 +164,7 @@ class MenuItemStore: ObservableObject {
     
     // MARK: loadIngredientsFromItems
     func loadIngredientsFromItems() {
+        ingredients.stripAll()
         items.forEach { each_item in
             each_item.regularIngredients.forEach {
                 ingredients.appendIfNotContains($0)

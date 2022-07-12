@@ -79,7 +79,7 @@ struct OrderCustomizerView: View {
                 Text("Notes")
             })
             
-            if vm.order.menuItem != MenuItemStore.findItemBy(id: vm.order.menuItem.id)! {
+            if vm.order.menuItem != MenuItemStore.findItemBy(id: vm.order.menuItem.id) ?? MenuItem() {
                 Section {
                     
                 } footer: {
