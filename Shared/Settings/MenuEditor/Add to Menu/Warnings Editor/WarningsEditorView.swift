@@ -20,7 +20,7 @@ struct WarningsEditorView: View {
                     Section {
                         ForEach(menuItemStore.warnings, id: \.self) { each_warning in
                             Text(each_warning)
-                                .foregroundColor(.sensiBlack)
+                                .foregroundStyle(.primary)
                         }.onDelete { indexSet in
                             Task {
                                 menuItemStore.warnings.remove(atOffsets: indexSet)

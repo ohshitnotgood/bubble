@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Essentials
 
 struct SectionHeader: View {
     @State var title: String
@@ -23,7 +24,7 @@ struct SectionHeader: View {
                 .padding(3)
                 .padding(.leading)
                 .background(
-                    VisualEffectView(.systemUltraThinMaterial)
+                    VisualEffectView(effect: UIBlurEffect(style: .systemThinMaterial))
                 )
             
             Divider()

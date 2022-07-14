@@ -28,7 +28,7 @@ struct CategoryPickerView: View {
                             } label: {
                                 HStack {
                                     Text(each_category)
-                                        .foregroundColor(.sensiBlack)
+                                        .foregroundStyle(.primary)
                                     Spacer()
                                     Image(systemName: "checkmark")
                                         .opacity(selection == each_category ? 1 : 0)

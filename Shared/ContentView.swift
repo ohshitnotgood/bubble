@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Essentials
 
 struct ContentView: View {
     @State private var showItemsView    : Bool   = false

@@ -28,7 +28,7 @@ import SwiftUI
     } label: {
         HStack {
             Text("Category")
-                .foregroundColor(.sensiBlack)
+                .foregroundStyle(.primary)
             Spacer()
             Text(catgory)
             Image(systemName: "chevron.right")
